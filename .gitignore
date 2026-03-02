@@ -1,0 +1,28 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# Next.js
+/.next/
+/out/
+
+# env files — NEVER commit these
+.env
+.env.local
+.env.*.local
+
+# debug
+npm-debug.log*
+
+# Vercel
+.vercel
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# scraper output
+scraper/grants_data.csv
+scraper/grants_data.json
+scraper/scraper.log

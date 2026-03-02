@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node:*)",
+      "Bash(npx create-next-app@latest:*)",
+      "Bash(npm install:*)",
+      "Bash(npx tsc:*)",
+      "Bash(timeout 15 npm run:*)",
+      "Bash(timeout 18 npm run:*)",
+      "Bash(npx supabase@latest:*)",
+      "Bash(npm run:*)",
+      "Bash(sed:*)"
+    ]
+  }
+}
