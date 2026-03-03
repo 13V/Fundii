@@ -10,7 +10,7 @@ on:
 jobs:
   scrape:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 90
 
     steps:
       - name: Checkout code
@@ -23,18 +23,31 @@ jobs:
           cache: 'pip'
           cache-dependency-path: scraper/requirements.txt
 
-      - name: Install dependencies
+      - name: Install Python dependencies
         run: pip install -r scraper/requirements.txt
 
-      - name: Run scraper
+      - name: Install Playwright browsers
+        run: playwright install chromium --with-deps
+
+      - name: Run BeautifulSoup scraper (state portals)
         working-directory: scraper
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: |
-          echo "🇦🇺 Starting Fundii daily scrape..."
-          python scraper.py --enrich --max-enrich 15
-          echo "✅ Scrape complete"
+          echo "🇦🇺 Starting Fundii daily scrape — state portals..."
+          python scraper.py --enrich --max-enrich 20
+          echo "✅ State scrape complete"
+
+      - name: Run GrantConnect scraper (federal grants)
+        working-directory: scraper
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          echo "🏛️ Starting GrantConnect scrape (grants.gov.au)..."
+          python grantconnect.py
+          echo "✅ GrantConnect scrape complete"
 
       - name: Trigger grant alert emails
         env:
@@ -56,5 +69,6 @@ jobs:
           name: grants-data-${{ github.run_number }}
           path: |
             scraper/grants_data.json
+            scraper/grantconnect_data.json
             scraper/scraper.log
           retention-days: 7
