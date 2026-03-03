@@ -21,6 +21,7 @@ import os
 import json
 import re
 import time
+import random
 import logging
 from datetime import datetime
 from typing import List, Dict
@@ -129,7 +130,7 @@ def generate_id(url: str) -> str:
 
 
 async def scrape_grantconnect() -> List[Dict]:
-    """Scrape all open grants from GrantConnect using Playwright."""
+    """Scrape all open grants from GrantConnect using Playwright with stealth mode."""
     try:
         from playwright.async_api import async_playwright
     except ImportError:
@@ -138,19 +139,72 @@ async def scrape_grantconnect() -> List[Dict]:
 
     grants = []
 
+    # Randomise viewport slightly so all runs don't look identical
+    width = random.randint(1260, 1400)
+    height = random.randint(860, 960)
+
     async with async_playwright() as p:
-        logger.info("Launching browser...")
-        browser = await p.chromium.launch(headless=True)
-        context = await browser.new_context(
-            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-            viewport={"width": 1280, "height": 900},
+        logger.info("Launching stealth browser...")
+        browser = await p.chromium.launch(
+            headless=True,
+            args=[
+                "--no-sandbox",
+                "--disable-blink-features=AutomationControlled",
+                "--disable-dev-shm-usage",
+                "--disable-infobars",
+                "--window-size=1280,900",
+            ],
         )
+        context = await browser.new_context(
+            user_agent=(
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) "
+                "Chrome/122.0.0.0 Safari/537.36"
+            ),
+            viewport={"width": width, "height": height},
+            locale="en-AU",
+            timezone_id="Australia/Sydney",
+            # Mimic real browser headers
+            extra_http_headers={
+                "Accept-Language": "en-AU,en;q=0.9",
+                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+                "sec-ch-ua": '"Chromium";v="122", "Not(A:Brand";v="24"',
+                "sec-ch-ua-mobile": "?0",
+                "sec-ch-ua-platform": '"Windows"',
+                "Sec-Fetch-Dest": "document",
+                "Sec-Fetch-Mode": "navigate",
+                "Sec-Fetch-Site": "none",
+                "Upgrade-Insecure-Requests": "1",
+            },
+        )
+
+        # Inject stealth JS to hide webdriver fingerprint
+        await context.add_init_script("""
+            Object.defineProperty(navigator, 'webdriver', { get: () => undefined });
+            Object.defineProperty(navigator, 'plugins', { get: () => [1, 2, 3] });
+            Object.defineProperty(navigator, 'languages', { get: () => ['en-AU', 'en'] });
+            window.chrome = { runtime: {} };
+        """)
+
         page = await context.new_page()
 
+        # Apply playwright-stealth if available
+        try:
+            from playwright_stealth import stealth_async
+            await stealth_async(page)
+            logger.info("Stealth mode active")
+        except ImportError:
+            logger.info("playwright-stealth not available, using manual stealth")
+
         # --- Step 1: Load the grant list ---
-        logger.info(f"Loading {LIST_URL}...")
+        # First visit the homepage to look like a real user, not a direct deep-link bot
+        logger.info("Visiting homepage first...")
+        await page.goto(BASE_URL, wait_until="domcontentloaded", timeout=30000)
+        await page.wait_for_timeout(random.randint(1500, 3000))
+
+        logger.info(f"Navigating to grant list...")
         await page.goto(LIST_URL, wait_until="networkidle", timeout=60000)
-        await page.wait_for_timeout(2000)
+        await page.wait_for_timeout(random.randint(2000, 4000))
 
         # Try to set page size to max (show more per page)
         try:
@@ -206,7 +260,7 @@ async def scrape_grantconnect() -> List[Dict]:
                     el = page.locator(sel).first
                     if await el.count() > 0 and await el.is_visible():
                         await el.click()
-                        await page.wait_for_timeout(2000)
+                        await page.wait_for_timeout(random.randint(1500, 3000))
                         page_num += 1
                         next_clicked = True
                         break
@@ -332,7 +386,7 @@ async def scrape_grantconnect() -> List[Dict]:
                 if scraped % 10 == 0:
                     logger.info(f"  Scraped {scraped}/{len(grant_links)} grants...")
 
-                await page.wait_for_timeout(1000)  # Polite delay
+                await page.wait_for_timeout(random.randint(800, 2000))  # Human-like delay
 
             except Exception as e:
                 errors += 1
