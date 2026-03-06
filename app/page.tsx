@@ -1,288 +1,325 @@
-import Link from "next/link";
-import Nav from "@/components/Nav";
+'use client'
 
-const FEATURES = [
-  {
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-        <circle cx="11" cy="11" r="9" stroke="#00897B" strokeWidth="1.8"/>
-        <path d="M7 11L9.5 13.5L15 8" stroke="#00897B" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-      </svg>
-    ),
-    title: "Smart Grant Matching",
-    desc: "Answer 4 questions and we scan 3,900+ federal, state, and local grant programs to find what you actually qualify for.",
-  },
-  {
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-        <rect x="3" y="3" width="16" height="16" rx="4" stroke="#00897B" strokeWidth="1.8"/>
-        <path d="M7 8h8M7 11h5M7 14h6" stroke="#00897B" strokeWidth="1.8" strokeLinecap="round"/>
-      </svg>
-    ),
-    title: "AI Application Drafter",
-    desc: "Claude AI generates a tailored first draft for any grant using your business profile — ready to personalise and submit.",
-  },
-  {
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-        <path d="M11 3v2M11 17v2M3 11h2M17 11h2" stroke="#00897B" strokeWidth="1.8" strokeLinecap="round"/>
-        <circle cx="11" cy="11" r="5" stroke="#00897B" strokeWidth="1.8"/>
-      </svg>
-    ),
-    title: "Weekly Grant Alerts",
-    desc: "New matching grants delivered to your inbox every Monday. Never miss a round again.",
-  },
-  {
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-        <path d="M4 16l4-4 3 3 4-5 3 2" stroke="#00897B" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-      </svg>
-    ),
-    title: "Track Applications",
-    desc: "Save grants, track your application status, and keep notes — all in one dashboard.",
-  },
-];
+import { useEffect } from 'react'
+import Link from 'next/link'
+import './landing.css'
 
-const PRICING = [
-  {
-    name: "Starter",
-    price: "$49",
-    period: "/mo",
-    desc: "Perfect for businesses exploring what's available.",
-    features: ["Full grant matches", "Weekly email alerts", "Save & track grants", "Up to 3 states"],
-    cta: "Get started",
-    href: "/login",
-    highlight: false,
-  },
-  {
-    name: "Pro",
-    price: "$79",
-    period: "/mo",
-    desc: "Everything you need to actually apply and win.",
-    features: ["Everything in Starter", "AI application drafter (5/mo)", "Eligibility deep-dives", "Priority support"],
-    cta: "Start free trial",
-    href: "/login",
-    highlight: true,
-  },
-  {
-    name: "Business",
-    price: "$199",
-    period: "/mo",
-    desc: "For accountants and advisors managing multiple clients.",
-    features: ["Unlimited AI drafts", "Multi-client dashboard", "White-label reports", "Dedicated support"],
-    cta: "Contact us",
-    href: "mailto:hello@grantmate.com.au",
-    highlight: false,
-  },
-];
+const CheckIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+    <circle cx="9" cy="9" r="8" stroke="#0F7B6C" strokeWidth="1.5" />
+    <path d="M5.5 9L8 11.5L12.5 6.5" stroke="#0F7B6C" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+)
 
-const STATS = [
-  { value: "3,900+", label: "Grant programs tracked" },
-  { value: "$90B+", label: "Available annually in Australia" },
-  { value: "7,000+", label: "Programs across 40+ gov sites" },
-  { value: "2,400+", label: "Businesses matched this month" },
-];
+export default function LandingPage() {
+  useEffect(() => {
+    // Scroll reveal
+    const els = document.querySelectorAll('.reveal')
+    const obs = new IntersectionObserver(
+      (entries) => { entries.forEach((e, i) => { if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 80); obs.unobserve(e.target) } }) },
+      { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
+    )
+    els.forEach(el => obs.observe(el))
 
-export default function HomePage() {
+    // Nav scroll shadow
+    const nav = document.getElementById('nav')
+    const onScroll = () => { nav?.classList.toggle('nav--scrolled', window.scrollY > 40) }
+    window.addEventListener('scroll', onScroll)
+
+    // Hamburger
+    const hamburger = document.getElementById('hamburger')
+    const navLinks = document.getElementById('navLinks')
+    hamburger?.addEventListener('click', () => navLinks?.classList.toggle('open'))
+    navLinks?.querySelectorAll('.nav__link').forEach(l => l.addEventListener('click', () => navLinks?.classList.remove('open')))
+
+    // Contact form
+    const form = document.getElementById('contactForm') as HTMLFormElement
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault()
+      const btn = form.querySelector('.btn') as HTMLButtonElement
+      const orig = btn.textContent
+      btn.textContent = 'Message Sent! ✓'
+      btn.style.background = '#0F7B6C'
+      btn.style.color = '#fff'
+      setTimeout(() => { btn.textContent = orig; btn.style.background = ''; btn.style.color = ''; form.reset() }, 3000)
+    })
+
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
   return (
-    <div className="min-h-screen bg-[#FAFAF7]">
-      <Nav />
-
-      {/* Hero */}
-      <section className="max-w-5xl mx-auto px-6 pt-20 pb-24 text-center">
-        <div className="inline-flex items-center gap-2 bg-teal-50 border border-teal-100 rounded-full px-4 py-1.5 mb-6">
-          <span className="w-2 h-2 rounded-full bg-teal-500 inline-block" />
-          <span className="text-sm font-semibold text-teal-700">3,900+ Australian grant programs tracked</span>
+    <>
+      {/* NAV */}
+      <nav className="nav" id="nav">
+        <div className="nav__inner container">
+          <a href="#" className="nav__logo"><img src="/assets/fundii-logo.png" alt="Fundii" className="nav__logo-img" /></a>
+          <ul className="nav__links" id="navLinks">
+            <li><a href="#how-it-works" className="nav__link">How It Works</a></li>
+            <li><a href="#features" className="nav__link">Features</a></li>
+            <li><a href="#pricing" className="nav__link">Pricing</a></li>
+            <li><a href="#about" className="nav__link">About</a></li>
+            <li><a href="#contact" className="nav__link">Contact</a></li>
+          </ul>
+          <Link href="/signup" className="nav__cta btn btn--primary">Get Started</Link>
+          <button className="nav__hamburger" id="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
         </div>
+      </nav>
 
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#1B2A4A] leading-tight tracking-tight mb-6">
-          Free money for your business.
-          <br />
-          <span className="text-teal-500">Let&apos;s find it fast.</span>
-        </h1>
-
-        <p className="text-lg sm:text-xl text-gray-500 max-w-2xl mx-auto mb-10 leading-relaxed">
-          Most Australian small businesses miss out on grants they qualify for — because finding them is a full-time job.
-          GrantMate does it in 60 seconds.
-        </p>
-
-        <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <Link
-            href="/find"
-            className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-teal-500 hover:bg-teal-600 text-white font-bold text-base transition-colors no-underline"
-          >
-            Check what you qualify for
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M10 5l3 3-3 3" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
-          </Link>
-          <Link
-            href="/quiz"
-            className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 text-[#1B2A4A] font-semibold text-base transition-colors no-underline"
-          >
-            Full grant search
-          </Link>
-        </div>
-
-        <p className="text-sm text-gray-400 mt-4">Free · No signup required · Takes 60 seconds</p>
-      </section>
-
-      {/* Stats bar */}
-      <section className="border-y border-gray-100 bg-white">
-        <div className="max-w-5xl mx-auto px-6 py-8 grid grid-cols-2 sm:grid-cols-4 gap-6">
-          {STATS.map((s) => (
-            <div key={s.label} className="text-center">
-              <div className="text-2xl font-extrabold text-[#1B2A4A] mb-1">{s.value}</div>
-              <div className="text-sm text-gray-500">{s.label}</div>
+      {/* HERO */}
+      <section className="hero" id="hero">
+        <div className="container hero__inner">
+          <div className="hero__content">
+            <h1 className="hero__title">Your business qualifies for grants<br /><span className="hero__title--accent">you&apos;ve never heard of.</span></h1>
+            <p className="hero__subtitle">Right now, there are government and private grants with your company&apos;s name on them. The only problem? You don&apos;t know they exist. Fundii fixes that.</p>
+            <div className="hero__actions">
+              <a href="#pricing" className="btn btn--primary btn--lg">See Plans &amp; Pricing</a>
+              <a href="#how-it-works" className="btn btn--outline btn--lg">Learn More ↓</a>
             </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Features */}
-      <section className="max-w-5xl mx-auto px-6 py-24">
-        <div className="text-center mb-14">
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-[#1B2A4A] mb-3 tracking-tight">
-            Everything you need to win grants
-          </h2>
-          <p className="text-gray-500 text-lg max-w-xl mx-auto">
-            From finding them to applying — GrantMate handles the hard parts.
-          </p>
-        </div>
-
-        <div className="grid sm:grid-cols-2 gap-6">
-          {FEATURES.map((f) => (
-            <div
-              key={f.title}
-              className="bg-white border border-gray-100 rounded-2xl p-6 flex gap-4"
-            >
-              <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-teal-50 flex items-center justify-center">
-                {f.icon}
-              </div>
-              <div>
-                <h3 className="font-bold text-[#1B2A4A] mb-1">{f.title}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed">{f.desc}</p>
-              </div>
+          </div>
+          <div className="hero__preview">
+            <div className="hero__alert-card">
+              <div className="hero__alert-header"><span className="hero__alert-badge">New Match</span><span className="hero__alert-time">2 hours ago</span></div>
+              <h4 className="hero__alert-title">R&amp;D Tax Incentive — AusIndustry</h4>
+              <p className="hero__alert-meta">Up to 43.5% tax offset · Ongoing program</p>
+              <div className="hero__alert-tags"><span className="hero__alert-tag">Technology</span><span className="hero__alert-tag">R&amp;D</span><span className="hero__alert-tag">&lt; $20M turnover</span></div>
             </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Testimonial */}
-      <section className="bg-white border-y border-gray-100">
-        <div className="max-w-3xl mx-auto px-6 py-16 text-center">
-          <p className="text-xl sm:text-2xl font-medium text-[#1B2A4A] leading-relaxed mb-8 italic">
-            &ldquo;I had no idea we qualified for 8 different programs. Applied for the Energy Efficiency Grant and got{" "}
-            <span className="text-teal-500 font-bold not-italic">$22,000</span> towards new equipment. Took me an afternoon.&rdquo;
-          </p>
-          <div className="flex items-center justify-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-[#D4A574] flex items-center justify-center text-white font-bold">
-              R
+            <div className="hero__alert-card hero__alert-card--faded">
+              <div className="hero__alert-header"><span className="hero__alert-badge">New Match</span><span className="hero__alert-time">Yesterday</span></div>
+              <h4 className="hero__alert-title">Export Market Development Grant (EMDG)</h4>
+              <p className="hero__alert-meta">Up to $770,000 · Opens annually</p>
             </div>
-            <div className="text-left">
-              <div className="font-semibold text-[#1B2A4A] text-sm">Rachel M.</div>
-              <div className="text-gray-400 text-sm">Electrical contractor, Adelaide</div>
+            <div className="hero__alert-card hero__alert-card--faded2">
+              <div className="hero__alert-header"><span className="hero__alert-badge">New Match</span></div>
+              <h4 className="hero__alert-title">Boosting Female Founders Initiative</h4>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Pricing */}
-      <section className="max-w-5xl mx-auto px-6 py-24">
-        <div className="text-center mb-14">
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-[#1B2A4A] mb-3 tracking-tight">
-            Simple, honest pricing
-          </h2>
-          <p className="text-gray-500 text-lg">
-            Cancel anytime. No lock-in contracts.
-          </p>
+      {/* TICKER */}
+      <section className="ticker">
+        <div className="ticker__track">
+          <div className="ticker__content">
+            {[1, 2].map(loop => (
+              <span key={loop} style={{ display: 'contents' }}>
+                <span className="ticker__item"><strong>🏥 Healthcare:</strong> 342 grants available</span><span className="ticker__divider">·</span>
+                <span className="ticker__item"><strong>💻 Technology:</strong> 518 grants available</span><span className="ticker__divider">·</span>
+                <span className="ticker__item"><strong>🌾 Agriculture:</strong> 189 grants available</span><span className="ticker__divider">·</span>
+                <span className="ticker__item"><strong>🎓 Education:</strong> 274 grants available</span><span className="ticker__divider">·</span>
+                <span className="ticker__item"><strong>🎨 Creative Arts:</strong> 156 grants available</span><span className="ticker__divider">·</span>
+                <span className="ticker__item"><strong>🔧 Trades:</strong> 203 grants available</span><span className="ticker__divider">·</span>
+                <span className="ticker__item"><strong>🏠 Nonprofits:</strong> 431 grants available</span><span className="ticker__divider">·</span>
+              </span>
+            ))}
+          </div>
         </div>
+      </section>
 
-        <div className="grid sm:grid-cols-3 gap-6">
-          {PRICING.map((p) => (
-            <div
-              key={p.name}
-              className={`rounded-2xl p-6 flex flex-col ${
-                p.highlight
-                  ? "bg-[#1B2A4A] text-white"
-                  : "bg-white border border-gray-100"
-              }`}
-            >
-              {p.highlight && (
-                <div className="text-xs font-bold tracking-widest text-[#F5A623] uppercase mb-3">
-                  Most popular
+      {/* PROBLEM */}
+      <section className="problem" id="how-it-works">
+        <div className="container">
+          <div className="problem__inner">
+            <div className="problem__text reveal">
+              <h2 className="problem__title">You&apos;re losing money<br />every month.</h2>
+              <p className="problem__lead">Not because your business isn&apos;t profitable. Because there are grants sitting in government databases right now — with your eligibility criteria — and nobody told you about them.</p>
+              <div className="problem__stats">
+                <div className="problem__stat"><div className="problem__stat-number">$5B+</div><div className="problem__stat-label">in government grants and incentives available to Australian small businesses annually</div></div>
+                <div className="problem__stat"><div className="problem__stat-number">87%</div><div className="problem__stat-label">of eligible businesses never apply — they didn&apos;t know the grants existed</div></div>
+              </div>
+            </div>
+            <div className="problem__solution reveal">
+              <h3 className="problem__solution-heading">Fundii is your fix.</h3>
+              <div className="problem__steps">
+                <div className="problem__step-item"><div className="problem__step-num">1</div><div><strong>You fill in a 5-minute profile.</strong><span>Industry, location, size, what you need funding for.</span></div></div>
+                <div className="problem__step-item"><div className="problem__step-num">2</div><div><strong>We scan thousands of grants daily.</strong><span>Government programs, private foundations, industry bodies — all of them.</span></div></div>
+                <div className="problem__step-item"><div className="problem__step-num">3</div><div><strong>You get an email when something matches.</strong><span>Grant name, amount, deadline, eligibility — everything you need to apply.</span></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* GRANT EXAMPLES */}
+      <section className="examples" id="features">
+        <div className="container">
+          <h2 className="section-title section-title--left">Here&apos;s what a typical week<br />looks like for Fundii users.</h2>
+          <p className="examples__subtitle">These are the kinds of grants our users get matched with. Real programs. Real money. Delivered to your inbox.</p>
+          <div className="examples__grid">
+            {[
+              { cat: '💻 Technology & Innovation', amt: 'Up to 43.5% offset', title: 'R&D Tax Incentive', desc: "AusIndustry's flagship program offering a tax offset for businesses conducting eligible R&D activities.", deadline: '🔄 Ongoing — register annually', elig: 'Australian companies · < $20M turnover · Conducting R&D', featured: false },
+              { cat: '🌏 Export & Trade', amt: 'Up to $770,000', title: 'Export Market Development Grant (EMDG)', desc: "Austrade's grant for small businesses looking to grow their exports. Reimburses up to 50% of eligible export promotion expenses.", deadline: '📅 Opens annually — Nov–Jan', elig: 'Australian business · < $20M turnover · Exporting', featured: true },
+              { cat: '🎨 Arts & Culture', amt: '$10,000 – $100,000+', title: 'Creative Australia — Arts Projects', desc: 'Funding for Australian arts organisations to deliver creative projects in visual arts, music, theatre, and dance.', deadline: '📅 Opens annually — multiple rounds', elig: 'Incorporated orgs · Arts focus · ABN required', featured: false },
+              { cat: '🚀 Women in Business', amt: 'Up to $480,000', title: 'Boosting Female Founders Initiative', desc: 'Federal grants for women-founded startups and small businesses to scale.', deadline: '🔄 Recurring — rounds announced periodically', elig: 'Female-founded · Australian business · Scaling stage', featured: false },
+            ].map(g => (
+              <div key={g.title} className={`examples__card ${g.featured ? 'examples__card--featured' : ''} reveal`}>
+                <div className="examples__card-top"><span className="examples__card-category">{g.cat}</span><span className="examples__card-amount">{g.amt}</span></div>
+                <h3 className="examples__card-title">{g.title}</h3>
+                <p className="examples__card-desc">{g.desc}</p>
+                <div className="examples__card-footer"><span className="examples__card-deadline">{g.deadline}</span><span className="examples__card-eligibility">{g.elig}</span></div>
+              </div>
+            ))}
+          </div>
+          <div className="mid-cta">
+            <p className="mid-cta__text"><strong>Grants like these</strong> get matched to your business. Every week.</p>
+            <a href="#pricing" className="btn btn--primary">See Plans &amp; Pricing</a>
+          </div>
+        </div>
+      </section>
+
+      {/* PROFILE INFO */}
+      <section className="profile-info">
+        <div className="container">
+          <div className="profile-info__inner">
+            <div className="profile-info__text">
+              <h2 className="section-title section-title--left">We need about 5 minutes<br />of your time. That&apos;s it.</h2>
+              <p className="profile-info__desc">When you sign up, we ask a few questions so we can filter thousands of opportunities down to the ones you actually qualify for.</p>
+            </div>
+            <div className="profile-info__list reveal">
+              {[
+                { icon: '📋', title: 'Business basics', desc: 'Name, industry, entity type (Pty Ltd, nonprofit, etc.)' },
+                { icon: '📍', title: 'Location', desc: 'State, city — many grants are location-specific' },
+                { icon: '📊', title: 'Size & stage', desc: 'Employees, revenue range, years in operation' },
+                { icon: '🎯', title: 'Funding interests', desc: 'R&D, hiring, equipment, training, export, etc.' },
+                { icon: '🏷️', title: 'Optional demographics', desc: 'Indigenous-owned, women-owned, veteran-owned (unlocks diversity grants)' },
+              ].map(item => (
+                <div key={item.title} className="profile-info__item"><div className="profile-info__item-icon">{item.icon}</div><div><strong>{item.title}</strong><span>{item.desc}</span></div></div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ENTERPRISE */}
+      <section className="enterprise-highlight">
+        <div className="container">
+          <div className="enterprise-highlight__inner reveal">
+            <div className="enterprise-highlight__text">
+              <span className="enterprise-highlight__label">ENTERPRISE PLAN</span>
+              <h2 className="enterprise-highlight__title">We don&apos;t just find the grants.<br />We write the applications for you.</h2>
+              <p>Enterprise users get AI-generated draft applications tailored to each grant — pre-filled with your business details, formatted to the grant&apos;s requirements, and ready for you to review and submit.</p>
+              <p>Most grant applications take 8–12 hours. Ours take about 20 minutes of your time.</p>
+              <a href="#pricing" className="btn btn--primary">See Enterprise Pricing →</a>
+            </div>
+            <div className="enterprise-highlight__visual">
+              <div className="enterprise-highlight__doc">
+                <div className="enterprise-highlight__doc-bar"><span></span><span></span><span></span></div>
+                <div className="enterprise-highlight__doc-content">
+                  <div className="enterprise-highlight__doc-line enterprise-highlight__doc-line--title"></div>
+                  <div className="enterprise-highlight__doc-line enterprise-highlight__doc-line--subtitle"></div>
+                  <div className="enterprise-highlight__doc-spacer"></div>
+                  <div className="enterprise-highlight__doc-line"></div>
+                  <div className="enterprise-highlight__doc-line"></div>
+                  <div className="enterprise-highlight__doc-line enterprise-highlight__doc-line--short"></div>
+                  <div className="enterprise-highlight__doc-spacer"></div>
+                  <div className="enterprise-highlight__doc-line"></div>
+                  <div className="enterprise-highlight__doc-line enterprise-highlight__doc-line--medium"></div>
+                  <div className="enterprise-highlight__doc-badge">✓ Auto-filled from your profile</div>
                 </div>
-              )}
-              <div className={`text-sm font-semibold mb-1 ${p.highlight ? "text-teal-300" : "text-teal-600"}`}>
-                {p.name}
               </div>
-              <div className="flex items-end gap-1 mb-2">
-                <span className={`text-4xl font-extrabold ${p.highlight ? "text-white" : "text-[#1B2A4A]"}`}>
-                  {p.price}
-                </span>
-                <span className={`text-sm mb-1 ${p.highlight ? "text-white/60" : "text-gray-400"}`}>
-                  {p.period}
-                </span>
-              </div>
-              <p className={`text-sm mb-6 ${p.highlight ? "text-white/70" : "text-gray-500"}`}>{p.desc}</p>
-              <ul className="flex flex-col gap-2 mb-8 flex-1">
-                {p.features.map((f) => (
-                  <li key={f} className={`flex items-start gap-2 text-sm ${p.highlight ? "text-white/90" : "text-gray-600"}`}>
-                    <svg className="flex-shrink-0 mt-0.5" width="14" height="14" viewBox="0 0 14 14" fill="none">
-                      <circle cx="7" cy="7" r="6" fill={p.highlight ? "#00897B" : "#E6F4F2"}/>
-                      <path d="M4.5 7L6.5 9L9.5 5" stroke={p.highlight ? "#fff" : "#00897B"} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                    {f}
-                  </li>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* PRICING */}
+      <section className="pricing" id="pricing">
+        <div className="container">
+          <h2 className="section-title">Two plans. One goal:<br />get you funded.</h2>
+          <div className="pricing__grid">
+            <div className="pricing__card reveal">
+              <div className="pricing__card-header"><h3 className="pricing__card-name">Pro</h3><p className="pricing__card-desc">Grant alerts, delivered. You find the grants, you write the applications.</p></div>
+              <div className="pricing__card-price"><span className="pricing__card-currency">$</span><span className="pricing__card-amount">49</span><span className="pricing__card-period">/month</span></div>
+              <ul className="pricing__card-features">
+                {['Smart grant matching', 'Instant email alerts', 'Unlimited grant matches', 'Email support'].map(f => (
+                  <li key={f} className="pricing__card-feature pricing__card-feature--included"><CheckIcon />{f}</li>
                 ))}
               </ul>
-              <Link
-                href={p.href}
-                className={`text-center py-3 rounded-xl font-bold text-sm no-underline transition-colors ${
-                  p.highlight
-                    ? "bg-teal-500 hover:bg-teal-400 text-white"
-                    : "bg-[#1B2A4A] hover:bg-[#243555] text-white"
-                }`}
-              >
-                {p.cta}
-              </Link>
+              <Link href="/signup" className="btn btn--outline btn--full">Start with Pro</Link>
             </div>
-          ))}
+            <div className="pricing__card pricing__card--featured reveal">
+              <div className="pricing__card-popular">RECOMMENDED</div>
+              <div className="pricing__card-header"><h3 className="pricing__card-name">Enterprise</h3><p className="pricing__card-desc">Everything in Pro, plus AI writes your grant applications for you.</p></div>
+              <div className="pricing__card-price"><span className="pricing__card-currency">$</span><span className="pricing__card-amount">149</span><span className="pricing__card-period">/month</span></div>
+              <ul className="pricing__card-features">
+                {['Everything in Pro', 'AI-drafted grant applications', 'Priority support', 'Dedicated account manager'].map(f => (
+                  <li key={f} className="pricing__card-feature pricing__card-feature--included"><CheckIcon />{f}</li>
+                ))}
+              </ul>
+              <Link href="/signup" className="btn btn--primary btn--full">Start with Enterprise</Link>
+            </div>
+          </div>
+          <p className="pricing__note">No lock-in contracts. No success fees. No commission on grants won. Cancel anytime.</p>
         </div>
       </section>
 
-      {/* Bottom CTA */}
-      <section className="max-w-5xl mx-auto px-6 pb-24">
-        <div
-          className="rounded-2xl p-10 sm:p-14 text-center"
-          style={{ background: "linear-gradient(135deg, #1B2A4A, #00897B)" }}
-        >
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-3">
-            Ready to find your grants?
-          </h2>
-          <p className="text-white/70 mb-8 text-base">
-            Free check. No signup. Results in 60 seconds.
-          </p>
-          <Link
-            href="/find"
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-bold text-[#1B2A4A] no-underline transition-colors"
-            style={{ background: "#F5A623" }}
-          >
-            Check what you qualify for
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M10 5l3 3-3 3" stroke="#1B2A4A" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
-          </Link>
-        </div>
+      {/* ABOUT */}
+      <section className="about" id="about">
+        <div className="container"><div className="about__inner"><div className="about__text reveal">
+          <span className="section-label">WHY WE BUILT THIS</span>
+          <h2 className="section-title section-title--left">We watched good businesses miss out on free money. So we did something about it.</h2>
+          <p>Australian federal and state governments offer billions in grants every year. The problem? They&apos;re scattered across business.gov.au, state portals, and industry bodies. Most business owners never see them.</p>
+          <p>It&apos;s a system built for grant writers and consultants who charge $5,000+ to navigate it. Small businesses — the ones who need funding the most — get left behind.</p>
+          <p><strong>Fundii exists because that&apos;s not okay.</strong> We built a system that does the searching for you. It monitors every major grant program, cross-references your business profile, and sends you an email when something matches. That&apos;s it. No complexity. No consultants. Just grants, matched and delivered.</p>
+        </div></div></div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-gray-100 bg-white">
-        <div className="max-w-5xl mx-auto px-6 py-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-gray-400">
-          <span>© 2026 GrantMate · Built in Australia for Australian businesses</span>
-          <div className="flex gap-6">
-            <Link href="/find" className="hover:text-gray-600 no-underline">Find Grants</Link>
-            <Link href="/quiz" className="hover:text-gray-600 no-underline">Full Search</Link>
-            <Link href="/login" className="hover:text-gray-600 no-underline">Sign in</Link>
+      {/* FAQ */}
+      <section className="faq" id="faq">
+        <div className="container">
+          <h2 className="section-title">Questions we get asked a lot</h2>
+          <div className="faq__list">
+            {[
+              { q: 'Do I have to pay the grant money back?', a: "No. Grants are free money — they're not loans. You never repay them." },
+              { q: 'How is this different from Googling "business grants"?', a: 'Fundii matches grants to your specific business — your industry, location, size, and goals. We check daily and email you the moment something relevant appears.' },
+              { q: "I'm not a tech person. Is this complicated?", a: "Not at all. You fill out a short profile (about 5 minutes), then check your email. When a grant matches, we send you the name, amount, deadline, and how to apply. That's it." },
+              { q: 'What does "AI draft applications" mean on Enterprise?', a: 'For each grant match, we generate a pre-written application using your profile details. Most Enterprise users spend 20 minutes instead of 8+ hours.' },
+              { q: 'Can I cancel anytime?', a: "Yes. No lock-in contracts, no cancellation fees. Cancel from your account at any time." },
+              { q: 'What if no grants match my business?', a: "If after 30 days we haven't found a single match, we'll give you a full refund — no questions asked." },
+            ].map(item => (
+              <details key={item.q} className="faq__item reveal">
+                <summary className="faq__question">{item.q}</summary>
+                <p className="faq__answer">{item.a}</p>
+              </details>
+            ))}
           </div>
         </div>
+      </section>
+
+      {/* CONTACT */}
+      <section className="contact" id="contact">
+        <div className="container"><div className="contact__inner">
+          <div className="contact__text">
+            <h2 className="section-title section-title--left">Let&apos;s get you started.</h2>
+            <p className="contact__desc">Questions? Just want to chat before committing? Drop us a line. We reply to every message within a business day.</p>
+            <div className="contact__info"><div className="contact__info-item">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="4" width="16" height="12" rx="2" stroke="currentColor" strokeWidth="1.5" /><path d="M2 6L10 11L18 6" stroke="currentColor" strokeWidth="1.5" /></svg>
+              hello@fundii.com.au
+            </div></div>
+          </div>
+          <form className="contact__form" id="contactForm">
+            <div className="contact__form-row">
+              <div className="contact__form-group"><label htmlFor="cname">Your name</label><input type="text" id="cname" placeholder="Jane Smith" required /></div>
+              <div className="contact__form-group"><label htmlFor="cemail">Email</label><input type="email" id="cemail" placeholder="jane@mybusiness.com.au" required /></div>
+            </div>
+            <div className="contact__form-group"><label htmlFor="cbusiness">Business name</label><input type="text" id="cbusiness" placeholder="Acme Pty Ltd" /></div>
+            <div className="contact__form-group"><label htmlFor="cmessage">Tell us about your business</label><textarea id="cmessage" rows={4} placeholder="What does your business do? What kind of funding are you looking for?"></textarea></div>
+            <button type="submit" className="btn btn--primary btn--full">Send Message</button>
+          </form>
+        </div></div>
+      </section>
+
+      {/* FOOTER */}
+      <footer className="footer">
+        <div className="container">
+          <div className="footer__inner">
+            <div className="footer__brand"><img src="/assets/fundii-logo.png" alt="Fundii" className="footer__logo" /><p className="footer__tagline">Grant alerts for small businesses, startups, and nonprofits.</p></div>
+            <div className="footer__nav"><h4>Navigate</h4><ul><li><a href="#how-it-works">How It Works</a></li><li><a href="#features">Features</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#about">About</a></li><li><a href="#contact">Contact</a></li></ul></div>
+            <div className="footer__nav"><h4>Account</h4><ul><li><Link href="/login">Log In</Link></li><li><Link href="/signup">Sign Up</Link></li></ul></div>
+            <div className="footer__nav"><h4>Legal</h4><ul><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms of Service</a></li></ul></div>
+          </div>
+          <div className="footer__bottom"><p>© 2025 Fundii. All rights reserved.</p></div>
+        </div>
       </footer>
-    </div>
-  );
+    </>
+  )
 }
