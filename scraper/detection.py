@@ -7,8 +7,11 @@ detection. All scrapers import from here so keywords stay consistent.
 Key fixes over the old per-file versions:
  - "trade" removed from Construction (was false-matching Export grants)
  - All short state codes space-padded (" sa ", " act ", " wa ", " nt ", etc.)
- - Energy uses specific phrases ("energy efficiency", "renewable energy") not
-   bare "energy" (avoids "energy drink", "energy company" non-grants)
+ - Energy also covers Environment keywords (matches quiz "Energy & Environment")
+ - Agriculture also covers Food & Beverage keywords
+ - Research absorbs Space/Aerospace
+ - Education, Transport, Sport removed — those grants now return "General"
+ - All labels now match quiz-compatible values used in matching.ts
  - Consolidated Indigenous size detection (was only in federalscrapers.py)
 """
 
@@ -20,11 +23,14 @@ from typing import List, Optional
 # trade" and "trade mission" which belong to Export. Use specific phrases.
 
 INDUSTRY_KEYWORDS: dict[str, list[str]] = {
+    # "Agriculture" also covers Food & Beverage (food production is a primary industry)
     "Agriculture": [
         "agriculture", "farming", "horticulture", "aquaculture",
         "agrifood", "agribusiness", "livestock", "pastoral",
         "fisheries", "fishing industry", "crop production",
         "viticulture", "broadacre", "agri-",
+        "food production", "food manufacturing", "beverage",
+        "wine industry", "brewery", "distillery", "winery",
     ],
     "Manufacturing": [
         "manufacturing", "manufacturer", "made in australia",
@@ -48,10 +54,6 @@ INDUSTRY_KEYWORDS: dict[str, list[str]] = {
         "pharmaceutical", "aged care", "disability support",
         "clinical", "hospital", "allied health", "mental health services",
     ],
-    "Education": [
-        "education", "training program", "skills development",
-        "vocational", "apprentice", "traineeship", "tafe",
-    ],
     "Tourism": [
         "tourism", "hospitality", "visitor economy",
         "accommodation provider", "travel industry", "events tourism",
@@ -60,11 +62,16 @@ INDUSTRY_KEYWORDS: dict[str, list[str]] = {
         "retail", "e-commerce", "ecommerce", "consumer goods",
         "online store", "brick and mortar",
     ],
+    # "Energy" covers both energy efficiency AND environmental sustainability
+    # — matches quiz option "Energy & Environment" (value: "Energy")
     "Energy": [
         "energy efficiency", "renewable energy", "solar panel",
         "solar power", "clean energy", "hydrogen", "battery storage",
         "wind power", "grid connection", "decarbonisation",
         "net zero", "emissions reduction", "electrification",
+        "environment", "sustainability", "climate change",
+        "waste management", "recycling", "biodiversity",
+        "conservation", "landcare", "land care",
     ],
     "Mining": [
         "mining", "resources sector", "minerals processing",
@@ -79,35 +86,16 @@ INDUSTRY_KEYWORDS: dict[str, list[str]] = {
         "export market", "austrade", "emdg",
         "exporting", "overseas market",
     ],
+    # "Research" absorbs Space (space/aerospace are R&D industries)
     "Research": [
         "research", "r&d", "research and development",
         "science", "csiro", "commercialisation", "university research",
+        "space industry", "satellite", "aerospace",
     ],
     "Arts": [
         "arts ", "creative industry", "cultural", "heritage",
         "screen australia", " film ", "music grant", "theatre",
         "performing arts", "visual arts",
-    ],
-    "Environment": [
-        "environment", "sustainability", "climate",
-        "waste management", "recycling", "biodiversity",
-        "conservation", "landcare", "land care",
-    ],
-    "Transport": [
-        "transport", "logistics", "freight", "aviation",
-        "maritime transport",
-    ],
-    "Food & Beverage": [
-        "food production", "food manufacturing", "beverage",
-        "wine industry", "brewery", "distillery", "winery",
-        "agrifood",
-    ],
-    "Space": [
-        "space industry", "satellite", "aerospace",
-    ],
-    "Sport": [
-        "sport ", "recreation program", "athletics",
-        "fitness program", "sporting",
     ],
 }
 

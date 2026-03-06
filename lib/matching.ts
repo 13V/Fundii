@@ -1,14 +1,28 @@
 import type { Grant, MatchedGrant, UserProfile } from "./types";
 
-// Keywords that signal a grant is for a specific industry the user may not be in
+// Normalize DB industry labels → quiz-compatible values.
+// Scrapers use various labels; this maps them to what users actually select in the quiz.
+const INDUSTRY_NORMALIZE: Record<string, string> = {
+  "Environment":         "Energy",      // quiz option covers "Energy & Environment"
+  "Food & Beverage":     "Agriculture", // closest quiz match
+  "Education":           "General",     // no quiz option
+  "Transport":           "General",     // no quiz option
+  "Sport":               "General",     // no quiz option
+  "Space":               "Research",    // closest quiz match
+  "Creative Industries": "Arts",        // agencyscrapers.py label
+  "Arts & Culture":      "Arts",        // agencyscrapers.py label
+  "Education & Training":"General",     // agencyscrapers.py label
+};
+
+// Keywords that signal a grant is clearly for a specific industry the user may not be in
 const INDUSTRY_KEYWORD_GUARDS: Array<{ keywords: string[]; industries: string[] }> = [
   {
     keywords: ["algal bloom", "fishery", "fisheries", "aquaculture", "seafood", "fishing industry", "marine harvest"],
-    industries: ["Agriculture", "Fisheries"],
+    industries: ["Agriculture"],
   },
   {
     keywords: ["screen australia", "film production", "music grant", "arts board", "arts council", "creative arts fund"],
-    industries: ["Arts", "Creative"],
+    industries: ["Arts"],
   },
   {
     keywords: ["pastoral", "livestock", "horticulture", "broadacre", "crop production", "viticulture"],
@@ -35,8 +49,9 @@ export function matchGrants(grants: Grant[], profile: UserProfile): MatchedGrant
       }
 
       // --- Industry match (25 pts) ---
-      // Fixed: mutually exclusive, General is partial credit only
-      const grantInds = grant.industries ?? [];
+      // Normalize DB labels → quiz-compatible values first
+      const rawInds = grant.industries ?? [];
+      const grantInds = [...new Set(rawInds.map((i) => INDUSTRY_NORMALIZE[i] ?? i))];
       const hasGeneral = grantInds.some((i) => i === "General" || i === "All");
       const specificInds = grantInds.filter((i) => i !== "General" && i !== "All");
       const hasDirectMatch = specificInds.some((i) => profile.industries.includes(i));
@@ -55,6 +70,7 @@ export function matchGrants(grants: Grant[], profile: UserProfile): MatchedGrant
       if (
         grantSizes.length === 0 ||
         grantSizes.includes("General") ||
+        grantSizes.includes("All") ||
         grantSizes.some((s) => profile.sizes.includes(s))
       ) {
         score += 20;
@@ -76,22 +92,22 @@ export function matchGrants(grants: Grant[], profile: UserProfile): MatchedGrant
       // --- Purpose + activities match (10 pts) ---
       // Fixed: no longer guaranteed 5 pts — must actually match something
       const purposeMap: Record<string, string[]> = {
-        grow: ["General", "Manufacturing"],
-        export: ["Export"],
-        innovate: ["Technology", "Research"],
-        hire: ["General"],
+        grow:      ["General", "Manufacturing"],
+        export:    ["Export"],
+        innovate:  ["Technology", "Research"],
+        hire:      ["General"],
         equipment: ["General", "Manufacturing"],
-        digital: ["Technology"],
-        energy: ["Energy"],
-        training: ["General"],
+        digital:   ["Technology"],
+        energy:    ["Energy"],
+        training:  ["General"],
       };
       const activityMap: Record<string, string[]> = {
-        apprentices: ["General"],
-        export: ["Export"],
-        research: ["Technology", "Research"],
-        energy_intensive: ["Energy"],
-        regional: ["General"],
-        social_enterprise: ["General"],
+        apprentices:      ["General", "Construction", "Manufacturing"],
+        export:           ["Export"],
+        research:         ["Technology", "Research"],
+        energy_intensive: ["Energy", "Manufacturing"],
+        regional:         ["General"],
+        social_enterprise:["General", "Arts"],
       };
 
       const purposeInds = (profile.purposes ?? []).flatMap((p) => purposeMap[p] ?? []);

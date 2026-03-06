@@ -340,6 +340,8 @@ export const QUIZ_STEPS = [
       { value: "Defence", label: "Defence & Aerospace" },
       { value: "Export", label: "Import/Export" },
       { value: "Research", label: "Research & Innovation" },
+      { value: "Mining", label: "Mining & Resources" },
+      { value: "Arts", label: "Arts & Creative Industries" },
       { value: "General", label: "Other / General" },
     ],
   },
@@ -352,6 +354,7 @@ export const QUIZ_STEPS = [
       { value: "Startup", label: "Startup (pre-revenue or early stage)" },
       { value: "Small", label: "Small (1–19 employees)" },
       { value: "Medium", label: "Medium (20–199 employees)" },
+      { value: "Non-profit", label: "Non-profit / Social Enterprise" },
     ],
   },
   {
