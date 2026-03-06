@@ -111,7 +111,12 @@ function SignupForm() {
 
         {/* Signup form */}
         <div className="bg-white border border-gray-200 rounded-2xl p-8">
-          <h1 className="text-2xl font-bold text-[#1A1A2E] mb-1">Create your account</h1>
+          <div className="flex items-center justify-between mb-1">
+            <h1 className="text-2xl font-bold text-[#1A1A2E]">Create your account</h1>
+            <Link href="/login" className="text-sm text-[#0F7B6C] font-semibold no-underline hover:underline">
+              Sign in →
+            </Link>
+          </div>
           <p className="text-gray-500 text-sm mb-6">
             Then you&apos;ll be taken to secure checkout to complete your subscription.
           </p>
