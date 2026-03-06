@@ -86,7 +86,7 @@ export async function POST(req: NextRequest) {
         <tr><td style="padding:32px 40px;">
           <table width="100%" cellpadding="0" cellspacing="0">${grantRows}</table>
           <div style="text-align:center;margin-top:32px;">
-            <a href="${baseUrl}/find" style="background:#0F7B6C;color:#fff;padding:14px 32px;border-radius:10px;text-decoration:none;font-weight:700;display:inline-block;">
+            <a href="${baseUrl}/quiz" style="background:#0F7B6C;color:#fff;padding:14px 32px;border-radius:10px;text-decoration:none;font-weight:700;display:inline-block;">
               View All Matching Grants →
             </a>
           </div>
