@@ -55,74 +55,7 @@ def parse_amount(text: str):
     return None, None, text.strip()
 
 
-def detect_grant_type(text: str) -> str:
-    t = text.lower()[:3000]
-    if "loan" in t: return "loan"
-    if "tax incentive" in t or "tax offset" in t: return "tax_incentive"
-    if "rebate" in t: return "rebate"
-    if "voucher" in t: return "voucher"
-    if "subsidy" in t or "subsidies" in t: return "subsidy"
-    return "grant"
-
-
-def detect_industries(text: str) -> List[str]:
-    t = text.lower()
-    industry_map = {
-        "Agriculture": ["agriculture", "farming", "agri", "horticulture", "aquaculture"],
-        "Manufacturing": ["manufacturing", "manufacturer", "made in australia"],
-        "Technology": ["technology", "tech", "software", "digital", "cyber", "artificial intelligence", "ai "],
-        "Construction": ["construction", "building", "trade", "infrastructure"],
-        "Healthcare": ["health", "medical", "healthcare", "biotech", "pharmaceutical", "aged care"],
-        "Education": ["education", "training", "skills", "vocational"],
-        "Tourism": ["tourism", "hospitality", "visitor economy"],
-        "Retail": ["retail", "e-commerce", "ecommerce"],
-        "Energy": ["energy", "renewable", "solar", "clean energy", "hydrogen", "battery storage"],
-        "Mining": ["mining", "resources", "minerals", "extractive"],
-        "Defence": ["defence", "defense", "military", "security"],
-        "Export": ["export", "international trade", "trade mission", "emdg"],
-        "Research": ["research", "r&d", "innovation", "science", "csiro"],
-        "Arts": ["arts", "creative", "cultural", "heritage", "screen"],
-        "Environment": ["environment", "sustainability", "climate", "waste", "recycling", "biodiversity"],
-        "Transport": ["transport", "logistics", "freight", "aviation"],
-        "Food & Beverage": ["food", "beverage", "wine", "brewery", "distillery"],
-        "Space": ["space", "satellite", "aerospace"],
-    }
-    found = []
-    for industry, keywords in industry_map.items():
-        if any(kw in t for kw in keywords):
-            found.append(industry)
-    return found if found else ["General"]
-
-
-def detect_states(text: str) -> List[str]:
-    t = text.lower()
-    state_map = {
-        "NSW": ["nsw", "new south wales"],
-        "VIC": ["vic", "victoria"],
-        "QLD": ["qld", "queensland"],
-        "SA": ["south australia"],
-        "WA": ["western australia"],
-        "TAS": ["tas", "tasmania"],
-        "NT": ["northern territory"],
-        "ACT": ["australian capital territory", "canberra"],
-    }
-    found = []
-    for state, kws in state_map.items():
-        if any(kw in t for kw in kws):
-            found.append(state)
-    return found if found and len(found) < 8 else ["National"]
-
-
-def detect_sizes(text: str) -> List[str]:
-    t = text.lower()
-    sizes = []
-    if any(k in t for k in ["sole trader", "sole proprietor"]): sizes.append("Sole Trader")
-    if any(k in t for k in ["startup", "start-up", "early stage"]): sizes.append("Startup")
-    if any(k in t for k in ["small business", "small to medium", "sme", "small and medium"]): sizes.append("Small")
-    if any(k in t for k in ["medium business", "medium enterprise"]): sizes.append("Medium")
-    if any(k in t for k in ["large business", "large enterprise"]): sizes.append("Large")
-    if any(k in t for k in ["non-profit", "not-for-profit", "charity", "charities"]): sizes.append("Non-profit")
-    return sizes if sizes else ["All"]
+from detection import detect_industries, detect_states, detect_sizes, detect_grant_type, detect_status  # noqa: E402
 
 
 def generate_id(url: str) -> str:

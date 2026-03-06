@@ -97,66 +97,7 @@ def parse_amount(text: str):
     return None, None, text.strip()
 
 
-def detect_industries(text: str) -> List[str]:
-    t = text.lower()
-    industry_map = {
-        "Agriculture": ["agriculture", "farming", "agri", "horticulture", "aquaculture", "rural", "livestock", "pastoral"],
-        "Manufacturing": ["manufacturing", "manufacturer", "made in australia", "industrial"],
-        "Technology": ["technology", "tech", "software", "digital", "cyber", "ai ", "artificial intelligence", "data"],
-        "Construction": ["construction", "building", "trade", "infrastructure"],
-        "Healthcare": ["health", "medical", "healthcare", "biotech", "pharmaceutical", "clinical", "hospital"],
-        "Education": ["education", "training", "skills", "vocational", "university", "research institution"],
-        "Tourism": ["tourism", "hospitality", "visitor economy", "accommodation"],
-        "Retail": ["retail", "e-commerce", "ecommerce", "consumer"],
-        "Energy": ["energy", "renewable", "solar", "clean energy", "hydrogen", "battery", "wind", "grid"],
-        "Mining": ["mining", "resources", "minerals", "geology"],
-        "Defence": ["defence", "defense", "military", "aps", "dsp"],
-        "Export": ["export", "international trade", "trade mission", "austrade"],
-        "Research": ["research", "r&d", "innovation", "science", "csiro", "university"],
-        "Arts": ["arts", "creative", "cultural", "heritage", "screen", "film", "music"],
-        "Environment": ["environment", "sustainability", "climate", "waste", "recycling", "conservation", "biodiversity"],
-        "Transport": ["transport", "logistics", "freight", "aviation", "maritime"],
-        "Food & Beverage": ["food", "beverage", "wine", "brewery", "winery", "viticulture"],
-        "Space": ["space", "satellite", "aerospace"],
-        "Sport": ["sport", "recreation", "athletics", "fitness"],
-    }
-    found = []
-    for industry, keywords in industry_map.items():
-        if any(kw in t for kw in keywords):
-            found.append(industry)
-    return found if found else ["General"]
-
-
-def detect_states(text: str) -> List[str]:
-    t = text.lower()
-    state_map = {
-        "NSW": ["nsw", "new south wales"],
-        "VIC": ["vic", "victoria"],
-        "QLD": ["qld", "queensland"],
-        "SA": ["south australia", " sa "],
-        "WA": ["wa", "western australia"],
-        "TAS": ["tas", "tasmania"],
-        "NT": ["nt", "northern territory"],
-        "ACT": ["act", "australian capital territory", "canberra"],
-    }
-    found = []
-    for state, kws in state_map.items():
-        if any(kw in t for kw in kws):
-            found.append(state)
-    return found if found and len(found) < 8 else ["National"]
-
-
-def detect_sizes(text: str) -> List[str]:
-    t = text.lower()
-    sizes = []
-    if any(k in t for k in ["sole trader", "sole proprietor"]): sizes.append("Sole Trader")
-    if any(k in t for k in ["startup", "start-up", "early stage"]): sizes.append("Startup")
-    if any(k in t for k in ["small business", "small to medium", "sme"]): sizes.append("Small")
-    if any(k in t for k in ["medium business", "medium enterprise"]): sizes.append("Medium")
-    if any(k in t for k in ["large business", "large enterprise"]): sizes.append("Large")
-    if any(k in t for k in ["non-profit", "not-for-profit", "charity", "nfp"]): sizes.append("Non-profit")
-    if any(k in t for k in ["aboriginal", "indigenous", "first nations"]): sizes.append("Indigenous")
-    return sizes if sizes else ["All"]
+from detection import detect_industries, detect_states, detect_sizes  # noqa: E402
 
 
 def gid(prefix: str, url: str) -> str:

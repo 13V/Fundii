@@ -99,77 +99,12 @@ def parse_amount(text: str):
     return None, None, text.strip()
 
 
-def detect_industries(text: str) -> List[str]:
-    t = text.lower()
-    map_ = {
-        "Agriculture": ["agriculture", "farming", "agri", "horticulture", "aquaculture", "fisheries", "livestock"],
-        "Manufacturing": ["manufacturing", "manufacturer", "made in australia", "industrial"],
-        "Technology": ["technology", "tech", "software", "digital", "cyber", "artificial intelligence", "ai ", "ict"],
-        "Construction": ["construction", "building", "infrastructure", "trade"],
-        "Healthcare": ["health", "medical", "healthcare", "biotech", "pharmaceutical", "aged care", "disability"],
-        "Education": ["education", "training", "skills", "vocational", "apprentice"],
-        "Tourism": ["tourism", "hospitality", "visitor", "accommodation", "events"],
-        "Retail": ["retail", "e-commerce", "ecommerce", "consumer"],
-        "Energy": ["energy", "renewable", "solar", "clean energy", "hydrogen", "battery", "decarbonisation"],
-        "Mining": ["mining", "resources", "minerals", "extractive"],
-        "Defence": ["defence", "defense", "military", "security"],
-        "Export": ["export", "international trade", "trade mission"],
-        "Research": ["research", "r&d", "innovation", "science", "csiro"],
-        "Arts": ["arts", "creative", "cultural", "heritage", "screen", "music", "film"],
-        "Environment": ["environment", "sustainability", "climate", "waste", "recycling", "biodiversity"],
-        "Transport": ["transport", "logistics", "freight", "aviation"],
-        "Food & Beverage": ["food", "beverage", "wine", "brewery", "distillery", "agrifood"],
-        "Space": ["space", "satellite", "aerospace"],
-    }
-    found = []
-    for industry, kws in map_.items():
-        if any(kw in t for kw in kws):
-            found.append(industry)
-    return found if found else ["General"]
+from detection import detect_industries, detect_sizes, detect_status, detect_states as _shared_detect_states  # noqa: E402
 
 
 def detect_states_from_text(text: str, explicit_state: Optional[str] = None) -> List[str]:
-    if explicit_state:
-        return [explicit_state]
-    t = text.lower()
-    state_map = {
-        "NSW": ["nsw", "new south wales"],
-        "VIC": ["victoria", " vic "],
-        "QLD": ["qld", "queensland"],
-        "SA": ["south australia", " sa "],
-        "WA": ["western australia", " wa "],
-        "TAS": ["tasmania", " tas "],
-        "NT": ["northern territory", " nt "],
-        "ACT": ["australian capital territory", "canberra", " act "],
-    }
-    found = []
-    for state, kws in state_map.items():
-        if any(kw in t for kw in kws):
-            found.append(state)
-    return found if found and len(found) < 8 else ["National"]
-
-
-def detect_sizes(text: str) -> List[str]:
-    t = text.lower()
-    sizes = []
-    if any(k in t for k in ["sole trader", "sole proprietor"]): sizes.append("Sole Trader")
-    if any(k in t for k in ["startup", "start-up", "early stage"]): sizes.append("Startup")
-    if any(k in t for k in ["small business", "small to medium", "sme", "small and medium"]): sizes.append("Small")
-    if any(k in t for k in ["medium business", "medium enterprise"]): sizes.append("Medium")
-    if any(k in t for k in ["large business", "large enterprise"]): sizes.append("Large")
-    if any(k in t for k in ["non-profit", "not-for-profit", "charity"]): sizes.append("Non-profit")
-    return sizes if sizes else ["All"]
-
-
-def detect_status(text: str, close_date_str: str = "") -> str:
-    t = text.lower()
-    if any(k in t for k in ["applications closed", "program closed", "no longer accepting", "closed to applications"]):
-        return "closed"
-    if any(k in t for k in ["apply now", "applications open", "currently open", "accepting applications"]):
-        return "open"
-    if any(k in t for k in ["ongoing", "open year-round", "apply at any time", "rolling basis"]):
-        return "ongoing"
-    return "open"
+    """Delegates to shared detection, supports explicit_state override."""
+    return _shared_detect_states(text, explicit_state)
 
 
 def generate_id(prefix: str, url: str) -> str:

@@ -53,65 +53,13 @@ def parse_amount(text: str):
     return None, None, text.strip()
 
 
-def detect_industries(text: str) -> List[str]:
-    t = text.lower()
-    industry_map = {
-        "Agriculture": ["agriculture", "farming", "agri", "horticulture", "aquaculture"],
-        "Manufacturing": ["manufacturing", "manufacturer", "made in australia"],
-        "Technology": ["technology", "tech", "software", "digital", "cyber", "ai "],
-        "Construction": ["construction", "building", "trade", "infrastructure"],
-        "Healthcare": ["health", "medical", "healthcare", "biotech", "pharmaceutical"],
-        "Education": ["education", "training", "skills", "vocational"],
-        "Tourism": ["tourism", "hospitality", "visitor economy"],
-        "Retail": ["retail", "e-commerce", "ecommerce"],
-        "Energy": ["energy", "renewable", "solar", "clean energy", "hydrogen"],
-        "Mining": ["mining", "resources", "minerals"],
-        "Defence": ["defence", "defense", "military"],
-        "Export": ["export", "international trade", "trade mission"],
-        "Research": ["research", "r&d", "innovation", "science"],
-        "Arts": ["arts", "creative", "cultural", "heritage", "screen"],
-        "Environment": ["environment", "sustainability", "climate", "waste", "recycling"],
-        "Transport": ["transport", "logistics", "freight"],
-        "Food & Beverage": ["food", "beverage", "wine", "brewery"],
-        "Space": ["space", "satellite", "aerospace"],
-    }
-    found = []
-    for industry, keywords in industry_map.items():
-        if any(kw in t for kw in keywords):
-            found.append(industry)
-    return found if found else ["General"]
+from detection import detect_industries, detect_sizes, detect_states as _detect_states  # noqa: E402
 
 
 def detect_states(text: str, biz_states: Optional[str] = None) -> List[str]:
-    """Detect states from text + optional cesbusinessstate field."""
-    combined = (text + " " + (biz_states or "")).lower()
-    state_map = {
-        "NSW": ["nsw", "new south wales"],
-        "VIC": ["vic", "victoria"],
-        "QLD": ["qld", "queensland"],
-        "SA": ["south australia", " sa "],
-        "WA": ["wa", "western australia"],
-        "TAS": ["tas", "tasmania"],
-        "NT": ["nt", "northern territory"],
-        "ACT": ["act", "australian capital territory", "canberra"],
-    }
-    found = []
-    for state, kws in state_map.items():
-        if any(kw in combined for kw in kws):
-            found.append(state)
-    return found if found and len(found) < 8 else ["National"]
-
-
-def detect_sizes(text: str) -> List[str]:
-    t = text.lower()
-    sizes = []
-    if any(k in t for k in ["sole trader", "sole proprietor"]): sizes.append("Sole Trader")
-    if any(k in t for k in ["startup", "start-up", "early stage"]): sizes.append("Startup")
-    if any(k in t for k in ["small business", "small to medium", "sme"]): sizes.append("Small")
-    if any(k in t for k in ["medium business", "medium enterprise"]): sizes.append("Medium")
-    if any(k in t for k in ["large business", "large enterprise"]): sizes.append("Large")
-    if any(k in t for k in ["non-profit", "not-for-profit", "charity"]): sizes.append("Non-profit")
-    return sizes if sizes else ["All"]
+    """Merges optional cesbusinessstate field then delegates to shared detection."""
+    combined = text + " " + (biz_states or "")
+    return _detect_states(combined)
 
 
 def ts_to_date(ts) -> str:
