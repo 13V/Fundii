@@ -5,7 +5,6 @@ import Link from "next/link";
 import Nav from "@/components/Nav";
 import GrantCard from "@/components/GrantCard";
 import AuthModal from "@/components/AuthModal";
-import { matchGrants } from "@/lib/matching";
 import { createClient } from "@/lib/supabase";
 import type { MatchedGrant, UserProfile } from "@/lib/types";
 import type { User } from "@supabase/supabase-js";
@@ -21,15 +20,26 @@ export default function ResultsPage() {
   const [alertEmail, setAlertEmail] = useState("");
   const [alertsEnabled, setAlertsEnabled] = useState(false);
   const [alertLoading, setAlertLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Load profile from localStorage
     const raw = localStorage.getItem("fundii_profile");
-    if (!raw) return;
+    if (!raw) { setLoading(false); return; }
 
     const p: UserProfile = JSON.parse(raw);
     setProfile(p);
-    setMatches(matchGrants(p));
+
+    fetch("/api/grants/match", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ profile: p }),
+    })
+      .then((res) => res.json())
+      .then(({ matches }) => {
+        if (matches) setMatches(matches);
+      })
+      .finally(() => setLoading(false));
 
     // Load saved grants
     const savedRaw = localStorage.getItem("fundii_saved");
@@ -124,6 +134,17 @@ export default function ResultsPage() {
           >
             Take the Quiz →
           </Link>
+        </div>
+      </div>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#F8FAFB]">
+        <Nav />
+        <div className="max-w-2xl mx-auto px-6 py-24 text-center">
+          <p className="text-gray-500 text-lg">Searching 3,900+ grants for your best matches…</p>
         </div>
       </div>
     );

@@ -1,8 +1,7 @@
-import { GRANTS_DB } from "./grants-data";
-import type { MatchedGrant, UserProfile } from "./types";
+import type { Grant, MatchedGrant, UserProfile } from "./types";
 
-export function matchGrants(profile: UserProfile): MatchedGrant[] {
-  return GRANTS_DB.filter((g) => g.status === "open" || g.status === "ongoing")
+export function matchGrants(grants: Grant[], profile: UserProfile): MatchedGrant[] {
+  return grants.filter((g) => g.status === "open" || g.status === "ongoing")
     .map((grant) => {
       let score = 0;
       let maxScore = 0;

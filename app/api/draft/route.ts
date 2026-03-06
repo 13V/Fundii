@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
-import { GRANTS_DB } from "@/lib/grants-data";
+import { createClient } from "@supabase/supabase-js";
 
 const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
@@ -13,8 +13,17 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Missing grantId" }, { status: 400 });
   }
 
-  const grant = GRANTS_DB.find((g) => g.id === grantId);
-  if (!grant) {
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+  );
+  const { data: grant, error } = await supabase
+    .from("grants")
+    .select("id, title, description, amount_text, eligibility, source")
+    .eq("id", grantId)
+    .single();
+
+  if (error || !grant) {
     return NextResponse.json({ error: "Grant not found" }, { status: 404 });
   }
 
