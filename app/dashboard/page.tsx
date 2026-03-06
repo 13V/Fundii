@@ -1,76 +1,69 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import Nav from "@/components/Nav";
-import GrantCard from "@/components/GrantCard";
-import AuthModal from "@/components/AuthModal";
+import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase";
 import type { MatchedGrant } from "@/lib/types";
 import type { User } from "@supabase/supabase-js";
 
-export default function DashboardPage() {
+const PLAN_LABELS: Record<string, { label: string; color: string; bg: string }> = {
+  starter:    { label: "Starter",    color: "#0F7B6C", bg: "#E6F5F2" },
+  growth:     { label: "Growth",     color: "#7C3AED", bg: "#EDE9FE" },
+  enterprise: { label: "Enterprise", color: "#B45309", bg: "#FEF3C7" },
+};
+
+function DashboardContent() {
   const router = useRouter();
-  const supabase = createClient();
+  const searchParams = useSearchParams();
+  const justSubscribed = searchParams.get("subscribed") === "true";
+  const newPlan = searchParams.get("plan") ?? "";
+
   const [user, setUser] = useState<User | null>(null);
+  const [plan, setPlan] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [saved, setSaved] = useState<MatchedGrant[]>([]);
-  const [savedIds, setSavedIds] = useState<Set<string>>(new Set());
   const [alertEmail, setAlertEmail] = useState("");
   const [alertsEnabled, setAlertsEnabled] = useState(false);
   const [alertLoading, setAlertLoading] = useState(false);
-  const [showAuth, setShowAuth] = useState(false);
 
   useEffect(() => {
     const init = async () => {
-      const { data } = await supabase.auth.getUser();
-      setUser(data.user);
+      const supabase = createClient();
+      const { data: { user: authUser } } = await supabase.auth.getUser();
 
-      // Load saved grants from localStorage
+      if (!authUser) {
+        router.push("/login?redirect=/dashboard");
+        return;
+      }
+      setUser(authUser);
+
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("plan, subscription_status")
+        .eq("id", authUser.id)
+        .single();
+
+      setPlan(profile?.plan ?? null);
+
       const raw = localStorage.getItem("fundii_saved");
-      if (raw) {
-        const grants: MatchedGrant[] = JSON.parse(raw);
-        setSaved(grants);
-        setSavedIds(new Set(grants.map((g) => g.id)));
-      }
+      if (raw) setSaved(JSON.parse(raw));
 
-      // Load alert
-      const email = localStorage.getItem("fundii_alert_email");
-      if (email) {
-        setAlertEmail(email);
-        setAlertsEnabled(true);
-      }
+      const storedEmail = localStorage.getItem("fundii_alert_email");
+      if (storedEmail) { setAlertEmail(storedEmail); setAlertsEnabled(true); }
 
       setLoading(false);
     };
-
     init();
-
-    const { data: listener } = supabase.auth.onAuthStateChange((_e, session) => {
-      setUser(session?.user ?? null);
-    });
-
-    return () => listener.subscription.unsubscribe();
   }, []);
-
-  const handleRemove = (grant: MatchedGrant) => {
-    const updated = saved.filter((g) => g.id !== grant.id);
-    setSaved(updated);
-    setSavedIds(new Set(updated.map((g) => g.id)));
-    localStorage.setItem("fundii_saved", JSON.stringify(updated));
-  };
 
   const handleEnableAlerts = async () => {
     if (!alertEmail || !alertEmail.includes("@")) return;
     setAlertLoading(true);
-
+    const supabase = createClient();
     if (user) {
       await supabase.from("alert_subscriptions").upsert({
-        user_id: user.id,
-        email: alertEmail,
-        frequency: "weekly",
-        active: true,
+        user_id: user.id, email: alertEmail, frequency: "weekly", active: true,
       });
     }
     localStorage.setItem("fundii_alert_email", alertEmail);
@@ -78,99 +71,121 @@ export default function DashboardPage() {
     setAlertLoading(false);
   };
 
+  const handleRemove = (grant: MatchedGrant) => {
+    const updated = saved.filter((g) => g.id !== grant.id);
+    setSaved(updated);
+    localStorage.setItem("fundii_saved", JSON.stringify(updated));
+  };
+
+  const handleSignOut = async () => {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    router.push("/");
+  };
+
   const totalPotential = saved.reduce((sum, g) => sum + (g.amount_max || 0), 0);
+  const activePlan = (justSubscribed && newPlan) ? newPlan : plan;
+  const planInfo = activePlan ? PLAN_LABELS[activePlan] : null;
+  const canDraft = activePlan === "growth" || activePlan === "enterprise";
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#F8FAFB]">
-        <Nav />
-        <div className="flex items-center justify-center py-32">
-          <div className="text-gray-400 text-lg">Loading…</div>
-        </div>
+      <div className="min-h-screen bg-[#FAF8F4] flex items-center justify-center">
+        <div className="text-gray-400 text-lg">Loading…</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#F8FAFB]">
-      <Nav />
-      {showAuth && (
-        <AuthModal
-          onClose={() => setShowAuth(false)}
-          onSuccess={() => setShowAuth(false)}
-        />
-      )}
+    <div className="min-h-screen bg-[#FAF8F4]">
+      <nav className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+        <Link href="/" className="text-xl font-extrabold text-[#1A1A2E] no-underline">GrantMate</Link>
+        <div className="flex items-center gap-4">
+          {planInfo && (
+            <span className="text-xs font-bold px-3 py-1 rounded-full"
+              style={{ color: planInfo.color, background: planInfo.bg }}>
+              {planInfo.label} Plan
+            </span>
+          )}
+          <Link href="/find" className="text-sm font-semibold text-[#0F7B6C] no-underline hover:underline">Find Grants</Link>
+          <button onClick={handleSignOut} className="text-sm text-gray-500 hover:text-gray-800">Sign out</button>
+        </div>
+      </nav>
 
-      <div className="max-w-3xl mx-auto px-6 py-12">
-        <div className="mb-8">
-          <h1 className="text-3xl font-extrabold mb-2" style={{ color: "#1B2A4A" }}>
-            {user ? `Welcome back` : "Your Dashboard"}
-          </h1>
-          <p className="text-gray-500">Track your saved grants and manage applications.</p>
-          {!user && (
-            <div className="mt-4 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 text-sm text-amber-800">
-              <span className="font-semibold">Sign in</span> to sync your grants across devices and
-              access full features.{" "}
-              <button
-                onClick={() => setShowAuth(true)}
-                className="underline font-semibold hover:text-amber-900"
-              >
-                Sign in now →
-              </button>
+      <div className="max-w-4xl mx-auto px-6 py-12">
+
+        {justSubscribed && (
+          <div className="bg-[#E6F5F2] border border-[#0F7B6C] rounded-2xl p-6 mb-8 flex items-center gap-4">
+            <span className="text-3xl">🎉</span>
+            <div>
+              <p className="font-bold text-[#0F7B6C] text-lg">Welcome to GrantMate!</p>
+              <p className="text-sm text-gray-600">
+                Your {activePlan ? activePlan.charAt(0).toUpperCase() + activePlan.slice(1) : "subscription"} plan is active.
+                {canDraft ? " You can now use AI to draft grant applications." : " Explore matching grants below."}
+              </p>
             </div>
+          </div>
+        )}
+
+        <div className="mb-8 flex items-start justify-between">
+          <div>
+            <h1 className="text-3xl font-extrabold text-[#1A1A2E] mb-1">Your Dashboard</h1>
+            <p className="text-gray-500">{user?.email}</p>
+          </div>
+          {!activePlan && (
+            <Link href="/signup" className="px-5 py-2.5 rounded-xl bg-[#0F7B6C] text-white font-bold text-sm no-underline hover:opacity-90">
+              Upgrade Plan →
+            </Link>
           )}
         </div>
 
-        {/* Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
           {[
             { label: "Saved Grants", value: saved.length, icon: "⭐" },
-            {
-              label: "Total Potential",
-              value: totalPotential > 0 ? `$${totalPotential.toLocaleString()}` : "$0",
-              icon: "💰",
-            },
+            { label: "Total Potential", value: totalPotential > 0 ? `$${totalPotential.toLocaleString()}` : "$0", icon: "💰" },
             { label: "Alerts", value: alertsEnabled ? "Active" : "Off", icon: "🔔" },
           ].map((card, i) => (
-            <div
-              key={i}
-              className="bg-white rounded-2xl p-5 border border-gray-200 shadow-sm"
-            >
+            <div key={i} className="bg-white rounded-2xl p-5 border border-gray-200">
               <div className="text-2xl mb-2">{card.icon}</div>
-              <div className="text-2xl font-extrabold mb-0.5" style={{ color: "#1B2A4A" }}>
-                {card.value}
-              </div>
+              <div className="text-2xl font-extrabold text-[#1A1A2E] mb-0.5">{card.value}</div>
               <div className="text-sm text-gray-500">{card.label}</div>
             </div>
           ))}
         </div>
 
-        {/* Alert setup */}
+        {activePlan && planInfo && (
+          <div className="bg-white border border-gray-200 rounded-2xl p-6 mb-8">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-xs font-bold tracking-widest uppercase mb-1" style={{ color: planInfo.color }}>Current Plan</p>
+                <p className="text-xl font-bold text-[#1A1A2E]">{planInfo.label}</p>
+                {!canDraft && (
+                  <p className="text-sm text-gray-500 mt-1">Upgrade to Growth to unlock AI application drafting.</p>
+                )}
+              </div>
+              {canDraft ? (
+                <span className="text-sm text-[#0F7B6C] font-semibold">✓ AI drafting enabled</span>
+              ) : (
+                <Link href="/signup?plan=growth" className="px-4 py-2 rounded-xl text-sm font-bold text-white no-underline"
+                  style={{ background: "#0F7B6C" }}>
+                  Upgrade →
+                </Link>
+              )}
+            </div>
+          </div>
+        )}
+
         {!alertsEnabled && (
-          <div
-            className="rounded-2xl p-5 mb-8 border"
-            style={{ background: "#FFF8E1", borderColor: "#F5A623" }}
-          >
-            <h3 className="font-bold text-base mb-1" style={{ color: "#1B2A4A" }}>
-              🔔 Enable Weekly Alerts
-            </h3>
-            <p className="text-sm text-gray-600 mb-3">
-              Get notified when new grants match your profile every Monday.
-            </p>
+          <div className="rounded-2xl p-5 mb-8 border" style={{ background: "#FFFBEB", borderColor: "#F59E0B" }}>
+            <h3 className="font-bold text-base text-[#1A1A2E] mb-1">🔔 Enable Weekly Alerts</h3>
+            <p className="text-sm text-gray-600 mb-3">Get notified when new grants match your profile every Monday.</p>
             <div className="flex gap-2">
-              <input
-                type="email"
-                placeholder="your@email.com"
-                value={alertEmail}
+              <input type="email" placeholder="your@email.com" value={alertEmail}
                 onChange={(e) => setAlertEmail(e.target.value)}
-                className="flex-1 px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-              />
-              <button
-                onClick={handleEnableAlerts}
-                disabled={alertLoading}
-                className="px-5 py-2.5 rounded-xl font-bold text-sm text-white"
-                style={{ background: "#00897B" }}
-              >
+                className="flex-1 px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-[#0F7B6C]" />
+              <button onClick={handleEnableAlerts} disabled={alertLoading}
+                className="px-5 py-2.5 rounded-xl font-bold text-sm text-white disabled:opacity-60"
+                style={{ background: "#0F7B6C" }}>
                 {alertLoading ? "…" : "Enable"}
               </button>
             </div>
@@ -182,38 +197,54 @@ export default function DashboardPage() {
           </div>
         )}
 
-        {/* Saved grants */}
-        <h2 className="text-xl font-bold mb-5" style={{ color: "#1B2A4A" }}>
-          Saved Grants ({saved.length})
-        </h2>
+        <h2 className="text-xl font-bold text-[#1A1A2E] mb-5">Saved Grants ({saved.length})</h2>
 
         {saved.length === 0 ? (
           <div className="text-center py-16 bg-white rounded-2xl border border-gray-200">
-            <p className="text-4xl mb-4">☆</p>
-            <p className="text-gray-500 mb-6 text-base">
-              No saved grants yet. Take the quiz to find grants and tap the star to save them.
-            </p>
-            <Link
-              href="/quiz"
-              className="inline-block px-8 py-3 rounded-xl bg-teal-500 text-white font-bold no-underline hover:bg-teal-600"
-            >
-              Find Grants
+            <p className="text-4xl mb-4">⭐</p>
+            <p className="text-gray-500 mb-6">No saved grants yet. Take the quiz to find matching grants.</p>
+            <Link href="/find" className="inline-block px-8 py-3 rounded-xl text-white font-bold no-underline"
+              style={{ background: "#0F7B6C" }}>
+              Find Grants →
             </Link>
           </div>
         ) : (
           <div className="flex flex-col gap-4">
             {saved.map((grant) => (
-              <GrantCard
-                key={grant.id}
-                grant={grant}
-                isSaved={savedIds.has(grant.id)}
-                onToggleSave={handleRemove}
-                showDrafter
-              />
+              <div key={grant.id} className="bg-white border border-gray-200 rounded-2xl p-5">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex-1 min-w-0">
+                    <p className="font-bold text-[#1A1A2E] text-base mb-1">{grant.title}</p>
+                    <p className="text-sm text-gray-500 mb-2">{grant.source} · {grant.amount_text || "Amount varies"}</p>
+                    <p className="text-sm text-gray-600 line-clamp-2">{grant.description}</p>
+                  </div>
+                  <div className="flex flex-col items-end gap-2 flex-shrink-0">
+                    <span className="text-sm font-bold text-[#0F7B6C]">{grant.matchScore}% match</span>
+                    {canDraft ? (
+                      <Link href={`/draft/${grant.id}`}
+                        className="px-3 py-1.5 rounded-lg text-xs font-bold text-white no-underline"
+                        style={{ background: "#0F7B6C" }}>
+                        Draft App →
+                      </Link>
+                    ) : (
+                      <Link href="/signup?plan=growth"
+                        className="px-3 py-1.5 rounded-lg text-xs font-bold border no-underline"
+                        style={{ color: "#0F7B6C", borderColor: "#0F7B6C" }}>
+                        Upgrade to Draft
+                      </Link>
+                    )}
+                    <button onClick={() => handleRemove(grant)} className="text-xs text-red-400 hover:text-red-600">Remove</button>
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
         )}
       </div>
     </div>
   );
+}
+
+export default function DashboardPage() {
+  return <Suspense><DashboardContent /></Suspense>;
 }

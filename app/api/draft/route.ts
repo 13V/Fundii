@@ -7,6 +7,27 @@ const anthropic = new Anthropic({
 });
 
 export async function POST(req: NextRequest) {
+  // Check auth + plan gating
+  const token = req.headers.get("authorization")?.replace("Bearer ", "");
+  if (token) {
+    const authClient = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    );
+    const { data: { user } } = await authClient.auth.getUser(token);
+    if (user) {
+      const { data: profileRow } = await authClient
+        .from("profiles").select("plan").eq("id", user.id).single();
+      const plan = profileRow?.plan;
+      if (!plan || (plan !== "growth" && plan !== "enterprise")) {
+        return NextResponse.json(
+          { error: "AI drafting requires a Growth or Enterprise plan. Upgrade to continue." },
+          { status: 403 },
+        );
+      }
+    }
+  }
+
   const { grantId, profile } = await req.json();
 
   if (!grantId) {

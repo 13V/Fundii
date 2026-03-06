@@ -1,139 +1,87 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import Nav from "@/components/Nav";
 import { createClient } from "@/lib/supabase";
 
-export default function LoginPage() {
+function LoginForm() {
+  const searchParams = useSearchParams();
   const router = useRouter();
-  const supabase = createClient();
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const subscribed = searchParams.get("subscribed") === "true";
+  const plan = searchParams.get("plan") ?? "";
+  const redirectTo = searchParams.get("redirect") ?? "/dashboard";
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [sent, setSent] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setLoading(true);
-
-    if (mode === "signup") {
-      const { error } = await supabase.auth.signUp({ email, password });
-      if (error) setError(error.message);
-      else setSent(true);
-    } else {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) setError(error.message);
-      else router.push("/dashboard");
+    try {
+      const supabase = createClient();
+      const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+      if (signInError) { setError(signInError.message); setLoading(false); return; }
+      router.push(redirectTo);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Sign in failed. Please try again.");
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFB]">
-      <Nav />
-      <div className="flex items-center justify-center px-6 py-20">
-        <div className="bg-white rounded-2xl shadow-lg w-full max-w-md p-10">
-          <div className="text-center mb-8">
-            <Link href="/" className="no-underline">
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-teal-500 to-navy flex items-center justify-center text-white font-extrabold text-2xl mx-auto mb-4"
-                style={{ background: "linear-gradient(135deg, #00897B, #1B2A4A)" }}>
-                G
-              </div>
-            </Link>
-            <h1 className="text-2xl font-extrabold" style={{ color: "#1B2A4A" }}>
-              {mode === "signin" ? "Welcome back" : "Create your account"}
-            </h1>
-            <p className="text-gray-500 text-sm mt-2">
-              {mode === "signin"
-                ? "Sign in to access your saved grants and dashboard"
-                : "Free account — save grants, track applications, get weekly alerts"}
+    <div className="min-h-screen bg-[#FAF8F4] flex items-center justify-center px-4 py-16">
+      <div className="w-full max-w-md">
+        {subscribed && (
+          <div className="bg-[#E6F5F2] border border-[#0F7B6C] rounded-2xl p-5 mb-6 text-center">
+            <p className="text-2xl mb-2">🎉</p>
+            <p className="font-bold text-[#0F7B6C] text-lg">Payment successful!</p>
+            <p className="text-sm text-gray-600 mt-1">
+              Your {plan ? plan.charAt(0).toUpperCase() + plan.slice(1) : "subscription"} plan is active. Sign in below to access your dashboard.
             </p>
           </div>
-
-          {sent ? (
-            <div className="text-center py-8">
-              <p className="text-5xl mb-4">📬</p>
-              <h2 className="font-bold text-lg mb-2" style={{ color: "#1B2A4A" }}>
-                Check your email
-              </h2>
-              <p className="text-gray-500 text-sm">
-                We sent a confirmation link to <strong>{email}</strong>. Click it to activate your
-                account, then come back and sign in.
-              </p>
-              <button
-                onClick={() => { setSent(false); setMode("signin"); }}
-                className="mt-6 text-sm text-teal-600 font-semibold hover:underline"
-              >
-                Back to sign in
-              </button>
+        )}
+        <div className="bg-white border border-gray-200 rounded-2xl p-8">
+          <div className="mb-6">
+            <Link href="/" className="no-underline">
+              <span className="text-xl font-extrabold text-[#1A1A2E]">GrantMate</span>
+            </Link>
+            <h1 className="text-2xl font-bold text-[#1A1A2E] mt-4 mb-1">Welcome back</h1>
+            <p className="text-gray-500 text-sm">Sign in to access your grants and dashboard.</p>
+          </div>
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-1.5">Email</label>
+              <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@business.com.au"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-[#0F7B6C] focus:ring-2 focus:ring-[#E6F5F2]" />
             </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">Email</label>
-                <input
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="you@example.com"
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-                  Password
-                </label>
-                <input
-                  type="password"
-                  required
-                  minLength={8}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Min. 8 characters"
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-                />
-              </div>
-
-              {error && (
-                <div className="bg-red-50 border border-red-200 rounded-xl px-4 py-3 text-sm text-red-700">
-                  {error}
-                </div>
-              )}
-
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full py-3.5 rounded-xl font-bold text-sm text-white transition-colors disabled:opacity-50"
-                style={{ background: "#00897B" }}
-              >
-                {loading
-                  ? "Please wait…"
-                  : mode === "signin"
-                  ? "Sign In"
-                  : "Create Free Account"}
-              </button>
-            </form>
-          )}
-
-          {!sent && (
-            <p className="text-center text-sm text-gray-500 mt-6">
-              {mode === "signin" ? "Don't have an account? " : "Already have an account? "}
-              <button
-                onClick={() => { setMode(mode === "signin" ? "signup" : "signin"); setError(""); }}
-                className="text-teal-600 font-semibold hover:underline"
-              >
-                {mode === "signin" ? "Sign up free" : "Sign in"}
-              </button>
-            </p>
-          )}
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-1.5">Password</label>
+              <input type="password" required value={password} onChange={(e) => setPassword(e.target.value)}
+                placeholder="Your password"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-[#0F7B6C] focus:ring-2 focus:ring-[#E6F5F2]" />
+            </div>
+            {error && <p className="text-sm text-red-600 bg-red-50 border border-red-100 rounded-lg px-3 py-2">{error}</p>}
+            <button type="submit" disabled={loading}
+              className="w-full py-3.5 rounded-xl font-bold text-white text-sm transition-colors disabled:opacity-60"
+              style={{ background: loading ? "#6b7280" : "#0F7B6C" }}>
+              {loading ? "Signing in…" : "Sign In →"}
+            </button>
+          </form>
+          <p className="text-sm text-center text-gray-500 mt-5">
+            Don&apos;t have an account?{" "}
+            <Link href="/signup" className="text-[#0F7B6C] font-semibold no-underline hover:underline">Get started</Link>
+          </p>
         </div>
       </div>
     </div>
   );
+}
+
+export default function LoginPage() {
+  return <Suspense><LoginForm /></Suspense>;
 }

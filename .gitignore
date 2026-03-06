@@ -26,3 +26,5 @@ next-env.d.ts
 scraper/grants_data.csv
 scraper/grants_data.json
 scraper/scraper.log
+
+.vercel

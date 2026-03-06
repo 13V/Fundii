@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import Nav from "@/components/Nav";
-import { GRANTS_DB } from "@/lib/grants-data";
+import { createClient } from "@/lib/supabase";
 import type { Grant, UserProfile } from "@/lib/types";
 
 const TYPE_LABELS: Record<string, string> = {
@@ -28,15 +28,22 @@ export default function DraftPage() {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    const found = GRANTS_DB.find((g) => g.id === grantId);
-    if (!found) {
-      router.push("/results");
-      return;
-    }
-    setGrant(found);
+    const init = async () => {
+      // Load grant from Supabase
+      const supabase = createClient();
+      const { data } = await supabase
+        .from("grants")
+        .select("id, title, source, source_url, amount_min, amount_max, amount_text, states, industries, business_sizes, status, close_date, description, eligibility, grant_type, category, url")
+        .eq("id", grantId)
+        .single();
 
-    const raw = localStorage.getItem("fundii_profile");
-    if (raw) setProfile(JSON.parse(raw));
+      if (!data) { router.push("/results"); return; }
+      setGrant({ ...(data as Omit<Grant, "sizes">), sizes: (data.business_sizes as string[]) ?? [] });
+
+      const raw = localStorage.getItem("fundii_profile");
+      if (raw) setProfile(JSON.parse(raw));
+    };
+    init();
   }, [grantId]);
 
   const generateDraft = async () => {
@@ -46,9 +53,15 @@ export default function DraftPage() {
     setError("");
 
     try {
+      // Pass auth token so server can verify plan
+      const supabase = createClient();
+      const { data: { session } } = await supabase.auth.getSession();
+      const headers: Record<string, string> = { "Content-Type": "application/json" };
+      if (session?.access_token) headers["Authorization"] = `Bearer ${session.access_token}`;
+
       const res = await fetch("/api/draft", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers,
         body: JSON.stringify({ grantId: grant.id, profile }),
       });
 
@@ -167,12 +180,18 @@ export default function DraftPage() {
             ) : error ? (
               <div className="py-12 text-center">
                 <p className="text-red-600 font-semibold mb-4">{error}</p>
-                <button
-                  onClick={generateDraft}
-                  className="px-6 py-3 rounded-xl bg-teal-500 text-white font-bold text-sm hover:bg-teal-600"
-                >
-                  Try Again
-                </button>
+                {error.includes("Growth") || error.includes("upgrade") || error.includes("Upgrade") ? (
+                  <Link href="/signup?plan=growth"
+                    className="inline-block px-6 py-3 rounded-xl text-white font-bold text-sm no-underline"
+                    style={{ background: "#0F7B6C" }}>
+                    Upgrade to Growth →
+                  </Link>
+                ) : (
+                  <button onClick={generateDraft}
+                    className="px-6 py-3 rounded-xl bg-teal-500 text-white font-bold text-sm hover:bg-teal-600">
+                    Try Again
+                  </button>
+                )}
               </div>
             ) : (
               <div className="flex flex-col items-center justify-center py-16 text-center">
