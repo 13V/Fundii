@@ -3,7 +3,6 @@
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { createClient } from "@/lib/supabase";
 
 const PLANS = {
   starter: {
@@ -49,23 +48,10 @@ function SignupForm() {
     setLoading(true);
 
     try {
-      const supabase = createClient();
-
-      // Create account
-      const { data, error: signUpError } = await supabase.auth.signUp({ email, password });
-      if (signUpError) {
-        setError(signUpError.message);
-        setLoading(false);
-        return;
-      }
-
-      const userId = data.user?.id;
-
-      // Go to Stripe checkout
-      const res = await fetch("/api/create-checkout", {
+      const res = await fetch("/api/signup-checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ plan: planKey, userId: userId ?? null, email }),
+        body: JSON.stringify({ plan: planKey, email, password }),
       });
 
       const json = await res.json();
