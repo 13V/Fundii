@@ -176,30 +176,118 @@ def generate_id(prefix: str, url: str) -> str:
     return f"{prefix}_{hash(url) % 10000000:07d}"
 
 
+# ── Grant quality validation ────────────────────────────────────────────────
+
+# Words that indicate real grant/funding content
+GRANT_SIGNALS = [
+    "grant", "fund", "funding", "subsidy", "rebate", "loan", "voucher",
+    "incentive", "financial assistance", "support program", "apply",
+    "eligible", "eligibility", "$",
+]
+
+# Phrases that indicate we scraped navigation/template content instead of grant info
+NAV_GARBAGE = [
+    "skip navigation", "toggle high contrast", "accessibility options",
+    "more language options", "skip to content", "high contrast mode",
+    "more options", "more sites",
+]
+
+# Titles that are clearly not grants
+NON_GRANT_TITLES = [
+    "small business week", "mental health week", "conference", "expo 2",
+    "workshop", "webinar", "news", "calendar", "events calendar",
+    "business awards", "awards night",
+]
+
+
+def is_likely_grant(title: str, description: str) -> bool:
+    """Return True if the scraped content looks like a real grant/funding program."""
+    combined = f"{title} {description}".lower()
+
+    # Must mention grants/funding
+    if not any(s in combined for s in GRANT_SIGNALS):
+        return False
+
+    # Description must be substantive
+    if len(description.strip()) < 60:
+        return False
+
+    # Description must not be nav garbage
+    desc_lower = description.lower()
+    if any(s in desc_lower for s in NAV_GARBAGE):
+        return False
+
+    # Skip clearly non-grant page titles
+    title_lower = title.lower()
+    if any(t in title_lower for t in NON_GRANT_TITLES):
+        return False
+
+    return True
+
+
 def scrape_detail_page(url: str, source: str, state: str, prefix: str) -> Optional[Dict]:
-    """Generic detail page scraper — works for most plain-HTML gov pages."""
+    """Scrape a grant detail page extracting clean description from main content only."""
     resp = make_request(url)
     if not resp:
         return None
     soup = BeautifulSoup(resp.text, "lxml")
-    full_text = clean_text(soup.get_text())
 
+    # ── Find main content area, ignore nav/sidebar/header/footer ──
+    main = (
+        soup.find("main") or
+        soup.find("div", id=re.compile(r"^(main|content|primary|body)", re.I)) or
+        soup.find("div", class_=re.compile(r"^(main|content|article|body|inner|page-content|entry)", re.I)) or
+        soup.find("article") or
+        soup
+    )
+
+    # Strip navigation and boilerplate from the content area
+    for tag in main.find_all(["nav", "header", "footer", "aside", "script", "style", "noscript"]):
+        tag.decompose()
+    for tag in main.find_all(True, attrs={"class": re.compile(
+        r"nav|menu|sidebar|breadcrumb|footer|header|cookie|alert|banner|skip|widget|social|share",
+        re.I,
+    )}):
+        tag.decompose()
+    for tag in main.find_all(True, attrs={"id": re.compile(
+        r"nav|menu|sidebar|header|footer|cookie|skip|share|social",
+        re.I,
+    )}):
+        tag.decompose()
+
+    full_text = clean_text(main.get_text())
+
+    # ── Title ──
     title_tag = soup.find("h1")
     title = clean_text(title_tag.get_text()) if title_tag else ""
     if not title or len(title) < 4:
         return None
 
-    # Description from first meaningful paragraphs
+    # ── Description: first 3 clean paragraphs from main content ──
     desc_parts = []
-    for p in soup.find_all("p"):
+    for p in main.find_all("p"):
         t = clean_text(p.get_text())
-        if len(t) > 40 and t not in desc_parts:
-            desc_parts.append(t)
+        if len(t) < 40:
+            continue
+        if t in desc_parts:
+            continue
+        # Skip paragraphs that look like navigation or link lists
+        t_lower = t.lower()
+        if any(s in t_lower for s in NAV_GARBAGE):
+            continue
+        if t.count(".gov.au") > 2 or t.count("http") > 2:
+            continue
+        desc_parts.append(t)
         if len(desc_parts) >= 3:
             break
-    description = " ".join(desc_parts)[:2000]
+    description = " ".join(desc_parts)
 
-    # Amount
+    # ── Validate this is actually a grant ──
+    if not is_likely_grant(title, description):
+        logger.debug(f"  Skipped non-grant: {title[:70]}")
+        return None
+
+    # ── Amount ──
     amount_text = ""
     for pat in [r"up to \$[\d,]+(?:\s*(?:million|m))?", r"\$[\d,]+(?:\s*(?:to|–|-)\s*\$[\d,]+)?"]:
         m = re.search(pat, full_text, re.IGNORECASE)
@@ -208,14 +296,17 @@ def scrape_detail_page(url: str, source: str, state: str, prefix: str) -> Option
             break
     amount_min, amount_max, amount_text = parse_amount(amount_text or full_text[:500])
 
-    # Close date
+    # ── Close date ──
     close_date = ""
     dm = re.search(
         r"clos(?:es?|ing)\s+(?:date[:\s]+)?(\d{1,2}\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\w*\s+\d{4}|\d{1,2}/\d{1,2}/\d{4})",
-        full_text, re.IGNORECASE
+        full_text, re.IGNORECASE,
     )
     if dm:
         close_date = dm.group(1)
+
+    # Use only title + description for industry/size detection (not full nav-contaminated page text)
+    detection_text = f"{title} {description}"
 
     return {
         "id": generate_id(prefix, url),
@@ -225,12 +316,12 @@ def scrape_detail_page(url: str, source: str, state: str, prefix: str) -> Option
         "amount_min": amount_min,
         "amount_max": amount_max,
         "amount_text": amount_text or "",
-        "states": detect_states_from_text(full_text, state),
-        "industries": detect_industries(full_text),
-        "business_sizes": detect_sizes(full_text),
+        "states": detect_states_from_text(detection_text, state),
+        "industries": detect_industries(detection_text),
+        "business_sizes": detect_sizes(detection_text),
         "status": detect_status(full_text),
         "close_date": close_date or "See website",
-        "description": description or title,
+        "description": description[:2000] or title,
         "eligibility": "",
         "grant_type": "grant",
         "category": "state",
@@ -658,8 +749,16 @@ def scrape_qld() -> List[Dict]:
 
 # ── SA ─────────────────────────────────────────────────────────────────────────
 
+SA_NON_GRANT_SLUGS = [
+    "sources-of-funding", "small-business-week", "business-week",
+    "drought-support", "mental-health", "events", "news", "contact",
+    "about", "week-2025", "week-2024", "week-2023", "algal-bloom",
+    "whyalla-support", "industrial-transformation",
+]
+
+
 def scrape_sa() -> List[Dict]:
-    logger.info("Scraping SA (HTML list + detail pages)...")
+    logger.info("Scraping SA (grant-programs listing only)...")
     resp = make_request("https://business.sa.gov.au/programs/grant-programs")
     if not resp:
         return []
@@ -672,20 +771,12 @@ def scrape_sa() -> List[Dict]:
         if not href.startswith("http"):
             href = urljoin("https://business.sa.gov.au", href)
         if "business.sa.gov.au/programs/" in href and href != "https://business.sa.gov.au/programs/grant-programs":
-            # Skip non-grant pages
-            if not any(x in href for x in ["sources-of-funding", "small-business-week", "drought-support"]):
+            if not any(slug in href for slug in SA_NON_GRANT_SLUGS):
                 grant_links.add(href)
 
-    # Also try the main programs page for more
-    resp2 = make_request("https://business.sa.gov.au/programs")
-    if resp2:
-        soup2 = BeautifulSoup(resp2.text, "lxml")
-        for a in soup2.find_all("a", href=True):
-            href = a["href"]
-            if not href.startswith("http"):
-                href = urljoin("https://business.sa.gov.au", href)
-            if "business.sa.gov.au/programs/" in href and "programs/grant" not in href:
-                grant_links.add(href)
+    # NOTE: The general /programs page is intentionally NOT scraped here.
+    # It lists non-grant programs (Mental Health, Small Business Week, events)
+    # which contaminate results. Only the /grant-programs listing is used.
 
     logger.info(f"  SA: {len(grant_links)} grant URLs found")
 
