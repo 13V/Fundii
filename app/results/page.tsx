@@ -281,12 +281,14 @@ export default function ResultsPage() {
                     >
                       Unlock All Grants →
                     </Link>
-                    <Link
-                      href="/login"
-                      className="block text-sm text-[#0F7B6C] font-semibold no-underline hover:underline"
-                    >
-                      Already have an account? Sign in
-                    </Link>
+                    {!user && (
+                      <Link
+                        href="/login"
+                        className="block text-sm text-[#0F7B6C] font-semibold no-underline hover:underline"
+                      >
+                        Already have an account? Sign in
+                      </Link>
+                    )}
                   </div>
                 </div>
               </div>
