@@ -1,25 +1,46 @@
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase";
 
 function ResetForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
   const [ready, setReady] = useState(false);
+  const [linkError, setLinkError] = useState("");
 
   useEffect(() => {
-    // Supabase puts the token in the URL hash — just need to be on the page
+    // Check for error params in URL (e.g. otp_expired)
+    const urlError = searchParams.get("error");
+    const errorCode = searchParams.get("error_code");
+    if (urlError) {
+      if (errorCode === "otp_expired") {
+        setLinkError("This reset link has expired. Please request a new one.");
+      } else {
+        setLinkError("Invalid reset link. Please request a new one.");
+      }
+      return;
+    }
+
+    // Supabase exchanges the hash token automatically on page load
     const supabase = createClient();
-    supabase.auth.getSession().then(({ data }) => {
-      setReady(!!data.session);
+    const { data: listener } = supabase.auth.onAuthStateChange((event) => {
+      if (event === "PASSWORD_RECOVERY") setReady(true);
     });
+
+    // Also check existing session (in case already exchanged)
+    supabase.auth.getSession().then(({ data }) => {
+      if (data.session) setReady(true);
+    });
+
+    return () => listener.subscription.unsubscribe();
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -42,7 +63,7 @@ function ResetForm() {
         <Link href="/" className="no-underline">
           <span className="text-xl font-extrabold text-[#1A1A2E]">GrantMate</span>
         </Link>
-        <h1 className="text-2xl font-bold text-[#1A1A2E] mt-4 mb-1">Set new password</h1>
+        <h1 className="text-2xl font-bold text-[#1A1A2E] mt-4 mb-4">Set new password</h1>
 
         {done ? (
           <div className="text-center py-6">
@@ -50,10 +71,20 @@ function ResetForm() {
             <p className="font-semibold text-[#1A1A2E]">Password updated!</p>
             <p className="text-sm text-gray-500 mt-1">Redirecting to your dashboard…</p>
           </div>
+        ) : linkError ? (
+          <div className="text-center py-4">
+            <p className="text-3xl mb-3">⚠️</p>
+            <p className="text-red-600 font-semibold mb-4">{linkError}</p>
+            <Link href="/login"
+              className="inline-block px-6 py-3 rounded-xl font-bold text-white text-sm no-underline"
+              style={{ background: "#0F7B6C" }}>
+              Request New Link →
+            </Link>
+          </div>
         ) : !ready ? (
-          <p className="text-sm text-gray-500 mt-4">Verifying reset link…</p>
+          <p className="text-sm text-gray-500">Verifying reset link…</p>
         ) : (
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-6">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-1.5">New password</label>
               <input type="password" required minLength={8} value={password}
