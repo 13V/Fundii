@@ -3,6 +3,12 @@ import { createClient } from "@supabase/supabase-js";
 import { matchGrants } from "@/lib/matching";
 import type { Grant, UserProfile } from "@/lib/types";
 
+// Strip excess whitespace and cap description length
+function truncateDescription(desc: string): string {
+  const cleaned = desc.replace(/\s+/g, " ").trim();
+  return cleaned.length > 400 ? cleaned.slice(0, 397) + "…" : cleaned;
+}
+
 export async function POST(req: NextRequest) {
   const { profile }: { profile: UserProfile } = await req.json();
 
@@ -21,7 +27,11 @@ export async function POST(req: NextRequest) {
       "id, title, source, source_url, amount_min, amount_max, amount_text, states, industries, business_sizes, status, close_date, description, eligibility, grant_type, category, url"
     )
     .in("status", ["open", "ongoing"])
-    .overlaps("states", [profile.state, "National"]);
+    .overlaps("states", [profile.state, "National"])
+    // Filter out scraped pages with navigation content instead of real descriptions
+    .not("description", "ilike", "%Skip navigation%")
+    .not("description", "ilike", "%Toggle High Contrast%")
+    .not("description", "ilike", "%Accessibility Options%");
 
   if (error) {
     console.error("Supabase error:", error);
@@ -32,6 +42,8 @@ export async function POST(req: NextRequest) {
   const grants: Grant[] = (data ?? []).map((row: Record<string, unknown>) => ({
     ...(row as Omit<Grant, "sizes">),
     sizes: (row.business_sizes as string[]) ?? [],
+    // Truncate descriptions that are too long (signs of full-page scrapes)
+    description: truncateDescription((row.description as string) ?? ""),
   }));
 
   const matches = matchGrants(grants, profile);
