@@ -30,6 +30,14 @@ export default function GrantCard({
   isSaved = false,
 }: GrantCardProps) {
   const score = (grant as MatchedGrant).matchScore;
+  const [animating, setAnimating] = useState(false);
+
+  const handleSave = () => {
+    if (!onToggleSave) return;
+    setAnimating(true);
+    setTimeout(() => setAnimating(false), 400);
+    onToggleSave(grant as MatchedGrant);
+  };
 
   const scoreColor =
     score >= 70
@@ -70,9 +78,13 @@ export default function GrantCard({
         {/* Save button */}
         {onToggleSave && (
           <button
-            onClick={() => onToggleSave(grant as MatchedGrant)}
-            className="text-2xl transition-colors flex-shrink-0"
-            style={{ color: isSaved ? "#F5A623" : "#ADB5BD" }}
+            onClick={handleSave}
+            className="text-2xl flex-shrink-0 transition-colors"
+            style={{
+              color: isSaved ? "#F5A623" : "#ADB5BD",
+              transform: animating ? "scale(1.5)" : "scale(1)",
+              transition: "transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.2s ease",
+            }}
             title={isSaved ? "Remove from saved" : "Save grant"}
           >
             {isSaved ? "★" : "☆"}
