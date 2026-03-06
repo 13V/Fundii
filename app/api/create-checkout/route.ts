@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
-const PRICES = {
-  apply: 19900,      // $199 AUD in cents
-  apply_pro: 49900,  // $499 AUD in cents
+// Set these in .env.local + Vercel after creating products in Stripe Dashboard
+const PRICE_IDS: Record<string, string> = {
+  starter:    process.env.STRIPE_PRICE_STARTER    ?? "",
+  growth:     process.env.STRIPE_PRICE_GROWTH     ?? "",
+  enterprise: process.env.STRIPE_PRICE_ENTERPRISE ?? "",
 };
 
 export async function POST(req: NextRequest) {
@@ -12,42 +14,28 @@ export async function POST(req: NextRequest) {
   }
 
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-  const { grantId, userId, tier = "apply", grantTitle } = await req.json();
+  const { plan = "growth", userId, email } = await req.json();
 
-  if (!grantId) {
-    return NextResponse.json({ error: "Missing grantId" }, { status: 400 });
+  const priceId = PRICE_IDS[plan];
+  if (!priceId) {
+    return NextResponse.json({ error: `Stripe price ID not configured for plan: ${plan}` }, { status: 500 });
   }
 
   const baseUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:3000";
 
   try {
     const session = await stripe.checkout.sessions.create({
-      mode: "payment",
+      mode: "subscription",
+      line_items: [{ price: priceId, quantity: 1 }],
       currency: "aud",
-      line_items: [
-        {
-          price_data: {
-            currency: "aud",
-            unit_amount: PRICES[tier as keyof typeof PRICES] ?? PRICES.apply,
-            product_data: {
-              name: tier === "apply_pro"
-                ? "GrantMate Apply Pro — Expert Review + AI Draft"
-                : "GrantMate Application Draft",
-              description: grantTitle
-                ? `AI-generated grant application for: ${grantTitle}`
-                : "Complete AI-generated grant application draft",
-            },
-          },
-          quantity: 1,
-        },
-      ],
-      success_url: `${baseUrl}/dashboard/apply/${grantId}?success=true&session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${baseUrl}/dashboard/apply/${grantId}`,
-      metadata: {
-        grantId,
-        userId: userId || "",
-        tier,
+      ...(email ? { customer_email: email } : {}),
+      allow_promotion_codes: true,
+      subscription_data: {
+        metadata: { userId: userId ?? "", plan },
       },
+      metadata: { userId: userId ?? "", plan },
+      success_url: `${baseUrl}/dashboard?subscribed=true&plan=${plan}`,
+      cancel_url: `${baseUrl}/signup?plan=${plan}`,
     });
 
     return NextResponse.json({ url: session.url });

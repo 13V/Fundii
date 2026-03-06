@@ -60,7 +60,7 @@ export default function LandingPage() {
             <li><a href="#about" className="nav__link">About</a></li>
             <li><a href="#contact" className="nav__link">Contact</a></li>
           </ul>
-          <Link href="/signup" className="nav__cta btn btn--primary">Get Started</Link>
+          <Link href="/signup?plan=growth" className="nav__cta btn btn--primary">Get Started</Link>
           <button className="nav__hamburger" id="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
         </div>
       </nav>
@@ -249,7 +249,7 @@ export default function LandingPage() {
                   <li key={f} className="pricing__card-feature pricing__card-feature--included"><CheckIcon />{f}</li>
                 ))}
               </ul>
-              <Link href="/signup" className="btn btn--outline btn--full">Get started</Link>
+              <Link href="/signup?plan=starter" className="btn btn--outline btn--full">Get started</Link>
             </div>
 
             <div className="pricing__card pricing__card--featured reveal">
@@ -276,7 +276,7 @@ export default function LandingPage() {
                   <li key={f} className="pricing__card-feature pricing__card-feature--included"><CheckIcon />{f}</li>
                 ))}
               </ul>
-              <Link href="/signup" className="btn btn--primary btn--full">Start with Growth</Link>
+              <Link href="/signup?plan=growth" className="btn btn--primary btn--full">Start with Growth</Link>
             </div>
 
             <div className="pricing__card reveal">
@@ -303,7 +303,7 @@ export default function LandingPage() {
                   <li key={f} className="pricing__card-feature pricing__card-feature--included"><CheckIcon />{f}</li>
                 ))}
               </ul>
-              <Link href="/signup" className="btn btn--outline btn--full">Contact us</Link>
+              <Link href="/signup?plan=enterprise" className="btn btn--outline btn--full">Get started</Link>
             </div>
           </div>
         </div>

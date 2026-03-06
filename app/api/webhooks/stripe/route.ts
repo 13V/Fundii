@@ -11,9 +11,7 @@ export async function POST(req: NextRequest) {
   const body = await req.text();
   const sig = req.headers.get("stripe-signature");
 
-  if (!sig) {
-    return NextResponse.json({ error: "Missing signature" }, { status: 400 });
-  }
+  if (!sig) return NextResponse.json({ error: "Missing signature" }, { status: 400 });
 
   let event: Stripe.Event;
   try {
@@ -23,24 +21,53 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
   }
 
-  if (event.type === "checkout.session.completed") {
-    const session = event.data.object as Stripe.Checkout.Session;
-    const { grantId, userId, tier } = session.metadata || {};
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+  );
 
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    );
+  switch (event.type) {
+    case "checkout.session.completed": {
+      const session = event.data.object as Stripe.Checkout.Session;
+      const { userId, plan } = session.metadata ?? {};
+      if (!userId || !plan) break;
 
-    await supabase.from("purchases").insert({
-      user_id: userId || null,
-      grant_id: grantId,
-      tier: tier || "apply",
-      amount_cents: session.amount_total ?? 19900,
-      stripe_session_id: session.id,
-      stripe_payment_id: session.payment_intent as string,
-      status: "paid",
-    });
+      await supabase.from("profiles").upsert({
+        id: userId,
+        stripe_customer_id: session.customer as string,
+        stripe_subscription_id: session.subscription as string,
+        plan,
+        subscription_status: "active",
+      });
+      break;
+    }
+
+    case "customer.subscription.updated": {
+      const sub = event.data.object as Stripe.Subscription;
+      const { userId, plan } = sub.metadata ?? {};
+      if (!userId) break;
+
+      const status = sub.status === "active" || sub.status === "trialing" ? sub.status : "past_due";
+      const endsAt = sub.cancel_at ? new Date(sub.cancel_at * 1000).toISOString() : null;
+
+      await supabase.from("profiles").update({
+        plan: plan ?? undefined,
+        subscription_status: status,
+        ...(endsAt ? { subscription_ends_at: endsAt } : {}),
+      }).eq("stripe_subscription_id", sub.id);
+      break;
+    }
+
+    case "customer.subscription.deleted": {
+      const sub = event.data.object as Stripe.Subscription;
+
+      await supabase.from("profiles").update({
+        plan: null,
+        subscription_status: "cancelled",
+        subscription_ends_at: new Date().toISOString(),
+      }).eq("stripe_subscription_id", sub.id);
+      break;
+    }
   }
 
   return NextResponse.json({ received: true });
