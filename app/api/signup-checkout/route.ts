@@ -36,18 +36,20 @@ export async function POST(req: NextRequest) {
     email_confirm: true,
   });
 
+  let userId: string;
+
   if (signUpError) {
     // If user already exists, look them up instead
-    if (!signUpError.message.includes("already")) {
+    if (!signUpError.message.toLowerCase().includes("already")) {
       return NextResponse.json({ error: signUpError.message }, { status: 400 });
     }
     const { data: list } = await supabase.auth.admin.listUsers();
     const existing = list?.users?.find((u) => u.email === email);
     if (!existing) return NextResponse.json({ error: signUpError.message }, { status: 400 });
-    data.user = existing;
+    userId = existing.id;
+  } else {
+    userId = data.user?.id ?? "";
   }
-
-  const userId = data.user?.id ?? "";
 
   // Ensure profile row exists (fallback if trigger didn't fire)
   await supabase.from("profiles").upsert({ id: userId }, { onConflict: "id" });
