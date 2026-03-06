@@ -28,3 +28,4 @@ scraper/grants_data.json
 scraper/scraper.log
 
 .vercel
+.env*.local

@@ -8,81 +8,73 @@ import type { User } from "@supabase/supabase-js";
 
 export default function Nav() {
   const router = useRouter();
-  const supabase = createClient();
   const [user, setUser] = useState<User | null>(null);
-  const [savedCount, setSavedCount] = useState(0);
+  const [plan, setPlan] = useState<string | null>(null);
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => setUser(data.user));
-
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
+    const supabase = createClient();
+    supabase.auth.getUser().then(async ({ data }) => {
+      setUser(data.user);
+      if (data.user) {
+        const { data: profile } = await supabase
+          .from("profiles").select("plan").eq("id", data.user.id).single();
+        setPlan(profile?.plan ?? null);
+      }
     });
-
-    // Read saved count from localStorage for immediate feedback
-    try {
-      const saved = localStorage.getItem("fundii_saved");
-      if (saved) setSavedCount(JSON.parse(saved).length);
-    } catch {}
-
+    const { data: listener } = supabase.auth.onAuthStateChange((_e, session) => {
+      setUser(session?.user ?? null);
+      if (!session?.user) setPlan(null);
+    });
     return () => listener.subscription.unsubscribe();
   }, []);
 
   const handleSignOut = async () => {
+    const supabase = createClient();
     await supabase.auth.signOut();
     router.push("/");
     router.refresh();
   };
 
-  return (
-    <nav className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
-      <div className="max-w-6xl mx-auto px-6 flex justify-between items-center h-16">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2.5 no-underline">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-teal-500 to-navy flex items-center justify-center text-white font-extrabold text-lg">
-            F
-          </div>
-          <span className="text-xl font-extrabold text-navy tracking-tight">
-            Fun<span className="text-teal-500">dii</span>
-          </span>
-        </Link>
+  const handleBillingPortal = async () => {
+    const res = await fetch("/api/billing-portal", { method: "POST" });
+    const { url, error } = await res.json();
+    if (url) window.location.href = url;
+    else console.error("Portal error:", error);
+  };
 
-        {/* Nav links */}
+  return (
+    <nav className="bg-white border-b border-gray-200 sticky top-0 z-50">
+      <div className="max-w-6xl mx-auto px-6 flex justify-between items-center h-16">
+        <Link href="/" className="text-xl font-extrabold text-[#1A1A2E] no-underline">
+          Grant<span style={{ color: "#0F7B6C" }}>Mate</span>
+        </Link>
         <div className="flex gap-2 items-center">
-          <Link
-            href="/quiz"
-            className="px-4 py-2 rounded-lg text-sm font-semibold text-navy border border-gray-200 hover:bg-gray-50 transition-colors no-underline"
-          >
+          <Link href="/find" className="px-4 py-2 rounded-lg text-sm font-semibold text-[#1A1A2E] border border-gray-200 hover:bg-gray-50 transition-colors no-underline">
             Find Grants
           </Link>
-
           {user ? (
             <>
-              <Link
-                href="/dashboard"
-                className="relative px-4 py-2 rounded-lg text-sm font-semibold text-navy border border-gray-200 hover:bg-gray-50 transition-colors no-underline"
-              >
+              <Link href="/dashboard" className="px-4 py-2 rounded-lg text-sm font-semibold text-[#1A1A2E] border border-gray-200 hover:bg-gray-50 transition-colors no-underline">
                 Dashboard
-                {savedCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-gold text-navy text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
-                    {savedCount}
-                  </span>
-                )}
               </Link>
-              <button
-                onClick={handleSignOut}
-                className="px-4 py-2 rounded-lg text-sm font-semibold text-gray-600 hover:text-gray-900 transition-colors"
-              >
+              {plan && (
+                <button onClick={handleBillingPortal} className="px-4 py-2 rounded-lg text-sm font-semibold text-gray-500 hover:text-gray-800 transition-colors">
+                  Billing
+                </button>
+              )}
+              <button onClick={handleSignOut} className="px-4 py-2 rounded-lg text-sm text-gray-400 hover:text-gray-700 transition-colors">
                 Sign out
               </button>
             </>
           ) : (
-            <Link
-              href="/login"
-              className="px-4 py-2 rounded-lg text-sm font-semibold bg-teal-500 text-white hover:bg-teal-600 transition-colors no-underline"
-            >
-              Sign in
-            </Link>
+            <>
+              <Link href="/login" className="px-4 py-2 rounded-lg text-sm font-semibold text-[#1A1A2E] border border-gray-200 hover:bg-gray-50 no-underline">
+                Sign in
+              </Link>
+              <Link href="/signup" className="px-4 py-2 rounded-lg text-sm font-bold text-white no-underline" style={{ background: "#0F7B6C" }}>
+                Get started
+              </Link>
+            </>
           )}
         </div>
       </div>

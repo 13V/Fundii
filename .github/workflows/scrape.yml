@@ -101,15 +101,14 @@ jobs:
 
       - name: Trigger grant alert emails
         env:
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          APP_URL: ${{ secrets.APP_URL }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
         run: |
           echo "📧 Triggering alert emails..."
           RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" \
-            -X POST "$SUPABASE_URL/functions/v1/send-grant-alerts" \
-            -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
-            -H "Content-Type: application/json" \
-            -d '{}')
+            -X POST "$APP_URL/api/send-alerts" \
+            -H "x-cron-secret: $CRON_SECRET" \
+            -H "Content-Type: application/json")
           echo "Alert function response: $RESPONSE"
 
       - name: Upload scrape artifacts
