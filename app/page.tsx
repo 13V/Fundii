@@ -224,31 +224,88 @@ export default function LandingPage() {
       {/* PRICING */}
       <section className="pricing" id="pricing">
         <div className="container">
-          <h2 className="section-title">Two plans. One goal:<br />get you funded.</h2>
-          <div className="pricing__grid">
+          <h2 className="section-title">Three plans. One goal:<br />get you funded.</h2>
+          <p className="pricing__subtitle">No lock-in contracts. No success fees. No commission on grants won. Cancel anytime.</p>
+          <div className="pricing__grid pricing__grid--3">
             <div className="pricing__card reveal">
-              <div className="pricing__card-header"><h3 className="pricing__card-name">Pro</h3><p className="pricing__card-desc">Grant alerts, delivered. You find the grants, you write the applications.</p></div>
-              <div className="pricing__card-price"><span className="pricing__card-currency">$</span><span className="pricing__card-amount">49</span><span className="pricing__card-period">/month</span></div>
+              <div className="pricing__card-header">
+                <h3 className="pricing__card-name">Starter</h3>
+                <p className="pricing__card-desc">Everything you need to find grants and start applying on your own.</p>
+              </div>
+              <div className="pricing__card-price">
+                <span className="pricing__card-currency">$</span>
+                <span className="pricing__card-amount">99</span>
+                <span className="pricing__card-period">/month</span>
+              </div>
               <ul className="pricing__card-features">
-                {['Smart grant matching', 'Instant email alerts', 'Unlimited grant matches', 'Email support'].map(f => (
+                {[
+                  'Full grant matching (3,900+ programs)',
+                  'Weekly email alerts',
+                  'Save & track up to 20 grants',
+                  'Eligibility summaries per grant',
+                  'Deadline reminders',
+                  'Email support',
+                ].map(f => (
                   <li key={f} className="pricing__card-feature pricing__card-feature--included"><CheckIcon />{f}</li>
                 ))}
               </ul>
-              <Link href="/signup" className="btn btn--outline btn--full">Start with Pro</Link>
+              <Link href="/signup" className="btn btn--outline btn--full">Get started</Link>
             </div>
+
             <div className="pricing__card pricing__card--featured reveal">
-              <div className="pricing__card-popular">RECOMMENDED</div>
-              <div className="pricing__card-header"><h3 className="pricing__card-name">Enterprise</h3><p className="pricing__card-desc">Everything in Pro, plus AI writes your grant applications for you.</p></div>
-              <div className="pricing__card-price"><span className="pricing__card-currency">$</span><span className="pricing__card-amount">149</span><span className="pricing__card-period">/month</span></div>
+              <div className="pricing__card-popular">MOST POPULAR</div>
+              <div className="pricing__card-header">
+                <h3 className="pricing__card-name">Growth</h3>
+                <p className="pricing__card-desc">AI-powered tools to write and manage your applications faster.</p>
+              </div>
+              <div className="pricing__card-price">
+                <span className="pricing__card-currency">$</span>
+                <span className="pricing__card-amount">229</span>
+                <span className="pricing__card-period">/month</span>
+              </div>
               <ul className="pricing__card-features">
-                {['Everything in Pro', 'AI-drafted grant applications', 'Priority support', 'Dedicated account manager'].map(f => (
+                {[
+                  'Everything in Starter',
+                  'AI-drafted applications (10/mo)',
+                  'Real-time grant alerts (daily)',
+                  'Unlimited saved grants',
+                  'Application progress tracker',
+                  'Grant calendar & close-date alerts',
+                  'Priority email & chat support',
+                ].map(f => (
                   <li key={f} className="pricing__card-feature pricing__card-feature--included"><CheckIcon />{f}</li>
                 ))}
               </ul>
-              <Link href="/signup" className="btn btn--primary btn--full">Start with Enterprise</Link>
+              <Link href="/signup" className="btn btn--primary btn--full">Start with Growth</Link>
+            </div>
+
+            <div className="pricing__card reveal">
+              <div className="pricing__card-header">
+                <h3 className="pricing__card-name">Enterprise</h3>
+                <p className="pricing__card-desc">Full-service grant intelligence for serious businesses and advisors.</p>
+              </div>
+              <div className="pricing__card-price">
+                <span className="pricing__card-currency">$</span>
+                <span className="pricing__card-amount">499</span>
+                <span className="pricing__card-period">/month</span>
+              </div>
+              <ul className="pricing__card-features">
+                {[
+                  'Everything in Growth',
+                  'Unlimited AI-drafted applications',
+                  'Multi-user access (up to 5 seats)',
+                  'Dedicated account manager',
+                  'Custom grant research on request',
+                  'White-label reports for clients',
+                  'Accountant & advisor dashboard',
+                  'Phone support',
+                ].map(f => (
+                  <li key={f} className="pricing__card-feature pricing__card-feature--included"><CheckIcon />{f}</li>
+                ))}
+              </ul>
+              <Link href="/signup" className="btn btn--outline btn--full">Contact us</Link>
             </div>
           </div>
-          <p className="pricing__note">No lock-in contracts. No success fees. No commission on grants won. Cancel anytime.</p>
         </div>
       </section>
 
