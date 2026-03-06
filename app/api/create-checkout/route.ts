@@ -18,7 +18,10 @@ export async function POST(req: NextRequest) {
 
   const priceId = PRICE_IDS[plan];
   if (!priceId) {
-    return NextResponse.json({ error: `Stripe price ID not configured for plan: ${plan}` }, { status: 500 });
+    return NextResponse.json({
+      error: `Stripe price ID not configured for plan: ${plan}`,
+      configured: Object.fromEntries(Object.entries(PRICE_IDS).map(([k, v]) => [k, v ? "set" : "MISSING"])),
+    }, { status: 500 });
   }
 
   const baseUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:3000";
@@ -39,8 +42,9 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ url: session.url });
-  } catch (err) {
-    console.error("Stripe error:", err);
-    return NextResponse.json({ error: "Failed to create checkout session" }, { status: 500 });
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error("Stripe error:", msg);
+    return NextResponse.json({ error: msg }, { status: 500 });
   }
 }
