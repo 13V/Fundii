@@ -2,13 +2,13 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Fundii — Free Money, Found Fast",
+  title: "GrantMate — Free Money, Found Fast",
   description:
-    "Fundii finds Australian government grants you're eligible for, scores them by match, and drafts your application with AI. Built for Australian SMEs.",
-  keywords: "australian grants, small business grants, government grants australia, grant finder",
+    "GrantMate finds Australian government grants you're eligible for and drafts your application with AI. 3,900+ programs. Built for Australian SMEs.",
+  keywords: "australian grants, small business grants, government grants australia, grant finder, ai grant writer",
   openGraph: {
-    title: "Fundii — Free Money, Found Fast",
-    description: "AI-powered grant finder for Australian small businesses",
+    title: "GrantMate — Free Money, Found Fast",
+    description: "AI-powered grant finder for Australian small businesses. Find and apply in minutes.",
     type: "website",
   },
 };
@@ -20,7 +20,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen bg-[#F8FAFB]">{children}</body>
+      <head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700;800;900&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body style={{ margin: 0, padding: 0 }}>{children}</body>
     </html>
   );
 }

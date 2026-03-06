@@ -226,20 +226,12 @@ async def scrape_grantconnect() -> List[Dict]:
             logger.info(f"  Page {page_num}: collecting grant links...")
 
             # Find all links to grant detail pages
+            # GrantConnect uses /Go/Show?GoUuid=... format
             links = await page.eval_on_selector_all(
-                "a[href*='/go/show'], a[href*='GoSearch'], a[href*='opportunityId']",
-                "els => els.map(e => e.href)"
+                "a[href]",
+                "els => els.map(e => e.href).filter(h => h.includes('Show?GoUuid') || h.includes('show?GoUuid') || h.includes('/go/show') || h.includes('/Go/Show'))"
             )
             for link in links:
-                if link and "grants.gov.au" in link:
-                    grant_links.add(link)
-
-            # Also try to find links in table rows
-            row_links = await page.eval_on_selector_all(
-                "table a[href], .grant-item a[href], .opportunity-item a[href], li a[href*='show']",
-                "els => els.map(e => e.href).filter(h => h.includes('show') || h.includes('opportunity'))"
-            )
-            for link in row_links:
                 if link and "grants.gov.au" in link:
                     grant_links.add(link)
 
@@ -407,6 +399,14 @@ def push_to_supabase(grants: List[Dict]) -> int:
 
     import requests as req
 
+    # Cap amounts to PostgreSQL integer range (2B max)
+    MAX_INT = 2_000_000_000
+    for g in grants:
+        if g.get("amount_min") and g["amount_min"] > MAX_INT:
+            g["amount_min"] = MAX_INT
+        if g.get("amount_max") and g["amount_max"] > MAX_INT:
+            g["amount_max"] = MAX_INT
+
     url = f"{SUPABASE_URL}/rest/v1/grants"
     headers = {
         "apikey": SUPABASE_SERVICE_KEY,
@@ -432,6 +432,11 @@ def push_to_supabase(grants: List[Dict]) -> int:
 
 
 def main():
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s [%(levelname)s] %(message)s",
+        datefmt="%H:%M:%S",
+    )
     print("\n" + "=" * 60)
     print("🇦🇺  GRANTCONNECT SCRAPER — grants.gov.au")
     print("=" * 60)

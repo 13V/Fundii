@@ -49,6 +49,56 @@ jobs:
           python grantconnect.py
           echo "✅ GrantConnect scrape complete"
 
+      - name: Run state + territory + federal scrapers (NSW/VIC/WA/TAS/QLD/SA/ACT/NT/ARENA etc.)
+        working-directory: scraper
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          echo "🗺️ Starting state/territory scrapers..."
+          python statescrapers.py
+          echo "✅ State scrapers complete"
+
+      - name: Run business.gov.au scraper (603 federal grants via Coveo API)
+        working-directory: scraper
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          echo "🏢 Starting business.gov.au scrape..."
+          python businessgov.py
+          echo "✅ business.gov.au scrape complete"
+
+      - name: Run local council scrapers (top 30 councils — SmartyGrants + own pages)
+        working-directory: scraper
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          echo "🏛️ Starting local council scrapers..."
+          python localcouncils.py
+          echo "✅ Council scrapers complete"
+
+      - name: Run agency & state program scrapers (Screen AU, ARC, Apprenticeships, Regional etc.)
+        working-directory: scraper
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          echo "🏢 Starting agency & state program scrapers..."
+          python agencyscrapers.py
+          echo "✅ Agency scrapers complete"
+
+      - name: Run supplementary federal & industry scrapers (CSIRO, Austrade, Defence, MRFF etc.)
+        working-directory: scraper
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          echo "🏭 Starting supplementary federal/industry scrapers..."
+          python federalscrapers.py
+          echo "✅ Supplementary scrapers complete"
+
       - name: Trigger grant alert emails
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
@@ -70,5 +120,10 @@ jobs:
           path: |
             scraper/grants_data.json
             scraper/grantconnect_data.json
+            scraper/businessgov_data.json
+            scraper/statescrapers_data.json
+            scraper/federalscrapers_data.json
+            scraper/localcouncils_data.json
+            scraper/agencyscrapers_data.json
             scraper/scraper.log
           retention-days: 7

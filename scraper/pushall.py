@@ -1,0 +1,134 @@
+"""
+Push all scraped grant JSON files to Supabase.
+Reads existing *_data.json files and upserts them in batches.
+"""
+import os, sys, json, requests, glob
+
+if sys.platform == "win32":
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
+SUPABASE_URL = os.environ.get("SUPABASE_URL", "").rstrip("/")
+SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_ROLE_KEY", "")
+
+if not SUPABASE_URL or not SUPABASE_KEY:
+    print("ERROR: SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY must be set")
+    sys.exit(1)
+
+HEADERS = {
+    "apikey": SUPABASE_KEY,
+    "Authorization": f"Bearer {SUPABASE_KEY}",
+    "Content-Type": "application/json",
+    "Prefer": "resolution=merge-duplicates",
+}
+ENDPOINT = f"{SUPABASE_URL}/rest/v1/grants"
+BATCH = 50
+
+VALID_STATUSES = {"open", "closed", "ongoing", "upcoming", "unknown"}
+VALID_TYPES    = {"grant", "loan", "rebate", "tax_incentive", "voucher", "subsidy", "scholarship"}
+MAX_INT        = 2_000_000_000
+
+def coerce(g: dict) -> dict:
+    """Ensure fields match the Supabase schema."""
+    def arr(v):
+        if isinstance(v, list):  return v or ["General"]
+        if isinstance(v, str):   return [x.strip() for x in v.split(",") if x.strip()] or ["General"]
+        return ["General"]
+
+    def cap(v, n):
+        return (v or "")[:n]
+
+    def safe_int(v):
+        if v is None: return None
+        try:
+            i = int(v)
+            return min(i, MAX_INT)
+        except Exception:
+            return None
+
+    return {
+        "id":             cap(g.get("id", ""), 100),
+        "title":          cap(g.get("title", ""), 500),
+        "source":         cap(g.get("source", ""), 200),
+        "source_url":     cap(g.get("source_url") or g.get("url", ""), 1000),
+        "url":            cap(g.get("url") or g.get("source_url", ""), 1000),
+        "amount_min":     safe_int(g.get("amount_min")),
+        "amount_max":     safe_int(g.get("amount_max")),
+        "amount_text":    cap(g.get("amount_text", ""), 500),
+        "states":         arr(g.get("states", ["National"])),
+        "industries":     arr(g.get("industries", ["General"])),
+        "business_sizes": arr(g.get("business_sizes") or g.get("businessSizes", ["All"])),
+        "status":         g.get("status", "open") if g.get("status") in VALID_STATUSES else "open",
+        "close_date":     cap(g.get("close_date") or g.get("closeDate", ""), 100) or None,
+        "description":    cap(g.get("description", ""), 2000),
+        "eligibility":    cap(g.get("eligibility") or g.get("eligibility_summary", ""), 1500),
+        "grant_type":     g.get("grant_type", "grant") if g.get("grant_type") in VALID_TYPES else "grant",
+        "category":       cap(g.get("category", "federal"), 100),
+    }
+
+def push_one(grant: dict) -> bool:
+    try:
+        r = requests.post(ENDPOINT, headers=HEADERS, json=[grant], timeout=15)
+        r.raise_for_status()
+        return True
+    except Exception:
+        return False
+
+
+def push_batch(grants):
+    pushed = 0
+    skipped = 0
+    for i in range(0, len(grants), BATCH):
+        batch = [coerce(g) for g in grants[i:i+BATCH]]
+        batch = [g for g in batch if g["id"] and g["title"]]
+        if not batch:
+            continue
+        try:
+            r = requests.post(ENDPOINT, headers=HEADERS, json=batch, timeout=30)
+            r.raise_for_status()
+            pushed += len(batch)
+        except Exception:
+            # Fall back: push one at a time to skip bad records
+            for g in batch:
+                if push_one(g):
+                    pushed += 1
+                else:
+                    skipped += 1
+    if skipped:
+        print(f"  Skipped {skipped} records with schema errors")
+    return pushed
+
+def main():
+    # Find all JSON data files in this directory
+    files = sorted(glob.glob("*_data.json"))
+    if not files:
+        print("No *_data.json files found. Run scrapers first.")
+        sys.exit(1)
+
+    print(f"\nFound {len(files)} data files:")
+    for f in files:
+        print(f"  {f}")
+
+    total_loaded = 0
+    total_pushed = 0
+
+    for fname in files:
+        print(f"\nLoading {fname}...")
+        try:
+            with open(fname, encoding="utf-8") as f:
+                grants = json.load(f)
+        except Exception as e:
+            print(f"  ERROR reading {fname}: {e}")
+            continue
+
+        print(f"  {len(grants)} grants — pushing to Supabase...")
+        pushed = push_batch(grants)
+        print(f"  Pushed {pushed}/{len(grants)}")
+        total_loaded += len(grants)
+        total_pushed += pushed
+
+    print(f"\n{'='*50}")
+    print(f"DONE — pushed {total_pushed}/{total_loaded} total grants")
+    print(f"{'='*50}")
+
+if __name__ == "__main__":
+    main()
