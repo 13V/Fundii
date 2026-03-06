@@ -7,6 +7,7 @@ import type { MatchedGrant, SavedGrant } from "@/lib/types";
 interface GrantCardProps {
   grant: MatchedGrant | SavedGrant;
   showDrafter?: boolean;
+  canDraft?: boolean;
   onToggleSave?: (grant: MatchedGrant) => void;
   isSaved?: boolean;
 }
@@ -24,6 +25,7 @@ const TYPE_LABELS: Record<string, string> = {
 export default function GrantCard({
   grant,
   showDrafter = true,
+  canDraft = true,
   onToggleSave,
   isSaved = false,
 }: GrantCardProps) {
@@ -110,12 +112,21 @@ export default function GrantCard({
           View Details ↗
         </a>
         {showDrafter && (
-          <Link
-            href={`/draft/${grant.id}`}
-            className="text-sm font-semibold px-4 py-2 rounded-lg bg-teal-500 text-white hover:bg-teal-600 transition-colors no-underline"
-          >
-            ✨ AI Draft Application
-          </Link>
+          canDraft ? (
+            <Link
+              href={`/draft/${grant.id}`}
+              className="text-sm font-semibold px-4 py-2 rounded-lg bg-teal-500 text-white hover:bg-teal-600 transition-colors no-underline"
+            >
+              ✨ AI Draft Application
+            </Link>
+          ) : (
+            <Link
+              href="/signup?plan=growth"
+              className="text-sm font-semibold px-4 py-2 rounded-lg border border-[#0F7B6C] text-[#0F7B6C] hover:bg-[#E6F5F2] transition-colors no-underline"
+            >
+              Upgrade to Draft ↗
+            </Link>
+          )
         )}
       </div>
     </div>

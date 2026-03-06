@@ -21,6 +21,7 @@ export default function ResultsPage() {
   const [alertsEnabled, setAlertsEnabled] = useState(false);
   const [alertLoading, setAlertLoading] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [plan, setPlan] = useState<string | null>(null);
 
   useEffect(() => {
     // Load profile from localStorage
@@ -48,8 +49,23 @@ export default function ResultsPage() {
       setSaved(new Set<string>(savedGrants.map((g) => g.id)));
     }
 
-    // Check auth
-    supabase.auth.getUser().then(({ data }) => setUser(data.user));
+    // Check auth + load plan + sync saved grants from Supabase
+    supabase.auth.getUser().then(async ({ data }) => {
+      setUser(data.user);
+      if (data.user) {
+        const { data: profile } = await supabase
+          .from("profiles").select("plan").eq("id", data.user.id).single();
+        setPlan(profile?.plan ?? null);
+
+        // Merge saved grants from Supabase into localStorage
+        const { data: dbSaved } = await supabase
+          .from("saved_grants").select("grant_id").eq("user_id", data.user.id);
+        if (dbSaved?.length) {
+          const ids = new Set(dbSaved.map((r: { grant_id: string }) => r.grant_id));
+          setSaved(prev => new Set([...prev, ...ids]));
+        }
+      }
+    });
     const { data: listener } = supabase.auth.onAuthStateChange((_e, session) => {
       setUser(session?.user ?? null);
     });
@@ -253,6 +269,7 @@ export default function ResultsPage() {
                 isSaved={saved.has(grant.id)}
                 onToggleSave={handleToggleSave}
                 showDrafter
+                canDraft={plan === "growth" || plan === "enterprise"}
               />
             ))}
           </div>

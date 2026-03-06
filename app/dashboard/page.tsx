@@ -46,8 +46,23 @@ function DashboardContent() {
 
       setPlan(profile?.plan ?? null);
 
-      const raw = localStorage.getItem("fundii_saved");
-      if (raw) setSaved(JSON.parse(raw));
+      // Load saved grants from Supabase (source of truth for logged-in users)
+      const { data: dbSaved } = await supabase
+        .from("saved_grants")
+        .select("grant_id, grants(id, title, source, amount_text, description, states, status, grant_type, close_date, url, source_url)")
+        .eq("user_id", authUser.id);
+
+      if (dbSaved?.length) {
+        const grants = dbSaved
+          .map((r: Record<string, unknown>) => r.grants)
+          .filter(Boolean)
+          .map((g: unknown) => ({ ...(g as Record<string, unknown>), matchScore: 0, sizes: [] })) as unknown as MatchedGrant[];
+        setSaved(grants);
+      } else {
+        // Fall back to localStorage
+        const raw = localStorage.getItem("fundii_saved");
+        if (raw) setSaved(JSON.parse(raw));
+      }
 
       const storedEmail = localStorage.getItem("fundii_alert_email");
       if (storedEmail) { setAlertEmail(storedEmail); setAlertsEnabled(true); }
