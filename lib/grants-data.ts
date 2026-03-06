@@ -382,4 +382,19 @@ export const QUIZ_STEPS = [
       { value: "training", label: "Training & upskilling" },
     ],
   },
+  {
+    id: "activities" as const,
+    title: "Does your business do any of these?",
+    subtitle: "Helps us find specialist grants — select all that apply",
+    type: "multi" as const,
+    options: [
+      { value: "apprentices", label: "Hire apprentices or trainees" },
+      { value: "export", label: "Export products or services overseas" },
+      { value: "research", label: "R&D or develop new products / processes" },
+      { value: "energy_intensive", label: "High energy use (manufacturing, processing)" },
+      { value: "regional", label: "Based in a regional or rural area" },
+      { value: "social_enterprise", label: "Social enterprise or not-for-profit" },
+      { value: "none", label: "None of the above" },
+    ],
+  },
 ];

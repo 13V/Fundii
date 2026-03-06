@@ -12,6 +12,7 @@ type QuizAnswers = {
   sizes?: string;
   revenue?: string;
   purposes?: string[];
+  activities?: string[];
 };
 
 export default function QuizPage() {
@@ -37,6 +38,7 @@ export default function QuizPage() {
   };
 
   const canProceed = () => {
+    if (currentStep.id === "activities") return true; // optional step
     const answer = getAnswer();
     if (!answer) return false;
     if (Array.isArray(answer)) return answer.length > 0;
@@ -58,6 +60,7 @@ export default function QuizPage() {
       sizes: answers.sizes ? [answers.sizes] : [],
       revenue: answers.revenue ?? "",
       purposes: answers.purposes ?? [],
+      activities: (answers.activities ?? []).filter((a) => a !== "none"),
     };
     localStorage.setItem("fundii_profile", JSON.stringify(profile));
     router.push("/results");
@@ -71,7 +74,7 @@ export default function QuizPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFB]">
+    <div className="min-h-screen bg-[#FAF8F4]">
       <Nav />
       <div className="max-w-2xl mx-auto px-6 py-12">
         {/* Progress */}
@@ -85,16 +88,13 @@ export default function QuizPage() {
           <div className="h-1.5 bg-gray-200 rounded-full overflow-hidden">
             <div
               className="h-full rounded-full transition-all duration-500"
-              style={{
-                width: `${progress}%`,
-                background: "linear-gradient(90deg, #00897B, #1B2A4A)",
-              }}
+              style={{ width: `${progress}%`, background: "#0F7B6C" }}
             />
           </div>
         </div>
 
         {/* Question */}
-        <h2 className="text-3xl font-extrabold mb-3" style={{ color: "#1B2A4A" }}>
+        <h2 className="text-3xl font-extrabold mb-3 text-[#1A1A2E]">
           {currentStep.title}
         </h2>
         {currentStep.subtitle ? (
@@ -113,9 +113,9 @@ export default function QuizPage() {
                 onClick={() => handleSelect(opt.value)}
                 className="text-left px-5 py-4 rounded-xl border-2 transition-all font-medium text-base"
                 style={{
-                  borderColor: selected ? "#00897B" : "#E9ECEF",
-                  background: selected ? "#E0F2F1" : "#fff",
-                  color: selected ? "#00897B" : "#343A40",
+                  borderColor: selected ? "#0F7B6C" : "#E9ECEF",
+                  background: selected ? "#E6F5F2" : "#fff",
+                  color: selected ? "#0F7B6C" : "#343A40",
                   fontWeight: selected ? 600 : 400,
                 }}
               >
@@ -139,7 +139,7 @@ export default function QuizPage() {
             disabled={!canProceed()}
             className="px-8 py-3 rounded-xl font-bold text-white transition-all"
             style={{
-              background: "#00897B",
+              background: "#0F7B6C",
               opacity: canProceed() ? 1 : 0.4,
               cursor: canProceed() ? "pointer" : "not-allowed",
             }}

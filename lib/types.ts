@@ -28,6 +28,7 @@ export interface UserProfile {
   sizes: string[];
   revenue: string;
   purposes: string[];
+  activities?: string[];
 }
 
 export interface SavedGrant extends MatchedGrant {
