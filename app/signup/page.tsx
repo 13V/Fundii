@@ -47,33 +47,40 @@ function SignupForm() {
     }
 
     setLoading(true);
-    const supabase = createClient();
 
-    // Create account
-    const { data, error: signUpError } = await supabase.auth.signUp({ email, password });
-    if (signUpError) {
-      setError(signUpError.message);
+    try {
+      const supabase = createClient();
+
+      // Create account
+      const { data, error: signUpError } = await supabase.auth.signUp({ email, password });
+      if (signUpError) {
+        setError(signUpError.message);
+        setLoading(false);
+        return;
+      }
+
+      const userId = data.user?.id;
+
+      // Go to Stripe checkout
+      const res = await fetch("/api/create-checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ plan: planKey, userId: userId ?? null, email }),
+      });
+
+      const json = await res.json();
+      if (json.error || !json.url) {
+        setError(json.error ?? "Failed to start checkout. Please try again.");
+        setLoading(false);
+        return;
+      }
+
+      window.location.href = json.url;
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err);
+      setError("Unexpected error: " + msg);
       setLoading(false);
-      return;
     }
-
-    const userId = data.user?.id;
-
-    // Go to Stripe checkout
-    const res = await fetch("/api/create-checkout", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ plan: planKey, userId, email }),
-    });
-
-    const { url, error: checkoutError } = await res.json();
-    if (checkoutError || !url) {
-      setError(checkoutError ?? "Failed to start checkout. Please try again.");
-      setLoading(false);
-      return;
-    }
-
-    window.location.href = url;
   };
 
   return (
