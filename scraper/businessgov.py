@@ -11,11 +11,16 @@ Usage:
 
 import asyncio
 import os
+import sys
 import json
 import re
 import logging
 from datetime import datetime, timezone
 from typing import List, Dict, Optional
+
+if sys.platform == "win32":
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
 logger = logging.getLogger(__name__)
 
@@ -53,6 +58,7 @@ def parse_amount(text: str):
     return None, None, text.strip()
 
 
+import sys as _sys, os as _os; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))  # noqa: E402
 from detection import detect_industries, detect_sizes, detect_states as _detect_states  # noqa: E402
 
 
@@ -273,10 +279,14 @@ def push_to_supabase(grants: List[Dict]) -> int:
         "Prefer": "resolution=merge-duplicates",
     }
 
+    # Deduplicate by ID before batching — duplicate IDs cause Postgres upsert to fail
+    seen_ids: set = set()
+    unique = [g for g in grants if g.get("id") and not seen_ids.__contains__(g["id"]) and not seen_ids.add(g["id"])]
+
     BATCH = 50
     total = 0
-    for i in range(0, len(grants), BATCH):
-        batch = grants[i:i + BATCH]
+    for i in range(0, len(unique), BATCH):
+        batch = unique[i:i + BATCH]
         try:
             resp = requests.post(url, headers=headers, json=batch, timeout=30)
             resp.raise_for_status()

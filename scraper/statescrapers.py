@@ -21,6 +21,7 @@ Usage:
 
 import asyncio
 import os
+import sys
 import re
 import json
 import time
@@ -32,6 +33,10 @@ from urllib.parse import urljoin, urlparse
 
 import requests
 from bs4 import BeautifulSoup
+
+if sys.platform == "win32":
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
 logger = logging.getLogger(__name__)
 
@@ -99,6 +104,7 @@ def parse_amount(text: str):
     return None, None, text.strip()
 
 
+import sys as _sys, os as _os; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))  # noqa: E402
 from detection import detect_industries, detect_sizes, detect_status, detect_states as _shared_detect_states  # noqa: E402
 
 

@@ -55,6 +55,7 @@ def parse_amount(text: str):
     return None, None, text.strip()
 
 
+import sys as _sys, os as _os; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))  # noqa: E402
 from detection import detect_industries, detect_states, detect_sizes, detect_grant_type, detect_status  # noqa: E402
 
 

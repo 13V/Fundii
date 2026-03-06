@@ -97,6 +97,7 @@ def parse_amount(text: str):
     return None, None, text.strip()
 
 
+import sys as _sys, os as _os; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))  # noqa: E402
 from detection import detect_industries, detect_states, detect_sizes  # noqa: E402
 
 
@@ -150,6 +151,16 @@ def push_to_supabase(grants: List[Dict]) -> int:
         logger.warning("Supabase credentials not set — skipping push")
         return 0
 
+    # Deduplicate by ID — duplicate IDs in the same batch cause Postgres upsert to fail
+    seen_ids: set = set()
+    unique_grants = []
+    for g in grants:
+        if g.get("id") and g["id"] not in seen_ids:
+            seen_ids.add(g["id"])
+            unique_grants.append(g)
+    if len(unique_grants) < len(grants):
+        logger.info(f"  Deduplicated {len(grants)} → {len(unique_grants)} grants (removed {len(grants) - len(unique_grants)} ID dupes)")
+
     url = f"{SUPABASE_URL}/rest/v1/grants"
     headers = {
         "apikey": SUPABASE_SERVICE_KEY,
@@ -160,8 +171,8 @@ def push_to_supabase(grants: List[Dict]) -> int:
 
     BATCH = 50
     total = 0
-    for i in range(0, len(grants), BATCH):
-        batch = grants[i:i + BATCH]
+    for i in range(0, len(unique_grants), BATCH):
+        batch = unique_grants[i:i + BATCH]
         try:
             resp = requests.post(url, headers=headers, json=batch, timeout=30)
             resp.raise_for_status()
