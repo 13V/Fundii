@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
 
   // Create Stripe checkout session
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-  const baseUrl = process.env.NEXT_PUBLIC_URL || "https://fundii.vercel.app";
+  const baseUrl = process.env.NEXT_PUBLIC_URL || "https://grantbase.com.au";
 
   try {
     const session = await stripe.checkout.sessions.create({

@@ -112,7 +112,7 @@ export default function OnboardingPage() {
     return (
         <div className="onboarding">
             <Link href="/">
-                <Image src="/assets/fundii-logo.png" alt="GrantBase" width={120} height={44} className="onboarding__logo" />
+                <Image src="/assets/fundii-logo.png" alt="Grant Base" width={120} height={44} className="onboarding__logo" />
             </Link>
 
             <div className="onboarding__progress">

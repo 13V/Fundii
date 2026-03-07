@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ sent: 0, message: "No new grants this week" });
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_URL || "https://fundii.vercel.app";
+  const baseUrl = process.env.NEXT_PUBLIC_URL || "https://grantbase.com.au";
   let sent = 0;
 
   for (const sub of subscriptions) {

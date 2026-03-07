@@ -53,7 +53,7 @@ export default function SignupPage() {
         <div className="auth-page">
             <div className="auth-card">
                 <Link href="/">
-                    <Image src="/assets/fundii-logo.png" alt="GrantBase" width={140} height={48} className="auth-card__logo" />
+                    <Image src="/assets/fundii-logo.png" alt="Grant Base" width={140} height={48} className="auth-card__logo" />
                 </Link>
                 <h1 className="auth-card__title">Create your account</h1>
                 <p className="auth-card__subtitle">Start getting matched with Australian grants in under 5 minutes.</p>

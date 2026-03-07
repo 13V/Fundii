@@ -1,6 +1,10 @@
 /* ═══════════════════════════════════════════════
-   GRANTBASE — Global Design System (Next.js)
+   GRANT BASE — Global Design System (Next.js)
    ═══════════════════════════════════════════════ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700&display=swap');
 
@@ -12,7 +16,7 @@
   box-sizing: border-box;
 }
 
-img[alt="GrantBase"] {
+img[alt="Grant Base"] {
   mix-blend-mode: multiply;
 }
 

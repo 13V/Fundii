@@ -101,34 +101,6 @@ function DashboardContent() {
 
   return (
     <div className="min-h-screen bg-[#FAF8F4]">
-      {/* Nav */}
-      <nav className="bg-white border-b border-gray-100 px-6 py-0 flex items-center justify-between h-16 sticky top-0 z-10">
-        <Link href="/" className="text-xl font-extrabold text-[#1A1A2E] no-underline">
-          Grant<span style={{ color: "#0F7B6C" }}>Mate</span>
-        </Link>
-        <div className="flex items-center gap-3">
-          {planInfo && (
-            <span className="hidden sm:inline text-xs font-bold px-3 py-1 rounded-full border"
-              style={{ color: planInfo.color, background: planInfo.bg, borderColor: planInfo.border }}>
-              {planInfo.label}
-            </span>
-          )}
-          <Link href="/quiz" className="text-sm font-semibold text-[#0F7B6C] no-underline hover:underline hidden sm:inline">
-            Find Grants
-          </Link>
-          {activePlan && (
-            <button onClick={async () => {
-              const res = await fetch("/api/billing-portal", { method: "POST" });
-              const { url } = await res.json();
-              if (url) window.location.href = url;
-            }} className="text-sm text-gray-400 hover:text-gray-700">Billing</button>
-          )}
-          <button onClick={handleSignOut} className="text-sm text-gray-400 hover:text-gray-700">Sign out</button>
-          <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0"
-            style={{ background: "#0F7B6C" }}>{initials}</div>
-        </div>
-      </nav>
-
       <div className="max-w-5xl mx-auto px-6 py-8">
 
         {/* Welcome banner */}
@@ -136,7 +108,7 @@ function DashboardContent() {
           <div className="bg-gradient-to-r from-[#0F7B6C] to-[#0a5c51] rounded-2xl p-6 mb-8 flex items-center gap-4 text-white">
             <span className="text-4xl">🎉</span>
             <div>
-              <p className="font-bold text-xl">Welcome to GrantBase!</p>
+              <p className="font-bold text-xl">Welcome to Grant Base!</p>
               <p className="text-white/80 text-sm mt-0.5">
                 Your {activePlan ? activePlan.charAt(0).toUpperCase() + activePlan.slice(1) : "subscription"} plan is active.
                 {canDraft ? " AI drafting is ready to use." : " Start finding grants below."}

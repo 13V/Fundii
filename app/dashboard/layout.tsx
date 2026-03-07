@@ -93,7 +93,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <aside className="sidebar">
                 <div className="sidebar__logo">
                     <Link href="/">
-                        <Image src="/assets/fundii-logo.png" alt="GrantBase" width={100} height={36} style={{ height: 36, width: 'auto' }} />
+                        <Image src="/assets/fundii-logo.png" alt="Grant Base" width={100} height={36} style={{ height: 36, width: 'auto' }} />
                     </Link>
                 </div>
                 <nav className="sidebar__nav">

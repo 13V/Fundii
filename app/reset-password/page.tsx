@@ -61,7 +61,7 @@ function ResetForm() {
     <div className="min-h-screen bg-[#FAF8F4] flex items-center justify-center px-4 py-16">
       <div className="w-full max-w-md bg-white border border-gray-200 rounded-2xl p-8">
         <Link href="/" className="no-underline">
-          <span className="text-xl font-extrabold text-[#1A1A2E]">GrantBase</span>
+          <span className="text-xl font-extrabold text-[#1A1A2E]">Grant Base</span>
         </Link>
         <h1 className="text-2xl font-bold text-[#1A1A2E] mt-4 mb-4">Set new password</h1>
 
