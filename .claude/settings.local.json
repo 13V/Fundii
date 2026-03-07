@@ -66,7 +66,18 @@
       "WebFetch(domain:localhost)",
       "Bash(tasklist:*)",
       "Bash(powershell:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(SUPABASE_URL=\"https://gdyjewqeippfnfgyhtkx.supabase.co\" SUPABASE_SERVICE_ROLE_KEY=\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdkeWpld3FlaXBwZm5mZ3lodGt4Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MjQ3NTU1NCwiZXhwIjoyMDg4MDUxNTU0fQ.ZKEqRtEXocqmhW1cmDLFe3ICl4U-R7pY11MJ5vjXO4E\" /c/Python311embed/python.exe:*)",
+      "Bash(cd C:/Users/Administrator/grantmate/scraper && SUPABASE_URL=\"https://gdyjewqeippfnfgyhtkx.supabase.co\" SUPABASE_SERVICE_ROLE_KEY=\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdkeWpld3FlaXBwZm5mZ3lodGt4Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MjQ3NTU1NCwiZXhwIjoyMDg4MDUxNTU0fQ.ZKEqRtEXocqmhW1cmDLFe3ICl4U-R7pY11MJ5vjXO4E\" C:/Python311embed/python.exe agencyscrapers.py 2>&1 | tail -20)",
+      "Bash(cd C:/Users/Administrator/grantmate/scraper && SUPABASE_URL=\"https://gdyjewqeippfnfgyhtkx.supabase.co\" SUPABASE_SERVICE_ROLE_KEY=\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdkeWpld3FlaXBwZm5mZ3lodGt4Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MjQ3NTU1NCwiZXhwIjoyMDg4MDUxNTU0fQ.ZKEqRtEXocqmhW1cmDLFe3ICl4U-R7pY11MJ5vjXO4E\" C:/Python311embed/python.exe federalscrapers.py 2>&1 | tail -20)",
+      "Bash(cd C:/Users/Administrator/grantmate/scraper && SUPABASE_URL=\"https://gdyjewqeippfnfgyhtkx.supabase.co\" SUPABASE_SERVICE_ROLE_KEY=\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdkeWpld3FlaXBwZm5mZ3lodGt4Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MjQ3NTU1NCwiZXhwIjoyMDg4MDUxNTU0fQ.ZKEqRtEXocqmhW1cmDLFe3ICl4U-R7pY11MJ5vjXO4E\" C:/Python311embed/python.exe businessgov.py 2>&1 | tail -20)",
+      "Bash(PYTHONPATH=\"C:/Users/Administrator/grantmate/scraper\" SUPABASE_URL=\"https://gdyjewqeippfnfgyhtkx.supabase.co\" SUPABASE_SERVICE_ROLE_KEY=\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdkeWpld3FlaXBwZm5mZ3lodGt4Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MjQ3NTU1NCwiZXhwIjoyMDg4MDUxNTU0fQ.ZKEqRtEXocqmhW1cmDLFe3ICl4U-R7pY11MJ5vjXO4E\" C:/Python311embed/python.exe C:/Users/Administrator/grantmate/scraper/federalscrapers.py 2>&1 | tail -20)",
+      "Bash(PYTHONPATH=\"C:/Users/Administrator/grantmate/scraper\" SUPABASE_URL=\"https://gdyjewqeippfnfgyhtkx.supabase.co\" SUPABASE_SERVICE_ROLE_KEY=\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdkeWpld3FlaXBwZm5mZ3lodGt4Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MjQ3NTU1NCwiZXhwIjoyMDg4MDUxNTU0fQ.ZKEqRtEXocqmhW1cmDLFe3ICl4U-R7pY11MJ5vjXO4E\" C:/Python311embed/python.exe C:/Users/Administrator/grantmate/scraper/businessgov.py 2>&1 | tail -20)",
+      "Bash(C:/Python311embed/python.exe:*)",
+      "Bash(SUPABASE_URL=\"https://gdyjewqeippfnfgyhtkx.supabase.co\" :/Python311embed/python.exe:*)",
+      "Bash(ls:*)",
+      "Bash(cd /c/Users/Administrator/grantmate/scraper && SUPABASE_URL=\"https://gdyjewqeippfnfgyhtkx.supabase.co\" SUPABASE_SERVICE_ROLE_KEY=\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdkeWpld3FlaXBwZm5mZ3lodGt4Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MjQ3NTU1NCwiZXhwIjoyMDg4MDUxNTU0fQ.ZKEqRtEXocqmhW1cmDLFe3ICl4U-R7pY11MJ5vjXO4E\" C:/Python311embed/python.exe cleanup_db.py 2>&1)",
+      "Bash(npx next:*)"
     ]
   }
 }

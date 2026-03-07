@@ -234,7 +234,7 @@ export default function LandingPage() {
                   <li key={f} className="pricing__card-feature pricing__card-feature--included"><CheckIcon />{f}</li>
                 ))}
               </ul>
-              <Link href="/signup" className="btn btn--outline btn--full">Start with Pro</Link>
+              <Link href="/signup?plan=starter" className="btn btn--outline btn--full">Start with Pro</Link>
             </div>
             <div className="pricing__card pricing__card--featured reveal">
               <div className="pricing__card-popular">RECOMMENDED</div>
@@ -245,7 +245,7 @@ export default function LandingPage() {
                   <li key={f} className="pricing__card-feature pricing__card-feature--included"><CheckIcon />{f}</li>
                 ))}
               </ul>
-              <Link href="/signup" className="btn btn--primary btn--full">Start with Enterprise</Link>
+              <Link href="/signup?plan=enterprise" className="btn btn--primary btn--full">Start with Enterprise</Link>
             </div>
           </div>
           <p className="pricing__note">No lock-in contracts. No success fees. No commission on grants won. Cancel anytime.</p>

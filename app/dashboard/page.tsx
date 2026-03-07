@@ -136,7 +136,7 @@ function DashboardContent() {
           <div className="bg-gradient-to-r from-[#0F7B6C] to-[#0a5c51] rounded-2xl p-6 mb-8 flex items-center gap-4 text-white">
             <span className="text-4xl">🎉</span>
             <div>
-              <p className="font-bold text-xl">Welcome to GrantMate!</p>
+              <p className="font-bold text-xl">Welcome to GrantBase!</p>
               <p className="text-white/80 text-sm mt-0.5">
                 Your {activePlan ? activePlan.charAt(0).toUpperCase() + activePlan.slice(1) : "subscription"} plan is active.
                 {canDraft ? " AI drafting is ready to use." : " Start finding grants below."}
@@ -236,7 +236,7 @@ function DashboardContent() {
                             Draft →
                           </Link>
                         ) : (
-                          <Link href="/signup?plan=growth"
+                          <Link href="/dashboard/billing"
                             className="px-3 py-1.5 rounded-lg text-xs font-semibold border no-underline"
                             style={{ color: "#0F7B6C", borderColor: "#A7D7D0" }}>
                             Upgrade
@@ -265,12 +265,12 @@ function DashboardContent() {
                   {canDraft ? (
                     <p className="text-xs text-gray-500 mb-4">✓ AI application drafting enabled</p>
                   ) : (
-                    <p className="text-xs text-gray-500 mb-4">Upgrade to Growth to unlock AI drafting</p>
+                    <p className="text-xs text-gray-500 mb-4">Upgrade to Enterprise to unlock AI drafting</p>
                   )}
                   {!canDraft && (
-                    <Link href="/signup?plan=growth" className="block text-center py-2.5 rounded-xl text-sm font-bold text-white no-underline"
+                    <Link href="/dashboard/billing" className="block text-center py-2.5 rounded-xl text-sm font-bold text-white no-underline"
                       style={{ background: "#0F7B6C" }}>
-                      Upgrade to Growth →
+                      Upgrade to Enterprise →
                     </Link>
                   )}
                 </>

@@ -80,7 +80,7 @@ export async function POST(req: NextRequest) {
     <tr><td align="center">
       <table width="600" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:16px;overflow:hidden;border:1px solid #e5e7eb;">
         <tr><td style="background:#0F7B6C;padding:32px 40px;">
-          <h1 style="color:#fff;margin:0;font-size:24px;">GrantMate Weekly Digest</h1>
+          <h1 style="color:#fff;margin:0;font-size:24px;">GrantBase Weekly Digest</h1>
           <p style="color:rgba(255,255,255,0.8);margin:8px 0 0;">${relevant.length} new grants this week${profile?.state ? ` for ${profile.state}` : ""}</p>
         </td></tr>
         <tr><td style="padding:32px 40px;">
@@ -111,7 +111,7 @@ export async function POST(req: NextRequest) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "GrantMate <alerts@grantmate.com.au>",
+        from: "GrantBase <alerts@grantbase.com.au>",
         to: sub.email,
         subject: `🔔 ${relevant.length} new grants for you this week`,
         html,

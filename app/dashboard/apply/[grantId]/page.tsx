@@ -139,7 +139,7 @@ export default function ApplyPage() {
       {/* Nav */}
       <div style={{ borderBottom: `1px solid ${border}`, background: bg, position: "sticky", top: 0, zIndex: 10 }}>
         <div style={{ maxWidth: 660, margin: "0 auto", padding: "14px 24px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <a href="/" style={{ fontSize: 16, fontWeight: 700, letterSpacing: "-.3px", textDecoration: "none", color: "#1A1A1A" }}>GrantMate</a>
+          <a href="/" style={{ fontSize: 16, fontWeight: 700, letterSpacing: "-.3px", textDecoration: "none", color: "#1A1A1A" }}>GrantBase</a>
           <span style={{ fontSize: 12, color: muted, fontWeight: 500 }}>Application Drafter</span>
         </div>
       </div>

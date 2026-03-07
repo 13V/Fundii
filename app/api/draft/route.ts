@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
       const plan = profileRow?.plan;
       if (!plan || (plan !== "growth" && plan !== "enterprise")) {
         return NextResponse.json(
-          { error: "AI drafting requires a Growth or Enterprise plan. Upgrade to continue." },
+          { error: "AI drafting requires an Enterprise plan. Upgrade to continue." },
           { status: 403 },
         );
       }
