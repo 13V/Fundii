@@ -114,14 +114,12 @@ def detect_industries(text: str) -> List[str]:
 
 
 # ── State Detection ────────────────────────────────────────────────────────────
-# ALL short codes are space-padded to avoid substring false-matches:
-#   " sa "  → avoids "visa", "usable", "persuasion"
-#   " wa "  → avoids "away", "always", "forward"
-#   " act " → avoids "action", "active", "practice", "contract"
-#   " nt "  → avoids "want", "event", "front", "content"
-#   " vic " → avoids "victim", "service", "advice"
-#   " tas " → avoids "tasks", "tastes", "fantastic"
-#   " qld " → avoids "qld" as substring (low risk but consistent)
+# Short codes are space-padded to avoid substring false-matches.
+# IMPORTANT: " act " and " nt " are NOT used — they are far too common in
+# government grant text ("the Act and", "the Act is", "act now", "nt government").
+# ACT: use "australian capital territory" / "act government" / "canberra" only.
+# NT:  use "northern territory" / "nt government" / "darwin" only.
+# " sa " / " wa " / " vic " / " tas " / " qld " are short enough to be safe.
 
 STATE_KEYWORDS: dict[str, list[str]] = {
     "NSW": ["nsw", "new south wales"],
@@ -130,8 +128,8 @@ STATE_KEYWORDS: dict[str, list[str]] = {
     "SA":  ["south australia", " sa "],
     "WA":  ["western australia", " wa "],
     "TAS": ["tasmania", " tas "],
-    "NT":  ["northern territory", " nt "],
-    "ACT": ["australian capital territory", "canberra", " act "],
+    "NT":  ["northern territory", "nt government", "darwin "],
+    "ACT": ["australian capital territory", "act government", "canberra"],
 }
 
 
