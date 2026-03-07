@@ -28,10 +28,13 @@ export async function POST(req: NextRequest) {
     )
     .in("status", ["open", "ongoing"])
     .overlaps("states", [profile.state, "National"])
-    // Filter out scraped pages with navigation content instead of real descriptions
+    // Filter out nav garbage, phishing banners, and other scraper artefacts
     .not("description", "ilike", "%Skip navigation%")
     .not("description", "ilike", "%Toggle High Contrast%")
-    .not("description", "ilike", "%Accessibility Options%");
+    .not("description", "ilike", "%Accessibility Options%")
+    .not("description", "ilike", "%phishing%")
+    .not("description", "ilike", "%impersonating GrantConnect%")
+    .not("title", "ilike", "%Current Grant Opportunity View%");
 
   if (error) {
     console.error("Supabase error:", error);

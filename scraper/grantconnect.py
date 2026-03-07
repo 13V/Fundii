@@ -219,14 +219,22 @@ async def scrape_grantconnect() -> List[Dict]:
                 if not title or len(title) < 5:
                     continue
 
-                # Get description paragraphs
+                # Get description paragraphs — skip site-wide banners (phishing warning etc.)
+                SKIP_PATTERNS = [
+                    "phishing", "scam email", "grantconnect@finance.gov.au",
+                    "scamwatch", "remain vigilant", "suspicious",
+                    "javascript", "cookie", "browser",
+                ]
                 desc_parts = []
                 for tag in ["p", ".description", ".summary", "[class*='desc']"]:
                     elements = await page.query_selector_all(tag)
-                    for el in elements[:5]:
+                    for el in elements[:10]:
                         text = (await el.inner_text()).strip()
-                        if len(text) > 40:
-                            desc_parts.append(text)
+                        if len(text) < 40:
+                            continue
+                        if any(pat in text.lower() for pat in SKIP_PATTERNS):
+                            continue
+                        desc_parts.append(text)
                     if desc_parts:
                         break
                 description = " ".join(desc_parts[:3])[:2000]
