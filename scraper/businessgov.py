@@ -79,7 +79,8 @@ def ts_to_date(ts) -> str:
 
 
 def generate_id(url: str) -> str:
-    return f"bga_{hash(url) % 10000000:07d}"
+    import hashlib
+    return f"bga_{hashlib.md5(url.encode()).hexdigest()[:8]}"
 
 
 # ── Step 1: Get fresh bearer token via Playwright ────────────────────────────

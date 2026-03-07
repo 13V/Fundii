@@ -102,7 +102,8 @@ from detection import detect_industries, detect_states, detect_sizes  # noqa: E4
 
 
 def gid(prefix: str, url: str) -> str:
-    return f"{prefix}_{hash(url) % 10000000:07d}"
+    import hashlib
+    return f"{prefix}_{hashlib.md5(url.encode()).hexdigest()[:8]}"
 
 
 def make_grant(

@@ -114,7 +114,8 @@ def detect_states_from_text(text: str, explicit_state: Optional[str] = None) -> 
 
 
 def generate_id(prefix: str, url: str) -> str:
-    return f"{prefix}_{hash(url) % 10000000:07d}"
+    import hashlib
+    return f"{prefix}_{hashlib.md5(url.encode()).hexdigest()[:8]}"
 
 
 # ── Grant quality validation ────────────────────────────────────────────────

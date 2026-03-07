@@ -92,7 +92,8 @@ def parse_amount(text: str):
 
 
 def gid(prefix: str, url: str) -> str:
-    return f"{prefix}_{hash(url) % 10000000:07d}"
+    import hashlib
+    return f"{prefix}_{hashlib.md5(url.encode()).hexdigest()[:8]}"
 
 
 def make_grant(

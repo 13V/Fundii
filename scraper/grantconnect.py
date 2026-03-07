@@ -60,7 +60,8 @@ from detection import detect_industries, detect_states, detect_sizes, detect_gra
 
 
 def generate_id(url: str) -> str:
-    return f"gc_{hash(url) % 10000000:07d}"
+    import hashlib
+    return f"gc_{hashlib.md5(url.encode()).hexdigest()[:8]}"
 
 
 async def scrape_grantconnect() -> List[Dict]:
