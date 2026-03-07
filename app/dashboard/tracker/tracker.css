@@ -1,0 +1,222 @@
+/* ─── TRACKER BOARD ─── */
+.tracker-board {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    align-items: start;
+    overflow-x: auto;
+    padding-bottom: 16px;
+}
+
+.tracker-col {
+    background: var(--bg-alt);
+    border-radius: var(--radius-lg);
+    padding: 16px 12px;
+    min-height: 200px;
+}
+
+.tracker-col__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+    border-bottom: 3px solid;
+}
+
+.tracker-col__title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.tracker-col__count {
+    background: var(--white);
+    color: var(--text-muted);
+    font-size: 12px;
+    font-weight: 600;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tracker-col__cards {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.tracker-empty {
+    font-size: 13px;
+    color: var(--text-muted);
+    text-align: center;
+    padding: 20px 8px;
+    font-style: italic;
+}
+
+/* ─── TRACKER CARDS ─── */
+.tracker-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    transition: box-shadow 0.2s;
+}
+
+.tracker-card--moving {
+    opacity: 0.6;
+}
+
+.tracker-card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.tracker-card__title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    line-height: 1.35;
+}
+
+.tracker-card__title a {
+    color: var(--text);
+    text-decoration: none;
+}
+
+.tracker-card__title a:hover {
+    color: var(--primary);
+}
+
+.tracker-card__source {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+}
+
+.tracker-card__deadline {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+}
+
+.tracker-card__notes {
+    font-size: 12px;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 6px 8px;
+    border-radius: 6px;
+    min-height: 32px;
+    background: var(--bg-alt);
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.tracker-card__notes:hover {
+    background: var(--primary-light);
+}
+
+.tracker-card__notes-placeholder {
+    color: var(--primary);
+    font-weight: 500;
+}
+
+.tracker-card__notes-edit {
+    margin-bottom: 10px;
+}
+
+.tracker-card__notes-edit textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1.5px solid var(--primary);
+    border-radius: 6px;
+    font-family: var(--font-body);
+    font-size: 12px;
+    resize: vertical;
+    outline: none;
+    margin-bottom: 6px;
+}
+
+.tracker-card__notes-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.tracker-card__actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tracker-card__move {
+    flex: 1;
+    font-size: 12px;
+    padding: 5px 8px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--white);
+    color: var(--text);
+    font-family: var(--font-body);
+    cursor: pointer;
+    outline: none;
+}
+
+.tracker-card__move:focus {
+    border-color: var(--primary);
+}
+
+.tracker-card__remove {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 14px;
+    padding: 4px 6px;
+    border-radius: 4px;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.tracker-card__remove:hover {
+    background: #fee2e2;
+    color: #ef4444;
+}
+
+/* ─── TRACKER UPGRADE GATE ─── */
+.tracker-upgrade {
+    text-align: center;
+    padding: 80px 40px;
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+.tracker-upgrade__icon {
+    font-size: 3rem;
+    margin-bottom: 16px;
+}
+
+.tracker-upgrade h2 {
+    font-size: 1.5rem;
+    margin-bottom: 12px;
+}
+
+.tracker-upgrade p {
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 24px;
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 1200px) {
+    .tracker-board {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .tracker-board {
+        grid-template-columns: 1fr;
+    }
+}
