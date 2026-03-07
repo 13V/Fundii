@@ -329,7 +329,7 @@ export const QUIZ_STEPS = [
     subtitle: "Select all that apply",
     type: "multi" as const,
     options: [
-      { value: "Construction", label: "Construction & Trades" },
+      { value: "Construction", label: "Construction, Trades & Automotive" },
       { value: "Technology", label: "Technology & Digital" },
       { value: "Manufacturing", label: "Manufacturing" },
       { value: "Retail", label: "Retail & E-commerce" },

@@ -48,6 +48,9 @@ INDUSTRY_KEYWORDS: dict[str, list[str]] = {
         "trade qualified", "civil engineering", "residential building",
         "commercial building", "construction industry",
         "builder", "plumber", "electrician", "carpenter",
+        "automotive", "mechanic", "panel beater", "auto electrician",
+        "motor vehicle repair", "smash repair", "automotive industry",
+        "automotive trade", "vehicle repair",
     ],
     "Healthcare": [
         "health", "medical", "healthcare", "biotech",
