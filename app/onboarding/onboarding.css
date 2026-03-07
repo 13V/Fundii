@@ -1,0 +1,85 @@
+.onboarding {
+    min-height: 100vh;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.onboarding__logo {
+    height: 44px;
+    margin-bottom: 32px;
+}
+
+.onboarding__progress {
+    width: 100%;
+    max-width: 560px;
+    display: flex;
+    gap: 8px;
+    margin-bottom: 48px;
+}
+
+.onboarding__progress-bar {
+    flex: 1;
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.onboarding__progress-bar--active {
+    background: var(--primary);
+}
+
+.onboarding__progress-bar--done {
+    background: var(--primary);
+}
+
+.onboarding__card {
+    width: 100%;
+    max-width: 560px;
+}
+
+.onboarding__step-label {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--primary);
+    margin-bottom: 8px;
+}
+
+.onboarding__title {
+    font-size: 1.75rem;
+    margin-bottom: 8px;
+}
+
+.onboarding__subtitle {
+    color: var(--text-muted);
+    margin-bottom: 36px;
+    font-size: 1rem;
+}
+
+.onboarding__actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 36px;
+}
+
+.onboarding__actions .btn {
+    min-width: 140px;
+}
+
+/* row layout for side-by-side fields */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+@media (max-width: 600px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+}

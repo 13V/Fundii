@@ -52,7 +52,7 @@ export default function LandingPage() {
       {/* NAV */}
       <nav className="nav" id="nav">
         <div className="nav__inner container">
-          <a href="#" className="nav__logo"><img src="/assets/fundii-logo.png" alt="Fundii" className="nav__logo-img" /></a>
+          <a href="#" className="nav__logo"><img src="/assets/fundii-logo.png" alt="GrantBase" className="nav__logo-img" /></a>
           <ul className="nav__links" id="navLinks">
             <li><a href="#how-it-works" className="nav__link">How It Works</a></li>
             <li><a href="#features" className="nav__link">Features</a></li>
@@ -60,7 +60,7 @@ export default function LandingPage() {
             <li><a href="#about" className="nav__link">About</a></li>
             <li><a href="#contact" className="nav__link">Contact</a></li>
           </ul>
-          <Link href="/signup?plan=growth" className="nav__cta btn btn--primary">Get Started</Link>
+          <Link href="/signup" className="nav__cta btn btn--primary">Get Started</Link>
           <button className="nav__hamburger" id="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
         </div>
       </nav>
@@ -70,7 +70,7 @@ export default function LandingPage() {
         <div className="container hero__inner">
           <div className="hero__content">
             <h1 className="hero__title">Your business qualifies for grants<br /><span className="hero__title--accent">you&apos;ve never heard of.</span></h1>
-            <p className="hero__subtitle">Right now, there are government and private grants with your company&apos;s name on them. The only problem? You don&apos;t know they exist. Fundii fixes that.</p>
+            <p className="hero__subtitle">Right now, there are government and private grants with your company&apos;s name on them. The only problem? You don&apos;t know they exist. GrantBase fixes that.</p>
             <div className="hero__actions">
               <a href="#pricing" className="btn btn--primary btn--lg">See Plans &amp; Pricing</a>
               <a href="#how-it-works" className="btn btn--outline btn--lg">Learn More ↓</a>
@@ -128,7 +128,7 @@ export default function LandingPage() {
               </div>
             </div>
             <div className="problem__solution reveal">
-              <h3 className="problem__solution-heading">Fundii is your fix.</h3>
+              <h3 className="problem__solution-heading">GrantBase is your fix.</h3>
               <div className="problem__steps">
                 <div className="problem__step-item"><div className="problem__step-num">1</div><div><strong>You fill in a 5-minute profile.</strong><span>Industry, location, size, what you need funding for.</span></div></div>
                 <div className="problem__step-item"><div className="problem__step-num">2</div><div><strong>We scan thousands of grants daily.</strong><span>Government programs, private foundations, industry bodies — all of them.</span></div></div>
@@ -142,7 +142,7 @@ export default function LandingPage() {
       {/* GRANT EXAMPLES */}
       <section className="examples" id="features">
         <div className="container">
-          <h2 className="section-title section-title--left">Here&apos;s what a typical week<br />looks like for Fundii users.</h2>
+          <h2 className="section-title section-title--left">Here&apos;s what a typical week<br />looks like for GrantBase users.</h2>
           <p className="examples__subtitle">These are the kinds of grants our users get matched with. Real programs. Real money. Delivered to your inbox.</p>
           <div className="examples__grid">
             {[
@@ -224,88 +224,31 @@ export default function LandingPage() {
       {/* PRICING */}
       <section className="pricing" id="pricing">
         <div className="container">
-          <h2 className="section-title">Three plans. One goal:<br />get you funded.</h2>
-          <p className="pricing__subtitle">No lock-in contracts. No success fees. No commission on grants won. Cancel anytime.</p>
-          <div className="pricing__grid pricing__grid--3">
+          <h2 className="section-title">Two plans. One goal:<br />get you funded.</h2>
+          <div className="pricing__grid">
             <div className="pricing__card reveal">
-              <div className="pricing__card-header">
-                <h3 className="pricing__card-name">Starter</h3>
-                <p className="pricing__card-desc">Everything you need to find grants and start applying on your own.</p>
-              </div>
-              <div className="pricing__card-price">
-                <span className="pricing__card-currency">$</span>
-                <span className="pricing__card-amount">99</span>
-                <span className="pricing__card-period">/month</span>
-              </div>
+              <div className="pricing__card-header"><h3 className="pricing__card-name">Pro</h3><p className="pricing__card-desc">Grant alerts, delivered. You find the grants, you write the applications.</p></div>
+              <div className="pricing__card-price"><span className="pricing__card-currency">$</span><span className="pricing__card-amount">49</span><span className="pricing__card-period">/month</span></div>
               <ul className="pricing__card-features">
-                {[
-                  'Full grant matching (3,900+ programs)',
-                  'Weekly email alerts',
-                  'Save & track up to 20 grants',
-                  'Eligibility summaries per grant',
-                  'Deadline reminders',
-                  'Email support',
-                ].map(f => (
+                {['Smart grant matching', 'Instant email alerts', 'Unlimited grant matches', 'Email support'].map(f => (
                   <li key={f} className="pricing__card-feature pricing__card-feature--included"><CheckIcon />{f}</li>
                 ))}
               </ul>
-              <Link href="/signup?plan=starter" className="btn btn--outline btn--full">Get started</Link>
+              <Link href="/signup" className="btn btn--outline btn--full">Start with Pro</Link>
             </div>
-
             <div className="pricing__card pricing__card--featured reveal">
-              <div className="pricing__card-popular">MOST POPULAR</div>
-              <div className="pricing__card-header">
-                <h3 className="pricing__card-name">Growth</h3>
-                <p className="pricing__card-desc">AI-powered tools to write and manage your applications faster.</p>
-              </div>
-              <div className="pricing__card-price">
-                <span className="pricing__card-currency">$</span>
-                <span className="pricing__card-amount">229</span>
-                <span className="pricing__card-period">/month</span>
-              </div>
+              <div className="pricing__card-popular">RECOMMENDED</div>
+              <div className="pricing__card-header"><h3 className="pricing__card-name">Enterprise</h3><p className="pricing__card-desc">Everything in Pro, plus AI writes your grant applications for you.</p></div>
+              <div className="pricing__card-price"><span className="pricing__card-currency">$</span><span className="pricing__card-amount">149</span><span className="pricing__card-period">/month</span></div>
               <ul className="pricing__card-features">
-                {[
-                  'Everything in Starter',
-                  'AI-drafted applications (10/mo)',
-                  'Real-time grant alerts (daily)',
-                  'Unlimited saved grants',
-                  'Application progress tracker',
-                  'Grant calendar & close-date alerts',
-                  'Priority email & chat support',
-                ].map(f => (
+                {['Everything in Pro', 'AI-drafted grant applications', 'Priority support', 'Dedicated account manager'].map(f => (
                   <li key={f} className="pricing__card-feature pricing__card-feature--included"><CheckIcon />{f}</li>
                 ))}
               </ul>
-              <Link href="/signup?plan=growth" className="btn btn--primary btn--full">Start with Growth</Link>
-            </div>
-
-            <div className="pricing__card reveal">
-              <div className="pricing__card-header">
-                <h3 className="pricing__card-name">Enterprise</h3>
-                <p className="pricing__card-desc">Full-service grant intelligence for serious businesses and advisors.</p>
-              </div>
-              <div className="pricing__card-price">
-                <span className="pricing__card-currency">$</span>
-                <span className="pricing__card-amount">499</span>
-                <span className="pricing__card-period">/month</span>
-              </div>
-              <ul className="pricing__card-features">
-                {[
-                  'Everything in Growth',
-                  'Unlimited AI-drafted applications',
-                  'Multi-user access (up to 5 seats)',
-                  'Dedicated account manager',
-                  'Custom grant research on request',
-                  'White-label reports for clients',
-                  'Accountant & advisor dashboard',
-                  'Phone support',
-                ].map(f => (
-                  <li key={f} className="pricing__card-feature pricing__card-feature--included"><CheckIcon />{f}</li>
-                ))}
-              </ul>
-              <Link href="/signup?plan=enterprise" className="btn btn--outline btn--full">Get started</Link>
+              <Link href="/signup" className="btn btn--primary btn--full">Start with Enterprise</Link>
             </div>
           </div>
+          <p className="pricing__note">No lock-in contracts. No success fees. No commission on grants won. Cancel anytime.</p>
         </div>
       </section>
 
@@ -316,7 +259,7 @@ export default function LandingPage() {
           <h2 className="section-title section-title--left">We watched good businesses miss out on free money. So we did something about it.</h2>
           <p>Australian federal and state governments offer billions in grants every year. The problem? They&apos;re scattered across business.gov.au, state portals, and industry bodies. Most business owners never see them.</p>
           <p>It&apos;s a system built for grant writers and consultants who charge $5,000+ to navigate it. Small businesses — the ones who need funding the most — get left behind.</p>
-          <p><strong>Fundii exists because that&apos;s not okay.</strong> We built a system that does the searching for you. It monitors every major grant program, cross-references your business profile, and sends you an email when something matches. That&apos;s it. No complexity. No consultants. Just grants, matched and delivered.</p>
+          <p><strong>GrantBase exists because that&apos;s not okay.</strong> We built a system that does the searching for you. It monitors every major grant program, cross-references your business profile, and sends you an email when something matches. That&apos;s it. No complexity. No consultants. Just grants, matched and delivered.</p>
         </div></div></div>
       </section>
 
@@ -327,7 +270,7 @@ export default function LandingPage() {
           <div className="faq__list">
             {[
               { q: 'Do I have to pay the grant money back?', a: "No. Grants are free money — they're not loans. You never repay them." },
-              { q: 'How is this different from Googling "business grants"?', a: 'Fundii matches grants to your specific business — your industry, location, size, and goals. We check daily and email you the moment something relevant appears.' },
+              { q: 'How is this different from Googling "business grants"?', a: 'GrantBase matches grants to your specific business — your industry, location, size, and goals. We check daily and email you the moment something relevant appears.' },
               { q: "I'm not a tech person. Is this complicated?", a: "Not at all. You fill out a short profile (about 5 minutes), then check your email. When a grant matches, we send you the name, amount, deadline, and how to apply. That's it." },
               { q: 'What does "AI draft applications" mean on Enterprise?', a: 'For each grant match, we generate a pre-written application using your profile details. Most Enterprise users spend 20 minutes instead of 8+ hours.' },
               { q: 'Can I cancel anytime?', a: "Yes. No lock-in contracts, no cancellation fees. Cancel from your account at any time." },
@@ -350,7 +293,7 @@ export default function LandingPage() {
             <p className="contact__desc">Questions? Just want to chat before committing? Drop us a line. We reply to every message within a business day.</p>
             <div className="contact__info"><div className="contact__info-item">
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="4" width="16" height="12" rx="2" stroke="currentColor" strokeWidth="1.5" /><path d="M2 6L10 11L18 6" stroke="currentColor" strokeWidth="1.5" /></svg>
-              hello@fundii.com.au
+              hello@grantbase.com.au
             </div></div>
           </div>
           <form className="contact__form" id="contactForm">
@@ -369,12 +312,12 @@ export default function LandingPage() {
       <footer className="footer">
         <div className="container">
           <div className="footer__inner">
-            <div className="footer__brand"><img src="/assets/fundii-logo.png" alt="Fundii" className="footer__logo" /><p className="footer__tagline">Grant alerts for small businesses, startups, and nonprofits.</p></div>
+            <div className="footer__brand"><img src="/assets/fundii-logo.png" alt="GrantBase" className="footer__logo" /><p className="footer__tagline">Grant alerts for small businesses, startups, and nonprofits.</p></div>
             <div className="footer__nav"><h4>Navigate</h4><ul><li><a href="#how-it-works">How It Works</a></li><li><a href="#features">Features</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#about">About</a></li><li><a href="#contact">Contact</a></li></ul></div>
             <div className="footer__nav"><h4>Account</h4><ul><li><Link href="/login">Log In</Link></li><li><Link href="/signup">Sign Up</Link></li></ul></div>
             <div className="footer__nav"><h4>Legal</h4><ul><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms of Service</a></li></ul></div>
           </div>
-          <div className="footer__bottom"><p>© 2025 Fundii. All rights reserved.</p></div>
+          <div className="footer__bottom"><p>© 2025 GrantBase. All rights reserved.</p></div>
         </div>
       </footer>
     </>

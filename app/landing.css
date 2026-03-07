@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════
-   FUNDII — Design System & Full Styles
+   GRANTBASE — Design System & Full Styles
    Inspired by lumenadl.com — warm, earthy, premium
    ═══════════════════════════════════════════════════ */
 
@@ -200,8 +200,10 @@ h3 {
 }
 
 .nav__logo-img {
-  height: 42px;
+  height: 90px;
   width: auto;
+  margin-top: -10px;
+  /* Offset the padding to center it vertically in navbar */
 }
 
 .nav__links {
@@ -263,7 +265,9 @@ h3 {
    HERO — asymmetric, left-aligned, with grant preview
    ═══════════════════════════════════════════════════ */
 .hero {
-  padding: 140px 0 100px;
+  padding: 160px 0 120px;
+  min-height: calc(100vh - 80px);
+  /* Fill most of the screen */
 }
 
 .hero__inner {
@@ -404,6 +408,11 @@ h3 {
   gap: 0;
   white-space: nowrap;
   animation: ticker-scroll 40s linear infinite;
+  align-items: center;
+}
+
+.ticker__content>div {
+  flex-shrink: 0;
 }
 
 @keyframes ticker-scroll {
@@ -843,24 +852,12 @@ h3 {
   text-align: center;
 }
 
-.pricing__subtitle {
-  font-size: 0.95rem;
-  color: var(--text-muted);
-  margin: 8px auto 0;
-  max-width: 560px;
-}
-
 .pricing__grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 32px;
   max-width: 800px;
   margin: 40px auto 0;
-}
-
-.pricing__grid--3 {
-  grid-template-columns: repeat(3, 1fr);
-  max-width: 1100px;
 }
 
 .pricing__card {
@@ -1278,8 +1275,7 @@ h3 {
     padding: 120px 0 var(--section-py);
   }
 
-  .pricing__grid,
-  .pricing__grid--3 {
+  .pricing__grid {
     grid-template-columns: 1fr;
     max-width: 400px;
   }

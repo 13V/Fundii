@@ -1,23 +1,33 @@
-import type { Metadata } from "next";
-import "./globals.css";
+import type { Metadata } from 'next'
+import './globals.css'
 
 export const metadata: Metadata = {
-  title: "GrantMate — Free Money, Found Fast",
-  description:
-    "GrantMate finds Australian government grants you're eligible for and drafts your application with AI. 3,900+ programs. Built for Australian SMEs.",
-  keywords: "australian grants, small business grants, government grants australia, grant finder, ai grant writer",
-  openGraph: {
-    title: "GrantMate — Free Money, Found Fast",
-    description: "AI-powered grant finder for Australian small businesses. Find and apply in minutes.",
-    type: "website",
+  title: 'GrantBase — Find Government Grants for Your Australian Business',
+  description: 'GrantBase matches your business with government and private grants you qualify for. Smart matching, instant email alerts, and AI-drafted applications. Find funding in 5 minutes.',
+  metadataBase: new URL('https://grantbase.com.au'),
+  alternates: {
+    canonical: '/',
   },
-};
+  openGraph: {
+    title: 'GrantBase — Find Government Grants for Your Australian Business',
+    description: 'Smart grant matching for Australian small businesses. Get matched with government & private grants in 5 minutes. AI-drafted applications included.',
+    url: 'https://grantbase.com.au',
+    siteName: 'GrantBase',
+    locale: 'en_AU',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'GrantBase — Find Government Grants for Your Australian Business',
+    description: 'Smart grant matching for Australian small businesses. Find funding in 5 minutes.',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+}
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
@@ -28,5 +38,5 @@ export default function RootLayout({
       </head>
       <body style={{ margin: 0, padding: 0 }}>{children}</body>
     </html>
-  );
+  )
 }
