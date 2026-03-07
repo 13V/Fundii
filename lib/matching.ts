@@ -33,8 +33,12 @@ const INDUSTRY_KEYWORD_GUARDS: Array<{ keywords: string[]; industries: string[];
     industries: ["Tourism"],
   },
   {
-    // Export grants only relevant if user has Export industry or export activity
-    keywords: ["export market", "export program", "export diversification", "export finance", "overseas market development", "export grant"],
+    // Export/customs grants only relevant if user has Export industry or export activity
+    keywords: [
+      "export market", "export program", "export diversification", "export finance",
+      "overseas market development", "export grant", "simplify customs",
+      "import and export businesses", "customs processes", "trusted trader",
+    ],
     industries: ["Export"],
     requireActivity: "export",
   },
@@ -86,8 +90,17 @@ export function matchGrants(grants: Grant[], profile: UserProfile): MatchedGrant
       }
 
       // --- Revenue / amount relevance (15 pts) ---
-      if (!grant.amount_max || grant.amount_max === 0 || !profile.revenue) {
-        score += 10;
+      // Vague landing pages (no amount + generic "Find out how to" description) get penalised
+      const desc = (grant.description ?? "").toLowerCase();
+      const isVagueLandingPage =
+        (!grant.amount_max || grant.amount_max === 0) &&
+        (!grant.amount_min || grant.amount_min === 0) &&
+        (desc.startsWith("find out how to") || desc.startsWith("find out about") || desc.length < 60);
+
+      if (isVagueLandingPage) {
+        score += 3; // Almost no info — penalise heavily
+      } else if (!grant.amount_max || grant.amount_max === 0 || !profile.revenue) {
+        score += 8; // No amount info but has real description
       } else if (grant.amount_max >= 10000 && profile.revenue === "under_500k") {
         score += 15;
       } else if (grant.amount_max >= 50000 && profile.revenue === "500k_2m") {
@@ -95,7 +108,7 @@ export function matchGrants(grants: Grant[], profile: UserProfile): MatchedGrant
       } else if (grant.amount_max >= 100000 && profile.revenue === "2m_10m") {
         score += 15;
       } else {
-        score += 8;
+        score += 5; // Amount exists but doesn't fit revenue range
       }
 
       // --- Purpose + activities match (10 pts) ---
@@ -151,6 +164,6 @@ export function matchGrants(grants: Grant[], profile: UserProfile): MatchedGrant
       const pct = Math.min(Math.max(Math.round((score / maxScore) * 100), 0), 98);
       return { ...grant, matchScore: pct };
     })
-    .filter((g) => g.matchScore >= 60) // Raised from 30 to 60 — only show strong matches
+    .filter((g) => g.matchScore >= 65) // Only show strong matches
     .sort((a, b) => b.matchScore - a.matchScore);
 }

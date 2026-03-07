@@ -51,5 +51,5 @@ export async function POST(req: NextRequest) {
 
   const matches = matchGrants(grants, profile);
 
-  return NextResponse.json({ matches: matches.slice(0, 100) });
+  return NextResponse.json({ matches: matches.slice(0, 50) });
 }
