@@ -15,7 +15,7 @@ const INDUSTRY_NORMALIZE: Record<string, string> = {
 };
 
 // Keywords that signal a grant is clearly for a specific industry the user may not be in
-const INDUSTRY_KEYWORD_GUARDS: Array<{ keywords: string[]; industries: string[] }> = [
+const INDUSTRY_KEYWORD_GUARDS: Array<{ keywords: string[]; industries: string[]; requireActivity?: string }> = [
   {
     keywords: ["algal bloom", "fishery", "fisheries", "aquaculture", "seafood", "fishing industry", "marine harvest"],
     industries: ["Agriculture"],
@@ -31,6 +31,12 @@ const INDUSTRY_KEYWORD_GUARDS: Array<{ keywords: string[]; industries: string[] 
   {
     keywords: ["tourism operator", "visitor economy", "accommodation provider", "travel agent"],
     industries: ["Tourism"],
+  },
+  {
+    // Export grants only relevant if user has Export industry or export activity
+    keywords: ["export market", "export program", "export diversification", "export finance", "overseas market development", "export grant"],
+    industries: ["Export"],
+    requireActivity: "export",
   },
 ];
 
@@ -54,7 +60,10 @@ export function matchGrants(grants: Grant[], profile: UserProfile): MatchedGrant
       const grantInds = [...new Set(rawInds.map((i) => INDUSTRY_NORMALIZE[i] ?? i))];
       const hasGeneral = grantInds.some((i) => i === "General" || i === "All");
       const specificInds = grantInds.filter((i) => i !== "General" && i !== "All");
-      const hasDirectMatch = specificInds.some((i) => profile.industries.includes(i));
+      // If 6+ industries are tagged it's almost certainly a scraper false-positive
+      // (grabbed too much page text). Treat as General-only — no direct match bonus.
+      const overTagged = specificInds.length >= 6;
+      const hasDirectMatch = !overTagged && specificInds.some((i) => profile.industries.includes(i));
 
       if (hasDirectMatch) {
         score += 25; // Direct industry match — full credit
@@ -124,10 +133,16 @@ export function matchGrants(grants: Grant[], profile: UserProfile): MatchedGrant
       // --- Keyword mismatch penalty ---
       // Penalise grants with strong industry-specific keywords when user isn't in that industry
       const titleDesc = `${grant.title} ${grant.description ?? ""}`.toLowerCase();
-      for (const { keywords, industries } of INDUSTRY_KEYWORD_GUARDS) {
+      for (const { keywords, industries, requireActivity } of INDUSTRY_KEYWORD_GUARDS) {
         const hasKeyword = keywords.some((kw) => titleDesc.includes(kw));
+        if (!hasKeyword) continue;
         const userInThisIndustry = industries.some((i) => profile.industries.includes(i));
-        if (hasKeyword && !userInThisIndustry) {
+        // requireActivity: also passes if user has the matching activity (e.g. "export")
+        const userHasActivity = requireActivity
+          ? (profile.activities ?? []).includes(requireActivity) ||
+            (profile.purposes ?? []).includes(requireActivity)
+          : false;
+        if (!userInThisIndustry && !userHasActivity) {
           score -= 25;
           break;
         }
