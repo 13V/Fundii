@@ -25,6 +25,7 @@ export default function ResultsPage() {
   const [alertLoading, setAlertLoading] = useState(false);
   const [loading, setLoading] = useState(true);
   const [plan, setPlan] = useState<string | null>(null);
+  const [planLoading, setPlanLoading] = useState(true);
 
   useEffect(() => {
     const loadAndMatch = async (p: UserProfile) => {
@@ -80,6 +81,7 @@ export default function ResultsPage() {
         const { data: prof } = await supabase
           .from("profiles").select("plan").eq("id", data.user.id).single();
         setPlan(prof?.plan ?? null);
+        setPlanLoading(false);
 
         const { data: dbSaved } = await supabase
           .from("saved_grants").select("grant_id").eq("user_id", data.user.id);
@@ -93,6 +95,8 @@ export default function ResultsPage() {
         if (tracked?.length) {
           setTrackedIds(new Set(tracked.map((r: { grant_id: string }) => r.grant_id)));
         }
+      } else {
+        setPlanLoading(false);
       }
     });
 
@@ -174,7 +178,7 @@ export default function ResultsPage() {
   const [closingSoon, setClosingSoon] = useState(false);
   const [search, setSearch] = useState("");
 
-  const isFree = !plan;
+  const isFree = !planLoading && !plan;
   const canDraft = plan === "growth" || plan === "enterprise";
 
   const applyFilters = (list: MatchedGrant[]) => {
@@ -488,18 +492,18 @@ export default function ResultsPage() {
                       Upgrade to see all {matches.length} matching grants, save your favourites, and get weekly alerts.
                     </p>
                     <Link
-                      href="/signup?plan=starter"
+                      href={user ? "/dashboard/billing" : "/login?next=/dashboard/billing"}
                       className="block w-full py-3 rounded-xl bg-[#0F7B6C] text-white font-bold text-sm no-underline hover:bg-[#0a6159] transition-colors mb-3"
                     >
                       Unlock All Grants →
                     </Link>
                     {!user && (
-                      <Link
-                        href="/login"
-                        className="block text-sm text-[#0F7B6C] font-semibold no-underline hover:underline"
+                      <button
+                        onClick={() => setShowAuth(true)}
+                        className="block w-full text-sm text-[#0F7B6C] font-semibold bg-transparent border-none cursor-pointer hover:underline"
                       >
                         Already have an account? Sign in
-                      </Link>
+                      </button>
                     )}
                   </div>
                 </div>
