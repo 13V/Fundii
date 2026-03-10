@@ -1,6 +1,6 @@
 [
   {
-    "id": "screen_77a20eda",
+    "id": "screen_au_77a20eda",
     "title": "Screen Australia — Narrative Content Development",
     "source": "screenaustralia.gov.au",
     "source_url": "https://www.screenaustralia.gov.au/funding-and-support/narrative-content-development",
@@ -20,14 +20,14 @@
       "Medium"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Development funding for Australian narrative projects across online/direct-to-audience, television drama, and theatrical feature films. Supports script development, packaging, and producer-director attachment. Rolling applications accepted year-round.",
     "eligibility": "Australian production companies and producers. Projects must have significant Australian creative involvement. Contact Development@screenaustralia.gov.au.",
     "grant_type": "grant",
     "category": "arts"
   },
   {
-    "id": "screen_aea9b751",
+    "id": "screen_au_aea9b751",
     "title": "Screen Australia — Narrative Content Production",
     "source": "screenaustralia.gov.au",
     "source_url": "https://www.screenaustralia.gov.au/funding-and-support/narrative-content-production",
@@ -47,14 +47,14 @@
       "Medium"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Equity co-investment in the production of Australian narrative content including feature films, television drama series, and online/direct-to-audience projects. Four application rounds per financial year. As of February 2026, TV projects require minimum broadcaster licence fees.",
     "eligibility": "Australian production companies with production-ready projects attached to a broadcaster, streamer, or distributor. Must demonstrate creative merit and commercial viability.",
     "grant_type": "grant",
     "category": "arts"
   },
   {
-    "id": "screen_d83bcf99",
+    "id": "screen_au_d83bcf99",
     "title": "Screen Australia — Narrative Content Short Film Production",
     "source": "screenaustralia.gov.au",
     "source_url": "https://www.screenaustralia.gov.au/funding-and-support/narrative-content-production/narrative-content-short-film",
@@ -73,14 +73,14 @@
       "Small"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Supports production of Australian narrative short films for theatrical festival distribution. Two application rounds per financial year.",
     "eligibility": "Australian producers and directors with short film projects targeted at festival distribution.",
     "grant_type": "grant",
     "category": "arts"
   },
   {
-    "id": "screen_fc01d321",
+    "id": "screen_au_fc01d321",
     "title": "Screen Australia — Documentary Development",
     "source": "screenaustralia.gov.au",
     "source_url": "https://www.screenaustralia.gov.au/funding-and-support/documentary/development/documentary-development",
@@ -99,14 +99,14 @@
       "Small"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Funding for the development of Australian documentary projects across all platforms. Supports story development, research, director-producer attachment, and pitch materials. Emphasis on quality, cultural value, innovation, and diversity.",
     "eligibility": "Australian producers, directors, and production companies with documentary projects at development stage.",
     "grant_type": "grant",
     "category": "arts"
   },
   {
-    "id": "screen_616f6e30",
+    "id": "screen_au_616f6e30",
     "title": "Screen Australia — Documentary Production",
     "source": "screenaustralia.gov.au",
     "source_url": "https://www.screenaustralia.gov.au/funding-and-support/documentary/production/documentary-production",
@@ -126,14 +126,14 @@
       "Medium"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Co-investment in the production of Australian documentary projects for all platforms including broadcast, streaming, and theatrical. Prioritises documentaries with strong cultural value, innovation, and diverse Australian stories.",
     "eligibility": "Australian production companies with documentary projects attached to a broadcaster, distributor, or streaming platform.",
     "grant_type": "grant",
     "category": "arts"
   },
   {
-    "id": "screen_2095bd1e",
+    "id": "screen_au_2095bd1e",
     "title": "Screen Australia — Games Production Fund",
     "source": "screenaustralia.gov.au",
     "source_url": "https://www.screenaustralia.gov.au/funding-and-support/online/games/games-production-fund",
@@ -153,14 +153,14 @@
       "Medium"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Co-investment in the production of Australian video games with strong creative vision and commercial potential. Supports all game genres and platforms including PC, console, and mobile.",
     "eligibility": "Australian game development studios with a production-ready game project. Must have significant Australian creative involvement.",
     "grant_type": "grant",
     "category": "arts"
   },
   {
-    "id": "screen_8fd3b93f",
+    "id": "screen_au_8fd3b93f",
     "title": "Screen Australia — Emerging Gamemakers Fund",
     "source": "screenaustralia.gov.au",
     "source_url": "https://www.screenaustralia.gov.au/funding-and-support/online/games/emerging-gamemakers-fund",
@@ -180,14 +180,14 @@
       "Startup"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Supports emerging Australian game developers to create their first or second commercial game title. Designed to grow the next generation of Australian game development talent.",
     "eligibility": "Emerging Australian game developers (individuals or small studios) with limited prior commercial release history.",
     "grant_type": "grant",
     "category": "arts"
   },
   {
-    "id": "screen_b523c9c2",
+    "id": "screen_au_b523c9c2",
     "title": "Screen Australia — Online Content Production",
     "source": "screenaustralia.gov.au",
     "source_url": "https://www.screenaustralia.gov.au/funding-and-support/online",
@@ -206,14 +206,14 @@
       "Small"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Funding for Australian online and direct-to-audience content including web series, digital shorts, podcasts, and interactive projects. Supports both development and production phases.",
     "eligibility": "Australian producers and creators of online content with significant Australian creative involvement.",
     "grant_type": "grant",
     "category": "arts"
   },
   {
-    "id": "screen_76815a16",
+    "id": "screen_au_76815a16",
     "title": "Screen Australia — First Nations Development Funding",
     "source": "screenaustralia.gov.au",
     "source_url": "https://www.screenaustralia.gov.au/funding-and-support/first-nations/development",
@@ -232,14 +232,14 @@
       "Small"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Development funding for First Nations screen projects including feature films, TV drama, documentaries, and online content. Supports concept development, script writing, and project packaging for Aboriginal and Torres Strait Islander storytellers.",
     "eligibility": "Projects must have Aboriginal or Torres Strait Islander practitioners in key creative roles (minimum: writer and director or producer). Open year-round.",
     "grant_type": "grant",
     "category": "arts"
   },
   {
-    "id": "screen_6be2b067",
+    "id": "screen_au_6be2b067",
     "title": "Screen Australia — First Nations Production Funding",
     "source": "screenaustralia.gov.au",
     "source_url": "https://www.screenaustralia.gov.au/funding-and-support/first-nations",
@@ -259,14 +259,14 @@
       "Medium"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Production financing for First Nations screen projects. Supports feature films, TV drama, documentaries, and online content made by Aboriginal and Torres Strait Islander practitioners.",
     "eligibility": "Projects must have a First Nations lead creative team including minimum a First Nations writer and director. Must demonstrate strong First Nations creative control.",
     "grant_type": "grant",
     "category": "arts"
   },
   {
-    "id": "screen_e178bb63",
+    "id": "screen_au_e178bb63",
     "title": "Screen Australia — First Nations Travel Grants",
     "source": "screenaustralia.gov.au",
     "source_url": "https://www.screenaustralia.gov.au/funding-and-support/first-nations/sector-development/first-nations-travel-grants",
@@ -285,14 +285,14 @@
       "Small"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Travel grants for First Nations screen practitioners to attend international film markets, festivals, and industry events. Supports career development and international exposure for Aboriginal and Torres Strait Islander screen professionals.",
     "eligibility": "Aboriginal or Torres Strait Islander screen practitioners with a confirmed invitation to an international industry event.",
     "grant_type": "grant",
     "category": "arts"
   },
   {
-    "id": "screen_8ae9739a",
+    "id": "screen_au_8ae9739a",
     "title": "Screen Australia — Skills Development Fund",
     "source": "screenaustralia.gov.au",
     "source_url": "https://www.screenaustralia.gov.au/funding-and-support/industry-development/initiatives/skills-development-fund",
@@ -312,14 +312,14 @@
       "Medium"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Supports skills development initiatives for Australian screen industry practitioners. Funds workshops, training programs, and professional development activities that address skills gaps across the sector.",
     "eligibility": "Screen industry organisations, guilds, and training bodies delivering skills development for Australian screen practitioners.",
     "grant_type": "grant",
     "category": "arts"
   },
   {
-    "id": "screen_3ef93bf4",
+    "id": "screen_au_3ef93bf4",
     "title": "Screen Australia — Australian Screen Festivals Fund",
     "source": "screenaustralia.gov.au",
     "source_url": "https://www.screenaustralia.gov.au/funding-and-support/industry-development/audiences/australian-screen-festivals-fund",
@@ -339,14 +339,14 @@
       "Medium"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Supports Australian screen festivals to showcase Australian and international screen content, build audiences, and develop screen culture. Funding available for programming, marketing, and operational costs.",
     "eligibility": "Australian screen festival organisers with an established track record of delivering public film festival events.",
     "grant_type": "grant",
     "category": "arts"
   },
   {
-    "id": "screen_78d5b9f4",
+    "id": "screen_au_78d5b9f4",
     "title": "Screen Australia — Screen Industry Partnerships",
     "source": "screenaustralia.gov.au",
     "source_url": "https://www.screenaustralia.gov.au/funding-and-support/industry-development/businesses/screen-industry-partnerships",
@@ -365,14 +365,14 @@
       "Medium"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Supports strategic partnerships between Australian screen companies and international or domestic partners to build economic sustainability and market access for the Australian screen industry.",
     "eligibility": "Established Australian screen industry businesses seeking to develop strategic partnerships. Must demonstrate industry impact and sustainability.",
     "grant_type": "grant",
     "category": "arts"
   },
   {
-    "id": "screen_fd93d4d7",
+    "id": "screen_au_fd93d4d7",
     "title": "Screen Australia — Producer Offset (Tax Rebate)",
     "source": "screenaustralia.gov.au",
     "source_url": "https://www.screenaustralia.gov.au/funding-and-support/producer-offset",
@@ -393,14 +393,14 @@
       "Large"
     ],
     "status": "ongoing",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Refundable tax offset for Australian producers of eligible feature films, television, and other screen content. Administered by Screen Australia on behalf of the ATO. Cinema: 40% of Qualifying Australian Production Expenditure (QAPE). Other formats (TV, streaming, documentary): 20% of QAPE. Changes pending from May 2024 Budget.",
     "eligibility": "Australian production companies producing eligible Australian content. Drama TV series require minimum $500K/hour AND $1M total (or $35M/season). Most other formats have minimum spend thresholds.",
     "grant_type": "tax_incentive",
     "category": "arts"
   },
   {
-    "id": "screen_7b3ce710",
+    "id": "screen_au_7b3ce710",
     "title": "Screen Australia — Location and PDV Offsets",
     "source": "screenaustralia.gov.au",
     "source_url": "https://www.screenaustralia.gov.au/funding-and-support/producer-offset/location-and-pdv-offsets",
@@ -420,14 +420,14 @@
       "Large"
     ],
     "status": "ongoing",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Tax offsets for foreign productions filming in Australia (Location Offset: 16.5% of QAPE for productions spending $15M+ in Australia) and for post-production, digital, and visual effects work (PDV Offset: 30% for productions with $500K+ Australian PDV spend). Additional 'uplift' available for Location Offset if significant Australian economic impact.",
     "eligibility": "Foreign productions filming in Australia (Location Offset) or using Australian post/VFX facilities (PDV Offset). Minimum Australian spend thresholds apply.",
     "grant_type": "tax_incentive",
     "category": "arts"
   },
   {
-    "id": "screen_3d40ae45",
+    "id": "screen_au_3d40ae45",
     "title": "Screen Australia — Official Co-production Program",
     "source": "screenaustralia.gov.au",
     "source_url": "https://www.screenaustralia.gov.au/funding-and-support/co-production-program",
@@ -447,7 +447,7 @@
       "Medium"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Facilitates official international co-productions under formal treaty arrangements between Australia and 14 partner countries (Canada, China, France, Germany, India, Ireland, Israel, Italy, Korea, Malaysia, New Zealand, Singapore, South Africa, UK). Co-productions qualify for the Producer Offset and may access funding from both countries.",
     "eligibility": "Australian production companies co-producing with companies in treaty partner countries. Projects must have genuine creative and financial contribution from each country. Apply via SmartyGrants portal.",
     "grant_type": "grant",
@@ -478,7 +478,7 @@
       "Large"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "ARC Linkage Projects fund collaborative research between Australian universities and industry/end-user organisations. Two rounds per year. Industry partners must provide at least equal cash or in-kind contributions. Projects address practical challenges while advancing knowledge.",
     "eligibility": "Australian universities partnered with one or more Australian or international industry/end-user organisations. Industry partner must provide matching cash or in-kind co-investment.",
     "grant_type": "grant",
@@ -504,7 +504,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Supports the acquisition of research infrastructure, equipment and facilities that are shared among multiple Australian institutions and industry partners to support collaborative research.",
     "eligibility": "Australian universities and research institutions with industry partners. Must involve collaboration across at least 2 institutions.",
     "grant_type": "grant",
@@ -531,7 +531,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Creates collaborative training environments to develop the next generation of researchers with industry-relevant skills. Involves universities, industry and sometimes international partners.",
     "eligibility": "Australian universities partnered with at least 3 industry organisations. Centres must train postgraduate students and postdoctoral fellows.",
     "grant_type": "grant",
@@ -556,7 +556,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -581,7 +581,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -606,7 +606,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -631,7 +631,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -656,7 +656,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -681,7 +681,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -706,7 +706,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -731,7 +731,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -756,7 +756,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -781,7 +781,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -806,7 +806,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -831,7 +831,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -856,7 +856,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -881,7 +881,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -906,7 +906,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -931,7 +931,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -956,7 +956,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -981,7 +981,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -1006,7 +1006,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -1031,7 +1031,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -1056,7 +1056,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -1081,7 +1081,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -1106,7 +1106,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -1131,7 +1131,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -1156,7 +1156,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -1181,7 +1181,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -1206,7 +1206,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -1231,7 +1231,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -1256,7 +1256,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -1281,7 +1281,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -1306,7 +1306,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -1331,7 +1331,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -1356,7 +1356,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -1381,7 +1381,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -1406,7 +1406,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -1431,7 +1431,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -1456,7 +1456,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -1481,7 +1481,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -1506,7 +1506,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -1531,7 +1531,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -1556,7 +1556,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -1581,7 +1581,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -1610,7 +1610,7 @@
       "Large"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Employers who hire eligible Australian Apprentices in priority housing construction and clean energy occupations can receive a $5,000 employer incentive payment. Extended to December 2026.",
     "eligibility": "Employers hiring apprentices in eligible housing construction or clean energy trade occupations. Apprentice must be in an eligible occupation and under a training contract.",
     "grant_type": "subsidy",
@@ -1637,7 +1637,7 @@
       "Large"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Employers can receive incentive payments when they hire a new Australian Apprentice in a priority occupation or from a priority cohort (Indigenous Australians, mature-age workers, people with disability).",
     "eligibility": "Employers hiring new Australian Apprentices in designated priority occupations or from priority cohorts",
     "grant_type": "subsidy",
@@ -1662,7 +1662,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Employers receive a completion incentive payment when an apprentice in a priority occupation successfully completes their qualification.",
     "eligibility": "Employers of Australian Apprentices in priority occupations who complete their training contract",
     "grant_type": "subsidy",
@@ -1687,7 +1687,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Additional employer incentives for hiring mature-age Australian Apprentices (45 years and over) to support workforce participation and skills development for older Australians.",
     "eligibility": "Employers hiring Australian Apprentices aged 45 years and over",
     "grant_type": "subsidy",
@@ -1712,7 +1712,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Employer incentives for hiring Aboriginal and Torres Strait Islander Australian Apprentices to support greater Indigenous participation in trade and vocational education.",
     "eligibility": "Employers hiring Aboriginal or Torres Strait Islander Australian Apprentices",
     "grant_type": "subsidy",
@@ -1737,7 +1737,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "subsidy",
@@ -1762,7 +1762,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "subsidy",
@@ -1787,7 +1787,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "subsidy",
@@ -1812,7 +1812,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "subsidy",
@@ -1837,7 +1837,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "subsidy",
@@ -1862,7 +1862,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "subsidy",
@@ -1887,7 +1887,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "subsidy",
@@ -1912,7 +1912,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "subsidy",
@@ -1937,7 +1937,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "subsidy",
@@ -1962,7 +1962,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "subsidy",
@@ -1987,7 +1987,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "subsidy",
@@ -2012,7 +2012,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "subsidy",
@@ -2037,7 +2037,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "subsidy",
@@ -2062,7 +2062,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "subsidy",
@@ -2087,7 +2087,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "subsidy",
@@ -2112,7 +2112,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "subsidy",
@@ -2137,7 +2137,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "subsidy",
@@ -2162,7 +2162,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "subsidy",
@@ -2187,7 +2187,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "subsidy",
@@ -2212,7 +2212,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "subsidy",
@@ -2237,7 +2237,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "subsidy",
@@ -2262,7 +2262,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "subsidy",
@@ -2287,7 +2287,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "subsidy",
@@ -2312,7 +2312,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "subsidy",
@@ -2337,7 +2337,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "subsidy",
@@ -2362,7 +2362,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "subsidy",
@@ -2390,7 +2390,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "The Growing Regions Program funds community infrastructure projects in regional, rural and remote Australia. Supports construction of community infrastructure such as halls, facilities, sporting grounds, cultural and arts facilities, and economic infrastructure.",
     "eligibility": "Local governments, not-for-profit organisations, and for-profit entities in regional, rural or remote Australia. Projects must deliver community infrastructure.",
     "grant_type": "grant",
@@ -2416,7 +2416,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Funds digital infrastructure projects that improve mobile and internet connectivity in regional, rural and remote Australia, enabling businesses and communities to participate in the digital economy.",
     "eligibility": "Telecommunications providers, local governments and other organisations delivering connectivity infrastructure in regional areas",
     "grant_type": "grant",
@@ -2442,7 +2442,7 @@
       "Medium"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "The RIC provides concessional loans to farm businesses and agricultural cooperatives for on-farm investment. Lower interest rates than commercial loans to support farm business development.",
     "eligibility": "Australian farm businesses and agricultural cooperatives with an eligible farming project and need for capital",
     "grant_type": "loan",
@@ -2467,7 +2467,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Supports regional communities to identify, develop and deliver economic development opportunities. Provides funding for projects that attract investment, create jobs and diversify regional economies.",
     "eligibility": "Regional local governments, businesses and organisations with projects that drive economic development",
     "grant_type": "grant",
@@ -2492,7 +2492,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -2517,7 +2517,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -2542,7 +2542,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -2567,7 +2567,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -2592,7 +2592,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -2617,7 +2617,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -2642,7 +2642,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -2667,7 +2667,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -2692,7 +2692,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -2717,7 +2717,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -2742,7 +2742,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -2767,7 +2767,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -2792,7 +2792,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -2817,7 +2817,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -2842,7 +2842,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -2867,7 +2867,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -2892,7 +2892,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -2917,7 +2917,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -2942,7 +2942,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -2967,7 +2967,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -2992,7 +2992,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -3017,7 +3017,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -3042,7 +3042,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -3067,7 +3067,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -3092,7 +3092,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -3117,7 +3117,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -3142,7 +3142,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -3167,7 +3167,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -3192,7 +3192,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -3217,7 +3217,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -3242,7 +3242,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -3267,7 +3267,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -3292,7 +3292,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -3317,7 +3317,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -3342,7 +3342,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -3367,7 +3367,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -3392,7 +3392,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -3417,7 +3417,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -3442,7 +3442,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -3467,7 +3467,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -3492,7 +3492,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -3517,7 +3517,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -3542,7 +3542,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -3567,7 +3567,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -3592,7 +3592,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -3617,7 +3617,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -3642,7 +3642,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -3667,7 +3667,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -3692,7 +3692,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -3717,7 +3717,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -3742,7 +3742,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -3767,7 +3767,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -3792,7 +3792,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -3817,7 +3817,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -3842,7 +3842,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -3867,7 +3867,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -3892,7 +3892,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -3917,7 +3917,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -3942,7 +3942,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -3967,7 +3967,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -3992,7 +3992,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -4017,7 +4017,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -4042,7 +4042,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -4067,7 +4067,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -4092,7 +4092,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -4117,7 +4117,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -4142,7 +4142,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -4167,7 +4167,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -4192,7 +4192,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -4217,7 +4217,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -4242,7 +4242,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -4267,7 +4267,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -4292,7 +4292,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -4317,7 +4317,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -4342,7 +4342,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -4367,7 +4367,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -4392,7 +4392,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -4417,7 +4417,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -4442,7 +4442,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -4467,7 +4467,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -4492,7 +4492,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -4517,7 +4517,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -4542,7 +4542,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -4567,7 +4567,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -4592,7 +4592,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -4617,7 +4617,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -4642,7 +4642,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -4667,7 +4667,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -4692,7 +4692,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -4717,7 +4717,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -4742,7 +4742,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -4767,7 +4767,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -4792,7 +4792,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -4817,7 +4817,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -4842,7 +4842,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -4867,7 +4867,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -4892,7 +4892,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -4917,7 +4917,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -4942,7 +4942,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -4967,7 +4967,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -4992,7 +4992,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -5017,7 +5017,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -5042,7 +5042,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -5067,7 +5067,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -5092,7 +5092,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -5117,7 +5117,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -5142,7 +5142,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -5167,7 +5167,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -5192,7 +5192,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -5217,7 +5217,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -5242,7 +5242,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -5267,7 +5267,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -5292,7 +5292,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -5317,7 +5317,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -5342,7 +5342,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -5367,7 +5367,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -5392,7 +5392,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -5417,7 +5417,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -5442,7 +5442,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -5467,7 +5467,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -5492,7 +5492,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -5517,7 +5517,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -5542,7 +5542,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -5567,7 +5567,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -5592,7 +5592,7 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
@@ -5617,14 +5617,14 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
     "category": "regional"
   },
   {
-    "id": "industry_630580fd",
+    "id": "industry_prog_630580fd",
     "title": "Cooperative Research Centres Projects (CRC-P)",
     "source": "business.gov.au",
     "source_url": "https://business.gov.au/grants-and-programs/cooperative-research-centres-projects-crc-p",
@@ -5648,14 +5648,14 @@
       "Large"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "CRC-P grants support short-term industry-led research collaborations addressing specific industry problems. Projects are led by an industry organisation and must include research organisations. Provides up to $3M in Commonwealth funding with matched industry investment.",
     "eligibility": "Industry-led consortia including at least one Australian research organisation (university, CSIRO, etc.) and one industry organisation. The industry organisation must be the lead applicant.",
     "grant_type": "grant",
     "category": "federal"
   },
   {
-    "id": "industry_01c8f30b",
+    "id": "industry_prog_01c8f30b",
     "title": "Entrepreneurs' Programme — Business Growth Service",
     "source": "business.gov.au",
     "source_url": "https://business.gov.au/grants-and-programs/entrepreneurs-programme",
@@ -5674,14 +5674,14 @@
       "Medium"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Connects eligible businesses with experienced business advisers (Business Advisers and Facilitators) to help improve management, capabilities, and growth potential. Access to matched funding for projects that improve competitiveness.",
     "eligibility": "Australian businesses with 20+ employees and $1.5M+ in sales or $1.5M+ in assets. Also open to some smaller businesses in priority sectors.",
     "grant_type": "grant",
     "category": "federal"
   },
   {
-    "id": "industry_6438714d",
+    "id": "industry_prog_6438714d",
     "title": "Entrepreneurs' Programme — Innovation Connections",
     "source": "business.gov.au",
     "source_url": "https://business.gov.au/grants-and-programs/entrepreneurs-programme-innovation-connections",
@@ -5702,14 +5702,14 @@
       "Medium"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Supports businesses to access knowledge and expertise from publicly-funded research organisations to solve specific business problems and develop innovative new products and processes.",
     "eligibility": "Australian businesses with fewer than 200 employees wanting to work with a research organisation on an innovation project",
     "grant_type": "grant",
     "category": "federal"
   },
   {
-    "id": "industry_590abddf",
+    "id": "industry_prog_590abddf",
     "title": "National Reconstruction Fund — Loans and Equity",
     "source": "business.gov.au",
     "source_url": "https://www.nrfc.gov.au/",
@@ -5732,14 +5732,14 @@
       "Large"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "The National Reconstruction Fund provides concessional loans and equity investments of $5M-$250M to manufacturers and value-adding industries in seven priority areas including resources, agriculture, medical, defence, transport, clean energy and enabling capabilities.",
     "eligibility": "Australian manufacturers and value-adding businesses in priority sectors. Must be primarily Australian-owned or have significant Australian operations.",
     "grant_type": "loan",
     "category": "federal"
   },
   {
-    "id": "nsw_722a8889",
+    "id": "nsw_add_722a8889",
     "title": "NSW Jobs Plus Program",
     "source": "nsw.gov.au",
     "source_url": "https://www.nsw.gov.au/business-and-economy/industry-and-investment/jobs-plus-program",
@@ -5760,14 +5760,14 @@
       "Large"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Supports businesses that create 30 or more new jobs in NSW with a package of concessions including land tax concessions, payroll tax relief, fast-tracked planning approvals and support from a dedicated government contact.",
     "eligibility": "Businesses investing in NSW and creating 30 or more net new full-time jobs within two years",
     "grant_type": "tax_incentive",
     "category": "state"
   },
   {
-    "id": "nsw_4ddeffa1",
+    "id": "nsw_add_4ddeffa1",
     "title": "NSW Regional Job Creation Fund",
     "source": "nsw.gov.au",
     "source_url": "https://www.nsw.gov.au/business-and-economy/industry-and-investment/regional-job-creation-fund",
@@ -5789,14 +5789,14 @@
       "Large"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Co-investment fund supporting private businesses to expand operations and create jobs in regional NSW. Targets industries including agribusiness, manufacturing, tourism and technology.",
     "eligibility": "Private businesses investing in regional NSW and creating at least 10 net new full-time jobs",
     "grant_type": "grant",
     "category": "state"
   },
   {
-    "id": "nsw_a944f162",
+    "id": "nsw_add_a944f162",
     "title": "NSW Digital Restart Fund",
     "source": "nsw.gov.au",
     "source_url": "https://www.digital.nsw.gov.au/policy/digital-restart-fund",
@@ -5816,14 +5816,14 @@
       "Large"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Investment in digital transformation projects for NSW government agencies. Also supports industry partnerships to deliver innovative digital solutions for government services.",
     "eligibility": "NSW government agencies (primary) and technology companies partnering with agencies",
     "grant_type": "grant",
     "category": "state"
   },
   {
-    "id": "nsw_20f688ac",
+    "id": "nsw_add_20f688ac",
     "title": "NSW Small Business Month Grants",
     "source": "nsw.gov.au",
     "source_url": "https://www.business.nsw.gov.au/grants-and-programs",
@@ -5841,14 +5841,14 @@
       "Small"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Annual grants for small businesses in NSW across various categories, available during NSW Small Business Month (October). Categories vary each year.",
     "eligibility": "NSW small businesses — specific eligibility varies by grant category each year",
     "grant_type": "grant",
     "category": "state"
   },
   {
-    "id": "nsw_b995ec11",
+    "id": "nsw_add_b995ec11",
     "title": "Grants and funding",
     "source": "nsw.gov.au",
     "source_url": "https://www.business.nsw.gov.au/grants-and-funding",
@@ -5867,14 +5867,14 @@
       "Medium"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
     "category": "state"
   },
   {
-    "id": "nsw_fd27ae74",
+    "id": "nsw_add_fd27ae74",
     "title": "Export from NSW",
     "source": "nsw.gov.au",
     "source_url": "https://www.investment.nsw.gov.au/living-working-and-business/nsw-going-global-export-program/",
@@ -5893,14 +5893,14 @@
       "Medium"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
     "category": "state"
   },
   {
-    "id": "nsw_9fea43a8",
+    "id": "nsw_add_9fea43a8",
     "title": "Western Sydney Infrastructure Grants Program",
     "source": "nsw.gov.au",
     "source_url": "https://www.business.nsw.gov.au/grants-and-funding/western-sydney-infrastructure-grants-program",
@@ -5919,14 +5919,14 @@
       "Medium"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
     "category": "state"
   },
   {
-    "id": "nsw_b7d53f2f",
+    "id": "nsw_add_b7d53f2f",
     "title": "Business advice and support",
     "source": "nsw.gov.au",
     "source_url": "https://www.business.nsw.gov.au/business-and-economy/business-advice-and-support",
@@ -5945,14 +5945,14 @@
       "Medium"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "",
     "eligibility": "",
     "grant_type": "grant",
     "category": "state"
   },
   {
-    "id": "nsw_cc5cfa8a",
+    "id": "nsw_add_cc5cfa8a",
     "title": "One-on-one support for your business",
     "source": "nsw.gov.au",
     "source_url": "https://www.service.nsw.gov.au/business",
@@ -5971,14 +5971,14 @@
       "Medium"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "The Service NSW Business Bureau is the personalised support your business needs, in one convenient place. Get one-on-one support in person or over the phone on accessing government services and programs, applying for licences and permits, and more.",
     "eligibility": "",
     "grant_type": "grant",
     "category": "state"
   },
   {
-    "id": "nsw_fd27ae74",
+    "id": "nsw_add_fd27ae74",
     "title": "Going Global Export Program",
     "source": "nsw.gov.au",
     "source_url": "https://www.investment.nsw.gov.au/living-working-and-business/nsw-going-global-export-program/",
@@ -5997,14 +5997,14 @@
       "Medium"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "The Going Global Export Program supports eligible NSW businesses to reach new customers in new international markets.",
     "eligibility": "",
     "grant_type": "grant",
     "category": "state"
   },
   {
-    "id": "qld_1827e929",
+    "id": "qld_add_1827e929",
     "title": "Works for Queensland Program",
     "source": "qld.gov.au",
     "source_url": "https://www.dlgrningp.qld.gov.au/local-government/programs-and-initiatives/works-for-queensland",
@@ -6023,14 +6023,14 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Provides funding to non-metropolitan councils to plan and deliver local infrastructure and maintenance works that create jobs in regional and remote Queensland.",
     "eligibility": "Non-metropolitan Queensland local governments (councils outside SEQ). For infrastructure and maintenance works that employ local workers.",
     "grant_type": "grant",
     "category": "state"
   },
   {
-    "id": "qld_57ea4251",
+    "id": "qld_add_57ea4251",
     "title": "Queensland Regional Economic Development Grants",
     "source": "qld.gov.au",
     "source_url": "https://www.business.qld.gov.au/starting-business/advice-support/grants",
@@ -6052,14 +6052,14 @@
       "Medium"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Grants supporting businesses in regional Queensland to establish, grow and create jobs. Supports industries including agriculture, manufacturing, tourism and resources.",
     "eligibility": "Businesses operating in regional Queensland (outside SEQ) creating employment and economic activity",
     "grant_type": "grant",
     "category": "state"
   },
   {
-    "id": "qld_57ea4251",
+    "id": "qld_add_57ea4251",
     "title": "Queensland Small Business Grants",
     "source": "qld.gov.au",
     "source_url": "https://www.business.qld.gov.au/starting-business/advice-support/grants",
@@ -6077,14 +6077,14 @@
       "Small"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Range of Queensland Government grants for small businesses covering areas including skills, innovation, export, sustainability and business development.",
     "eligibility": "Queensland small businesses — specific criteria vary by individual program",
     "grant_type": "grant",
     "category": "state"
   },
   {
-    "id": "wa_e6fbcadd",
+    "id": "wa_add_e6fbcadd",
     "title": "WA Regional Economic Development (RED) Grants",
     "source": "wa.gov.au",
     "source_url": "https://www.rdl.wa.gov.au/funding/red-grants",
@@ -6105,14 +6105,14 @@
       "All"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "RED Grants support economic development activities in regional Western Australia. Fund projects that create jobs, support industry development, improve infrastructure and build community capacity in regional WA.",
     "eligibility": "Local governments, industry bodies, not-for-profit organisations and businesses in regional WA",
     "grant_type": "grant",
     "category": "state"
   },
   {
-    "id": "wa_fe585e15",
+    "id": "wa_add_fe585e15",
     "title": "WA Clean Energy Future Fund",
     "source": "wa.gov.au",
     "source_url": "https://www.wa.gov.au/government/document-collections/clean-energy-future-fund",
@@ -6131,14 +6131,14 @@
       "Large"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Invests in clean energy projects across Western Australia to reduce emissions and develop WA's renewable energy sector. Includes grants, loans and equity investments.",
     "eligibility": "Businesses, research organisations and other entities with clean energy projects in Western Australia",
     "grant_type": "grant",
     "category": "state"
   },
   {
-    "id": "wa_d5eff218",
+    "id": "wa_add_d5eff218",
     "title": "WA Jobs Action Plan — Industry Attraction",
     "source": "wa.gov.au",
     "source_url": "https://www.wa.gov.au/government/publications/jobs-and-economy/wa-jobs-action-plan",
@@ -6160,14 +6160,14 @@
       "Large"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Supports attracting new businesses and investment to Western Australia and growing existing WA businesses. Includes targeted industry support packages and co-investment grants.",
     "eligibility": "Businesses investing in Western Australia and creating significant employment",
     "grant_type": "grant",
     "category": "state"
   },
   {
-    "id": "wa_f72f1e93",
+    "id": "wa_add_f72f1e93",
     "title": "WA Landcare, Biodiversity and Agriculture Grants",
     "source": "wa.gov.au",
     "source_url": "https://www.wa.gov.au/government/topics/farming-and-primary-industries",
@@ -6187,14 +6187,14 @@
       "Medium"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Grants for WA landholders, farmers and community groups to undertake environmental and agricultural improvement projects including revegetation, soil health, and sustainable farming practices.",
     "eligibility": "WA farmers, landholders and natural resource management groups with land-based projects",
     "grant_type": "grant",
     "category": "state"
   },
   {
-    "id": "vic_7b611b56",
+    "id": "vic_add_7b611b56",
     "title": "VIC Regional Jobs and Infrastructure Fund",
     "source": "vic.gov.au",
     "source_url": "https://www.rdv.vic.gov.au/business-programs/regional-jobs-fund",
@@ -6216,14 +6216,14 @@
       "Large"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Co-investment fund for projects that create significant employment and economic activity in regional Victoria. Supports business investment, infrastructure development and community projects.",
     "eligibility": "Businesses, local governments and organisations in regional Victoria with projects creating jobs and economic activity",
     "grant_type": "grant",
     "category": "state"
   },
   {
-    "id": "vic_aa5d5334",
+    "id": "vic_add_aa5d5334",
     "title": "VIC Small Business Digital Adaptation Program",
     "source": "vic.gov.au",
     "source_url": "https://www.business.vic.gov.au/grants-and-programs/small-business-digital-adaptation-program",
@@ -6242,14 +6242,14 @@
       "Startup"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Supports eligible Victorian small businesses to access and adopt digital tools and platforms to improve their business management and operations.",
     "eligibility": "Victorian businesses with fewer than 20 employees and an annual turnover under $3 million",
     "grant_type": "rebate",
     "category": "state"
   },
   {
-    "id": "vic_2e8fa98e",
+    "id": "vic_add_2e8fa98e",
     "title": "VIC Sustainability Fund — Business Grants",
     "source": "vic.gov.au",
     "source_url": "https://www.sustainability.vic.gov.au/",
@@ -6270,14 +6270,14 @@
       "Medium"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Sustainability Victoria provides grants to businesses to implement energy efficiency measures, reduce waste and improve environmental performance.",
     "eligibility": "Victorian businesses investing in energy efficiency, waste reduction or other sustainability improvements",
     "grant_type": "grant",
     "category": "state"
   },
   {
-    "id": "vic_548c2d40",
+    "id": "vic_add_548c2d40",
     "title": "LaunchVic — Startup Investment Programs",
     "source": "vic.gov.au",
     "source_url": "https://launchvic.org/programs/",
@@ -6297,14 +6297,14 @@
       "Small"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "LaunchVic runs multiple programs to support Victoria's startup ecosystem including accelerator funding, founder support grants, female founder programs, and regional startup support.",
     "eligibility": "Victorian startups, accelerators, incubators and startup ecosystem organisations",
     "grant_type": "grant",
     "category": "state"
   },
   {
-    "id": "sa_3839ee11",
+    "id": "sa_add_3839ee11",
     "title": "SA Jobs Action Scheme",
     "source": "sa.gov.au",
     "source_url": "https://www.sa.gov.au/topics/business-and-trade/taxation/payroll-tax/jobs-action-scheme",
@@ -6324,14 +6324,14 @@
       "Large"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Payroll tax rebate for SA businesses that hire new employees and grow their South Australian workforce. Eligible employers receive a payroll tax rebate of up to $4,000 per new employee.",
     "eligibility": "South Australian businesses that pay payroll tax and hire new employees (net increase in headcount)",
     "grant_type": "rebate",
     "category": "state"
   },
   {
-    "id": "sa_d14efebe",
+    "id": "sa_add_d14efebe",
     "title": "SA Skilling South Australia",
     "source": "sa.gov.au",
     "source_url": "https://www.skills.sa.gov.au/skillingSA",
@@ -6352,14 +6352,14 @@
       "Medium"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "South Australian government initiative to increase the number of apprentices and trainees in SA, with employer subsidies and support for training in priority industries.",
     "eligibility": "SA employers hiring apprentices or trainees in priority industries and occupations",
     "grant_type": "subsidy",
     "category": "state"
   },
   {
-    "id": "sa_f207f737",
+    "id": "sa_add_f207f737",
     "title": "SA Regional Development Fund",
     "source": "sa.gov.au",
     "source_url": "https://www.sa.gov.au/topics/business-and-trade/industry-and-trade/regional-development",
@@ -6381,10 +6381,415 @@
       "Medium"
     ],
     "status": "open",
-    "close_date": "See website",
+    "close_date": "",
     "description": "Co-investment grants for projects that drive economic growth in regional South Australia, including business development, infrastructure, tourism and agriculture projects.",
     "eligibility": "Businesses, local governments and organisations in regional South Australia",
     "grant_type": "grant",
     "category": "state"
+  },
+  {
+    "id": "create_nsw_177ad514",
+    "title": "Arts and Cultural Funding Program",
+    "source": "create.nsw.gov.au",
+    "source_url": "https://www.create.nsw.gov.au/grants-and-funding/arts-and-cultural-funding-program",
+    "url": "https://www.create.nsw.gov.au/grants-and-funding/arts-and-cultural-funding-program",
+    "amount_min": null,
+    "amount_max": null,
+    "amount_text": "",
+    "states": [
+      "NSW"
+    ],
+    "industries": [
+      "Arts",
+      "General"
+    ],
+    "business_sizes": [
+      "Small",
+      "Sole Trader",
+      "Medium"
+    ],
+    "status": "open",
+    "close_date": "",
+    "description": "Lara Merrett By my side, walking 2022, Sydney installation view Image by Jessica Maurer",
+    "eligibility": "",
+    "grant_type": "grant",
+    "category": "state"
+  },
+  {
+    "id": "create_nsw_6c5e2d05",
+    "title": "Crew Development Program 25/26 - Stream C: Costume & Art departments",
+    "source": "create.nsw.gov.au",
+    "source_url": "https://www.create.nsw.gov.au/grants-and-funding/crew-development-program-25/26-stream-c-costume-art-departments",
+    "url": "https://www.create.nsw.gov.au/grants-and-funding/crew-development-program-25/26-stream-c-costume-art-departments",
+    "amount_min": null,
+    "amount_max": null,
+    "amount_text": "",
+    "states": [
+      "NSW"
+    ],
+    "industries": [
+      "Arts",
+      "General"
+    ],
+    "business_sizes": [
+      "Small",
+      "Sole Trader",
+      "Medium"
+    ],
+    "status": "open",
+    "close_date": "",
+    "description": "Lara Merrett By my side, walking 2022, Sydney installation view Image by Jessica Maurer",
+    "eligibility": "",
+    "grant_type": "grant",
+    "category": "state"
+  },
+  {
+    "id": "create_nsw_446e5e33",
+    "title": "Uptown Grant Program Round 4",
+    "source": "create.nsw.gov.au",
+    "source_url": "https://www.create.nsw.gov.au/grants-and-funding/uptown-grant-program-round-4",
+    "url": "https://www.create.nsw.gov.au/grants-and-funding/uptown-grant-program-round-4",
+    "amount_min": null,
+    "amount_max": null,
+    "amount_text": "",
+    "states": [
+      "NSW"
+    ],
+    "industries": [
+      "Arts",
+      "General"
+    ],
+    "business_sizes": [
+      "Small",
+      "Sole Trader",
+      "Medium"
+    ],
+    "status": "open",
+    "close_date": "",
+    "description": "Lara Merrett By my side, walking 2022, Sydney installation view Image by Jessica Maurer",
+    "eligibility": "",
+    "grant_type": "grant",
+    "category": "state"
+  },
+  {
+    "id": "create_nsw_dee0a96a",
+    "title": "​​2025-26 Venue Upgrade Grants – Advanced Screen and Lighting Technology - Stage 2",
+    "source": "create.nsw.gov.au",
+    "source_url": "https://www.create.nsw.gov.au/grants-and-funding/%e2%80%8b%e2%80%8b2025-26-venue-upgrade-grants-%e2%80%93-advanced-screen-and-lighting-technology-stage-2",
+    "url": "https://www.create.nsw.gov.au/grants-and-funding/%e2%80%8b%e2%80%8b2025-26-venue-upgrade-grants-%e2%80%93-advanced-screen-and-lighting-technology-stage-2",
+    "amount_min": null,
+    "amount_max": null,
+    "amount_text": "",
+    "states": [
+      "NSW"
+    ],
+    "industries": [
+      "Arts",
+      "General"
+    ],
+    "business_sizes": [
+      "Small",
+      "Sole Trader",
+      "Medium"
+    ],
+    "status": "open",
+    "close_date": "",
+    "description": "Lara Merrett By my side, walking 2022, Sydney installation view Image by Jessica Maurer",
+    "eligibility": "",
+    "grant_type": "grant",
+    "category": "state"
+  },
+  {
+    "id": "create_nsw_2a2a1c8a",
+    "title": "Western Sydney First Nations Program",
+    "source": "create.nsw.gov.au",
+    "source_url": "https://www.create.nsw.gov.au/grants-and-funding/western-sydney-first-nations-program",
+    "url": "https://www.create.nsw.gov.au/grants-and-funding/western-sydney-first-nations-program",
+    "amount_min": null,
+    "amount_max": null,
+    "amount_text": "",
+    "states": [
+      "NSW"
+    ],
+    "industries": [
+      "Arts",
+      "General"
+    ],
+    "business_sizes": [
+      "Small",
+      "Sole Trader",
+      "Medium"
+    ],
+    "status": "open",
+    "close_date": "",
+    "description": "Lara Merrett By my side, walking 2022, Sydney installation view Image by Jessica Maurer",
+    "eligibility": "",
+    "grant_type": "grant",
+    "category": "state"
+  },
+  {
+    "id": "create_nsw_7c0da167",
+    "title": "​​Regional NSW Community Bands Program​",
+    "source": "create.nsw.gov.au",
+    "source_url": "https://www.create.nsw.gov.au/grants-and-funding/%e2%80%8b%e2%80%8bregional-nsw-community-bands-program%e2%80%8b",
+    "url": "https://www.create.nsw.gov.au/grants-and-funding/%e2%80%8b%e2%80%8bregional-nsw-community-bands-program%e2%80%8b",
+    "amount_min": null,
+    "amount_max": null,
+    "amount_text": "",
+    "states": [
+      "NSW"
+    ],
+    "industries": [
+      "Arts",
+      "General"
+    ],
+    "business_sizes": [
+      "Small",
+      "Sole Trader",
+      "Medium"
+    ],
+    "status": "open",
+    "close_date": "",
+    "description": "Lara Merrett By my side, walking 2022, Sydney installation view Image by Jessica Maurer",
+    "eligibility": "",
+    "grant_type": "grant",
+    "category": "state"
+  },
+  {
+    "id": "create_nsw_2fede0a9",
+    "title": "Regional NSW Strategic Partnerships Program",
+    "source": "create.nsw.gov.au",
+    "source_url": "https://www.create.nsw.gov.au/grants-and-funding/regional-nsw-strategic-partnerships-program",
+    "url": "https://www.create.nsw.gov.au/grants-and-funding/regional-nsw-strategic-partnerships-program",
+    "amount_min": null,
+    "amount_max": null,
+    "amount_text": "",
+    "states": [
+      "NSW"
+    ],
+    "industries": [
+      "Arts",
+      "General"
+    ],
+    "business_sizes": [
+      "Small",
+      "Sole Trader",
+      "Medium"
+    ],
+    "status": "open",
+    "close_date": "",
+    "description": "Lara Merrett By my side, walking 2022, Sydney installation view Image by Jessica Maurer",
+    "eligibility": "",
+    "grant_type": "grant",
+    "category": "state"
+  },
+  {
+    "id": "create_nsw_2636527a",
+    "title": "2026 Aboriginal Languages Revival Program",
+    "source": "create.nsw.gov.au",
+    "source_url": "https://www.create.nsw.gov.au/grants-and-funding/2026-aboriginal-languages-revival-program",
+    "url": "https://www.create.nsw.gov.au/grants-and-funding/2026-aboriginal-languages-revival-program",
+    "amount_min": null,
+    "amount_max": null,
+    "amount_text": "",
+    "states": [
+      "NSW"
+    ],
+    "industries": [
+      "Arts",
+      "General"
+    ],
+    "business_sizes": [
+      "Small",
+      "Sole Trader",
+      "Medium"
+    ],
+    "status": "open",
+    "close_date": "",
+    "description": "Lara Merrett By my side, walking 2022, Sydney installation view Image by Jessica Maurer",
+    "eligibility": "",
+    "grant_type": "grant",
+    "category": "state"
+  },
+  {
+    "id": "create_nsw_295a57c3",
+    "title": "Pathways Development Program 2025/26",
+    "source": "create.nsw.gov.au",
+    "source_url": "https://www.create.nsw.gov.au/grants-and-funding/pathways-development-program-2025/26",
+    "url": "https://www.create.nsw.gov.au/grants-and-funding/pathways-development-program-2025/26",
+    "amount_min": null,
+    "amount_max": null,
+    "amount_text": "",
+    "states": [
+      "NSW"
+    ],
+    "industries": [
+      "Arts",
+      "General"
+    ],
+    "business_sizes": [
+      "Small",
+      "Sole Trader",
+      "Medium"
+    ],
+    "status": "open",
+    "close_date": "",
+    "description": "Lara Merrett By my side, walking 2022, Sydney installation view Image by Jessica Maurer",
+    "eligibility": "",
+    "grant_type": "grant",
+    "category": "state"
+  },
+  {
+    "id": "create_nsw_0284a77c",
+    "title": "All-Ages Live Music Venue Program - EOI",
+    "source": "create.nsw.gov.au",
+    "source_url": "https://www.create.nsw.gov.au/grants-and-funding/all-ages-live-music-venue-program-eoi",
+    "url": "https://www.create.nsw.gov.au/grants-and-funding/all-ages-live-music-venue-program-eoi",
+    "amount_min": null,
+    "amount_max": null,
+    "amount_text": "",
+    "states": [
+      "NSW"
+    ],
+    "industries": [
+      "Arts",
+      "General"
+    ],
+    "business_sizes": [
+      "Small",
+      "Sole Trader",
+      "Medium"
+    ],
+    "status": "open",
+    "close_date": "",
+    "description": "Lara Merrett By my side, walking 2022, Sydney installation view Image by Jessica Maurer",
+    "eligibility": "",
+    "grant_type": "grant",
+    "category": "state"
+  },
+  {
+    "id": "frrr_2f29a9f1",
+    "title": "Strengthening Rural Communities – Small & Vital",
+    "source": "frrr.org.au",
+    "source_url": "https://frrr.org.au/funding/src-small-vital/",
+    "url": "https://frrr.org.au/funding/src-small-vital/",
+    "amount_min": null,
+    "amount_max": null,
+    "amount_text": "Up to $10,000",
+    "states": [
+      "National"
+    ],
+    "industries": [
+      "General"
+    ],
+    "business_sizes": [
+      "All"
+    ],
+    "status": "open",
+    "close_date": "",
+    "description": "Grants for small community projects in rural and regional Australia. Supports community-led initiatives that build social capital, resilience, and wellbeing in small towns and villages.",
+    "eligibility": "Rural and regional community groups, not-for-profits, and local organisations. Projects must benefit communities of fewer than 15,000 people.",
+    "grant_type": "grant",
+    "category": "federal"
+  },
+  {
+    "id": "frrr_d3c5234f",
+    "title": "Strengthening Rural Communities – Prepare & Recover",
+    "source": "frrr.org.au",
+    "source_url": "https://frrr.org.au/funding/src-prepare-recover/",
+    "url": "https://frrr.org.au/funding/src-prepare-recover/",
+    "amount_min": null,
+    "amount_max": null,
+    "amount_text": "Up to $50,000",
+    "states": [
+      "National"
+    ],
+    "industries": [
+      "General"
+    ],
+    "business_sizes": [
+      "All"
+    ],
+    "status": "open",
+    "close_date": "",
+    "description": "Grants to help rural and regional communities prepare for and recover from natural disasters, drought, and other emergencies. Supports community resilience building projects.",
+    "eligibility": "Community organisations in rural and regional areas affected by or at risk of natural disasters. NFPs, community groups, local governments.",
+    "grant_type": "grant",
+    "category": "federal"
+  },
+  {
+    "id": "frrr_0f9b218a",
+    "title": "Telstra's Connected Communities Grant Program",
+    "source": "frrr.org.au",
+    "source_url": "https://frrr.org.au/funding/telstra-connected-communities-program/",
+    "url": "https://frrr.org.au/funding/telstra-connected-communities-program/",
+    "amount_min": null,
+    "amount_max": null,
+    "amount_text": "Up to $25,000",
+    "states": [
+      "National"
+    ],
+    "industries": [
+      "General"
+    ],
+    "business_sizes": [
+      "All"
+    ],
+    "status": "open",
+    "close_date": "",
+    "description": "Grants to improve digital connectivity, skills and access in rural and remote communities. Supports projects that use technology to address community challenges.",
+    "eligibility": "Community organisations and not-for-profits in rural and remote Australia. Must demonstrate community benefit and digital inclusion focus.",
+    "grant_type": "grant",
+    "category": "federal"
+  },
+  {
+    "id": "frrr_723d1a84",
+    "title": "FRRR ABC Heywire Youth Innovation Grants",
+    "source": "frrr.org.au",
+    "source_url": "https://frrr.org.au/funding/heywire-youth-innovation-grants/",
+    "url": "https://frrr.org.au/funding/heywire-youth-innovation-grants/",
+    "amount_min": null,
+    "amount_max": null,
+    "amount_text": "Up to $10,000",
+    "states": [
+      "National"
+    ],
+    "industries": [
+      "General"
+    ],
+    "business_sizes": [
+      "All"
+    ],
+    "status": "open",
+    "close_date": "",
+    "description": "Grants supporting young people aged 16-22 in regional and remote Australia to implement community improvement projects they have designed themselves.",
+    "eligibility": "Young people aged 16-22 living in regional or remote areas of Australia who have completed the ABC Heywire competition or equivalent.",
+    "grant_type": "grant",
+    "category": "federal"
+  },
+  {
+    "id": "frrr_78474447",
+    "title": "Community Led Climate Solutions",
+    "source": "frrr.org.au",
+    "source_url": "https://frrr.org.au/funding/community-led-climate-solutions/",
+    "url": "https://frrr.org.au/funding/community-led-climate-solutions/",
+    "amount_min": null,
+    "amount_max": null,
+    "amount_text": "Up to $30,000",
+    "states": [
+      "National"
+    ],
+    "industries": [
+      "General"
+    ],
+    "business_sizes": [
+      "All"
+    ],
+    "status": "open",
+    "close_date": "",
+    "description": "Grants to support rural and regional communities to develop and implement locally-led solutions to climate change challenges including adaptation and mitigation projects.",
+    "eligibility": "Community organisations, not-for-profits and local groups in rural and regional Australia focused on climate adaptation or mitigation.",
+    "grant_type": "grant",
+    "category": "federal"
   }
 ]

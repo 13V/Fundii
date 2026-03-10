@@ -10,7 +10,7 @@ Covers:
   SA     — 30+ grants (HTML list + detail pages)
   ACT    — 15+ grants (HTML links)
   NT     — 30+ grants (HTML directory)
-  ARENA  — 20+ grants (Playwright, JS-rendered)
+  ARENA  — 30+ grants (requests + BeautifulSoup)
   Screen Australia — 15+ grants (HTML)
   DAFF Agriculture — 15+ grants (HTML)
   DCCEEW Environment — 15+ grants (HTML)
@@ -839,89 +839,103 @@ def scrape_nt() -> List[Dict]:
     return grants
 
 
-# ── ARENA (Playwright) ─────────────────────────────────────────────────────────
+# ── ARENA (requests + BeautifulSoup) ──────────────────────────────────────────
 
-async def scrape_arena_async() -> List[Dict]:
-    logger.info("Scraping ARENA (Playwright)...")
+def scrape_arena() -> List[Dict]:
+    logger.info("Scraping ARENA...")
+    BASE = "https://arena.gov.au"
+    HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
+
+    # 1. Collect funding opportunity URLs from listing page
     try:
-        from playwright.async_api import async_playwright
-    except ImportError:
-        logger.error("Playwright not available for ARENA")
+        r = requests.get(f"{BASE}/funding/", headers=HEADERS, timeout=15)
+        soup = BeautifulSoup(r.text, "lxml")
+    except Exception as e:
+        logger.error(f"  ARENA listing page failed: {e}")
         return []
 
+    links = list(dict.fromkeys(
+        BASE + a["href"]
+        for a in soup.find_all("a", href=True)
+        if a["href"].startswith("/funding/")
+        and len(a["href"].split("/")) >= 4
+        and a["href"] != "/funding/"
+    ))
+    logger.info(f"  ARENA: {len(links)} funding links found")
+
     grants = []
-    async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=True, args=["--no-sandbox"])
-        context = await browser.new_context(
-            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
-            locale="en-AU",
-        )
-        page = await context.new_page()
+    for url in links:
+        try:
+            r2 = requests.get(url, headers=HEADERS, timeout=15)
+            soup2 = BeautifulSoup(r2.text, "lxml")
 
-        await page.goto("https://arena.gov.au/funding/", wait_until="domcontentloaded", timeout=30000)
-        await page.wait_for_timeout(3000)
+            # Title
+            h1 = soup2.select_one(".banner h1, main h1")
+            if not h1:
+                continue
+            title = h1.get_text(strip=True).replace(" - Australian Renewable Energy Agency (ARENA)", "").strip()
+            if not title:
+                continue
 
-        # Get all funding opportunity links
-        links = await page.eval_on_selector_all(
-            "a[href*='arena.gov.au/funding/']",
-            "els => [...new Set(els.map(e => e.href))].filter(h => h.split('/funding/')[1]?.length > 1)"
-        )
-        logger.info(f"  ARENA: {len(links)} funding links found")
+            # Description: remove h1 + breadcrumb elements from .banner .txt
+            txt = soup2.select_one(".banner .txt")
+            desc = ""
+            if txt:
+                for el in txt.find_all(["h1", "p"]):
+                    if "breadcrumb" in " ".join(el.get("class", [])):
+                        el.decompose()
+                    elif el.name == "h1":
+                        el.decompose()
+                desc = txt.get_text(" ", strip=True)
+            if not desc:
+                # fallback: first <p> in main content
+                p_tag = soup2.select_one("main p, .content p, article p")
+                desc = p_tag.get_text(" ", strip=True) if p_tag else ""
 
-        for url in links[:30]:
-            try:
-                await page.goto(url, wait_until="domcontentloaded", timeout=20000)
-                await page.wait_for_timeout(1000)
+            body = soup2.get_text(" ")
 
-                title = await page.title()
-                title = title.replace(" - Australian Renewable Energy Agency (ARENA)", "").strip()
-                if not title:
-                    continue
+            # Closed check
+            closed = ("closed to new applications" in body.lower() or
+                      "this opportunity is closed" in body.lower())
+            status = "closed" if closed else detect_status(body)
 
-                body_text = await page.inner_text("body")
+            # Amount
+            am = re.search(r"\$([\d,.]+)\s*(million|billion|m\b)", body[:3000], re.I)
+            amount_text = am.group(0) if am else ""
+            amount_min, amount_max, _ = parse_amount(amount_text or body[:2000])
 
-                amount_min, amount_max, amount_text = parse_amount(body_text[:2000])
-                status = detect_status(body_text)
+            # Close date
+            dm = re.search(
+                r"clos(?:es?|ing)\s+(?:date[:\s]+)?(\d{1,2}\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\w*\s+\d{4})",
+                body, re.IGNORECASE
+            )
+            close_date = dm.group(1) if dm else ""
 
-                dm = re.search(
-                    r"clos(?:es?|ing)\s+(?:date[:\s]+)?(\d{1,2}\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\w*\s+\d{4})",
-                    body_text, re.IGNORECASE
-                )
-                close_date = dm.group(1) if dm else ""
-
-                desc = clean_text(body_text[:1000])
-
-                grants.append({
-                    "id": generate_id("arena", url),
-                    "title": title[:500],
-                    "source": "arena.gov.au",
-                    "source_url": url,
-                    "amount_min": amount_min,
-                    "amount_max": amount_max,
-                    "amount_text": amount_text,
-                    "states": ["National"],
-                    "industries": ["Energy"] + detect_industries(body_text[:2000]),
-                    "business_sizes": detect_sizes(body_text),
-                    "status": status,
-                    "close_date": close_date,
-                    "description": desc[:2000],
-                    "eligibility": "",
-                    "grant_type": "grant",
-                    "category": "federal",
-                    "url": url,
-                })
-                await page.wait_for_timeout(random.randint(500, 1500))
-            except Exception as e:
-                logger.debug(f"  ARENA error on {url}: {e}")
-
-        await browser.close()
+            grants.append({
+                "id": generate_id("arena", url),
+                "title": title[:500],
+                "source": "arena.gov.au",
+                "source_url": url,
+                "amount_min": amount_min,
+                "amount_max": amount_max,
+                "amount_text": amount_text[:500],
+                "states": ["National"],
+                "industries": ["Energy"] + detect_industries(body[:3000]),
+                "business_sizes": detect_sizes(body),
+                "status": status,
+                "close_date": close_date,
+                "description": desc[:2000],
+                "eligibility": "",
+                "grant_type": "grant",
+                "category": "federal",
+                "url": url,
+            })
+            time.sleep(random.uniform(1.0, 2.0))
+        except Exception as e:
+            logger.debug(f"  ARENA error on {url}: {e}")
 
     logger.info(f"  ARENA done: {len(grants)} grants")
     return grants
-
-
-def scrape_arena() -> List[Dict]:
-    return asyncio.run(scrape_arena_async())
 
 
 # ── Screen Australia ──────────────────────────────────────────────────────────

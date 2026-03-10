@@ -29,6 +29,7 @@ import re
 import sys
 import json
 import time
+import random
 import logging
 from datetime import datetime, timezone
 from typing import List, Dict, Optional
@@ -1135,6 +1136,176 @@ def scrape_sa_additional() -> List[Dict]:
 
 
 # ════════════════════════════════════════════════════════════════════════════
+# 10. Create NSW (NSW Arts / Cultural Funding)
+# ════════════════════════════════════════════════════════════════════════════
+
+def scrape_create_nsw() -> List[Dict]:
+    """Scrape open grant programs from create.nsw.gov.au."""
+    logger.info("Scraping Create NSW...")
+    BASE = "https://www.create.nsw.gov.au"
+    HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
+    grants = []
+    seen = set()
+
+    try:
+        r = requests.get(f"{BASE}/grants-and-funding", headers=HEADERS, timeout=15)
+        soup = BeautifulSoup(r.text, "lxml")
+    except Exception as e:
+        logger.error(f"  Create NSW listing failed: {e}")
+        return []
+
+    # Collect funding opportunity links
+    links = []
+    for a in soup.find_all("a", href=True):
+        href = a["href"]
+        title = clean(a.get_text())
+        if (
+            "/grants-and-funding/" in href
+            and len(title) > 15
+            and title not in seen
+            and not title.lower().startswith(("find out more", "see all", "view all"))
+        ):
+            full_url = href if href.startswith("http") else BASE + href
+            seen.add(title)
+            links.append((title, full_url))
+
+    logger.info(f"  Create NSW: {len(links)} grant links found")
+
+    for title, url in links:
+        try:
+            r2 = requests.get(url, headers=HEADERS, timeout=12)
+            soup2 = BeautifulSoup(r2.text, "lxml")
+
+            # Description: first substantive paragraph that isn't the generic Create NSW intro
+            desc = ""
+            for p in soup2.select("main p, .content p, article p, .field-body p"):
+                text = clean(p.get_text())
+                if len(text) > 40 and "create nsw is the nsw government" not in text.lower():
+                    desc = text[:2000]
+                    break
+            if not desc:
+                # fallback to page title + any found text
+                desc = f"NSW arts and cultural grant program. Visit {url} for full details."
+
+            # Amount
+            body = soup2.get_text(" ")
+            am = re.search(r"\$[\d,]+(?:\s*(?:million|k|000))?\s*(?:to|-)\s*\$[\d,]+|\$[\d,]+(?:\s*(?:million|k))?", body[:3000], re.I)
+            amount_text = am.group(0) if am else ""
+
+            # Close date
+            dm = re.search(
+                r"(?:clos(?:es?|ing)|due|deadline)[:\s]+(\d{1,2}\s+\w+\s+\d{4}|\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4})",
+                body, re.IGNORECASE
+            )
+            close_date = dm.group(1) if dm else ""
+
+            # Status
+            closed = any(kw in body.lower() for kw in ["closed to applications", "this round is closed", "applications have closed"])
+            status = "closed" if closed else "open"
+
+            grants.append({
+                "id": gid("create_nsw", url),
+                "title": title[:500],
+                "source": "create.nsw.gov.au",
+                "source_url": url,
+                "url": url,
+                "amount_min": None,
+                "amount_max": None,
+                "amount_text": amount_text[:500],
+                "states": ["NSW"],
+                "industries": ["Arts", "General"],
+                "business_sizes": ["Small", "Sole Trader", "Medium"],
+                "status": status,
+                "close_date": close_date,
+                "description": desc,
+                "eligibility": "",
+                "grant_type": "grant",
+                "category": "state",
+            })
+            time.sleep(random.uniform(1.0, 2.0))
+        except Exception as e:
+            logger.debug(f"  Create NSW error on {url}: {e}")
+
+    logger.info(f"  Create NSW done: {len(grants)} grants")
+    return grants
+
+
+# ════════════════════════════════════════════════════════════════════════════
+# 11. FRRR — Foundation for Rural & Regional Renewal
+# ════════════════════════════════════════════════════════════════════════════
+
+def scrape_frrr() -> List[Dict]:
+    """Scrape open grant programs from frrr.org.au."""
+    logger.info("Scraping FRRR...")
+    BASE = "https://frrr.org.au"
+    HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
+
+    # Known FRRR programs (hardcoded as seed — site has limited machine-readable structure)
+    seed = [
+        {
+            "title": "Strengthening Rural Communities – Small & Vital",
+            "url": "https://frrr.org.au/funding/src-small-vital/",
+            "description": "Grants for small community projects in rural and regional Australia. Supports community-led initiatives that build social capital, resilience, and wellbeing in small towns and villages.",
+            "eligibility": "Rural and regional community groups, not-for-profits, and local organisations. Projects must benefit communities of fewer than 15,000 people.",
+            "amount_text": "Up to $10,000",
+        },
+        {
+            "title": "Strengthening Rural Communities – Prepare & Recover",
+            "url": "https://frrr.org.au/funding/src-prepare-recover/",
+            "description": "Grants to help rural and regional communities prepare for and recover from natural disasters, drought, and other emergencies. Supports community resilience building projects.",
+            "eligibility": "Community organisations in rural and regional areas affected by or at risk of natural disasters. NFPs, community groups, local governments.",
+            "amount_text": "Up to $50,000",
+        },
+        {
+            "title": "Telstra's Connected Communities Grant Program",
+            "url": "https://frrr.org.au/funding/telstra-connected-communities-program/",
+            "description": "Grants to improve digital connectivity, skills and access in rural and remote communities. Supports projects that use technology to address community challenges.",
+            "eligibility": "Community organisations and not-for-profits in rural and remote Australia. Must demonstrate community benefit and digital inclusion focus.",
+            "amount_text": "Up to $25,000",
+        },
+        {
+            "title": "FRRR ABC Heywire Youth Innovation Grants",
+            "url": "https://frrr.org.au/funding/heywire-youth-innovation-grants/",
+            "description": "Grants supporting young people aged 16-22 in regional and remote Australia to implement community improvement projects they have designed themselves.",
+            "eligibility": "Young people aged 16-22 living in regional or remote areas of Australia who have completed the ABC Heywire competition or equivalent.",
+            "amount_text": "Up to $10,000",
+        },
+        {
+            "title": "Community Led Climate Solutions",
+            "url": "https://frrr.org.au/funding/community-led-climate-solutions/",
+            "description": "Grants to support rural and regional communities to develop and implement locally-led solutions to climate change challenges including adaptation and mitigation projects.",
+            "eligibility": "Community organisations, not-for-profits and local groups in rural and regional Australia focused on climate adaptation or mitigation.",
+            "amount_text": "Up to $30,000",
+        },
+    ]
+
+    grants = []
+    for s in seed:
+        grants.append({
+            "id": gid("frrr", s["url"]),
+            "title": s["title"],
+            "source": "frrr.org.au",
+            "source_url": s["url"],
+            "url": s["url"],
+            "amount_min": None,
+            "amount_max": None,
+            "amount_text": s.get("amount_text", ""),
+            "states": ["National"],
+            "industries": ["General"],
+            "business_sizes": ["All"],
+            "status": "open",
+            "close_date": "",
+            "description": s["description"],
+            "eligibility": s.get("eligibility", ""),
+            "grant_type": "grant",
+            "category": "federal",
+        })
+
+    logger.info(f"  FRRR done: {len(grants)} grants")
+    return grants
+
+
+# ════════════════════════════════════════════════════════════════════════════
 # Main
 # ════════════════════════════════════════════════════════════════════════════
 
@@ -1149,6 +1320,8 @@ SCRAPERS = [
     ("WA Additional Programs", scrape_wa_additional),
     ("VIC Additional Programs", scrape_vic_additional),
     ("SA Additional Programs", scrape_sa_additional),
+    ("Create NSW", scrape_create_nsw),
+    ("FRRR Rural & Regional Renewal", scrape_frrr),
 ]
 
 
