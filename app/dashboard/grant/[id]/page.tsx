@@ -299,6 +299,17 @@ export default function GrantDetailPage() {
                 <a href={grant.url || grant.source_url || '#'} target="_blank" rel="noopener noreferrer" className="btn btn--primary">
                     Go to Application →
                 </a>
+                <p style={{ marginTop: '10px', fontSize: '13px', color: 'var(--text-muted)' }}>
+                    Link not working?{' '}
+                    <a
+                        href={`https://www.google.com/search?q=${encodeURIComponent(grant.title + ' ' + grant.source)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ color: 'var(--color-primary)', textDecoration: 'underline' }}
+                    >
+                        Search Google for this grant →
+                    </a>
+                </p>
             </div>
 
             {/* Enterprise AI Draft Preview */}
