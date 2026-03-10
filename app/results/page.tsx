@@ -27,20 +27,46 @@ export default function ResultsPage() {
   const [plan, setPlan] = useState<string | null>(null);
 
   useEffect(() => {
+    const loadAndMatch = async (p: UserProfile) => {
+      setProfile(p);
+      const res = await fetch("/api/grants/match", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ profile: p }),
+      });
+      const { matches } = await res.json();
+      if (matches) setMatches(matches);
+      setLoading(false);
+    };
+
     const raw = localStorage.getItem("fundii_profile");
-    if (!raw) { setLoading(false); return; }
-
-    const p: UserProfile = JSON.parse(raw);
-    setProfile(p);
-
-    fetch("/api/grants/match", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ profile: p }),
-    })
-      .then((res) => res.json())
-      .then(({ matches }) => { if (matches) setMatches(matches); })
-      .finally(() => setLoading(false));
+    if (raw) {
+      loadAndMatch(JSON.parse(raw));
+    } else {
+      // No local data — try loading saved quiz answers from Supabase profile
+      supabase.auth.getUser().then(async ({ data }) => {
+        if (!data.user) { setLoading(false); return; }
+        const { data: prof } = await supabase
+          .from("profiles")
+          .select("state, industries, business_size, revenue_range, funding_purposes")
+          .eq("id", data.user.id).single();
+        if (prof?.state) {
+          const p: UserProfile = {
+            state: prof.state as string,
+            industries: (prof.industries as string[]) ?? [],
+            sizes: prof.business_size ? [prof.business_size as string] : [],
+            revenue: (prof.revenue_range as string) ?? "",
+            purposes: (prof.funding_purposes as string[]) ?? [],
+            activities: [],
+          };
+          localStorage.setItem("fundii_profile", JSON.stringify(p));
+          loadAndMatch(p);
+        } else {
+          setLoading(false);
+        }
+      });
+      return;
+    }
 
     const savedRaw = localStorage.getItem("fundii_saved");
     if (savedRaw) {
@@ -230,12 +256,12 @@ export default function ResultsPage() {
               </h1>
               <p className="text-gray-500 mt-1">Click any match score to see why it matched.</p>
             </div>
-            <Link
-              href="/quiz"
-              className="text-sm font-semibold text-[#0F7B6C] border border-[#0F7B6C] px-4 py-2 rounded-lg no-underline hover:bg-[#E6F5F2] transition-colors"
+            <button
+              onClick={() => { localStorage.removeItem("fundii_profile"); router.push("/quiz"); }}
+              className="text-sm font-semibold text-[#0F7B6C] border border-[#0F7B6C] px-4 py-2 rounded-lg hover:bg-[#E6F5F2] transition-colors"
             >
-              Edit profile
-            </Link>
+              Edit answers
+            </button>
           </div>
 
           {/* Profile tags */}

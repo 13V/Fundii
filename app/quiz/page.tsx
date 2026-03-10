@@ -82,49 +82,34 @@ export default function QuizPage() {
   const [prefilled, setPrefilled] = useState(false);
 
   useEffect(() => {
+    // If quiz already completed (localStorage has answers), skip straight to results
+    const existing = localStorage.getItem("fundii_profile");
+    if (existing) {
+      router.replace("/results");
+      return;
+    }
+
+    // Otherwise try to pre-fill from saved Supabase profile
     const supabase = createClient();
     supabase.auth.getUser().then(async ({ data: { user } }) => {
       if (!user) return;
       const { data: profile } = await supabase
         .from("profiles")
-        .select("state, industry, employees_range, revenue_range, years_operating, funding_interests, demographics")
+        .select("state, industries, business_size, revenue_range, funding_purposes")
         .eq("id", user.id)
         .single();
       if (!profile) return;
 
       const mapped: QuizAnswers = {};
 
-      if (profile.state) mapped.state = profile.state;
-
-      if (profile.industry) {
-        mapped.industries = [INDUSTRY_MAP[profile.industry as string] ?? "General"];
+      if (profile.state) mapped.state = profile.state as string;
+      if (Array.isArray(profile.industries) && profile.industries.length) {
+        mapped.industries = profile.industries as string[];
       }
-
-      if (profile.employees_range) {
-        mapped.sizes = SIZE_MAP[profile.employees_range as string] ?? "Small";
-      }
-
-      if (profile.years_operating) {
-        const n = parseFloat(profile.years_operating as string);
-        if (!isNaN(n)) {
-          mapped.business_age = n < 2 ? "under_2" : n <= 5 ? "2_to_5" : "over_5";
-        }
-      }
-
-      if (profile.revenue_range) {
-        mapped.revenue = REVENUE_MAP[profile.revenue_range as string];
-      }
-
-      if (Array.isArray(profile.funding_interests) && profile.funding_interests.length) {
-        const purposes = [...new Set(
-          (profile.funding_interests as string[]).map((f) => FUNDING_MAP[f]).filter(Boolean)
-        )];
-        if (purposes.length) mapped.purposes = purposes;
-      }
-
-      if (Array.isArray(profile.demographics) && profile.demographics.length) {
-        const activities = (profile.demographics as string[]).map((d) => DEMO_MAP[d]).filter(Boolean);
-        if (activities.length) mapped.activities = activities;
+      if (profile.business_size) mapped.sizes = profile.business_size as string;
+      if (profile.revenue_range) mapped.revenue = profile.revenue_range as string;
+      if (Array.isArray(profile.funding_purposes) && profile.funding_purposes.length) {
+        mapped.purposes = profile.funding_purposes as string[];
       }
 
       if (Object.keys(mapped).length > 0) {
@@ -132,7 +117,7 @@ export default function QuizPage() {
         setPrefilled(true);
       }
     });
-  }, []);
+  }, [router]);
 
   const currentStep = QUIZ_STEPS[step];
   const progress = ((step + 1) / QUIZ_STEPS.length) * 100;
@@ -168,7 +153,7 @@ export default function QuizPage() {
     }
   };
 
-  const finishQuiz = () => {
+  const finishQuiz = async () => {
     const profile: UserProfile = {
       state: answers.state ?? "",
       industries: answers.industries ?? [],
@@ -179,6 +164,21 @@ export default function QuizPage() {
       activities: (answers.activities ?? []).filter((a) => a !== "none"),
     };
     localStorage.setItem("fundii_profile", JSON.stringify(profile));
+
+    // Persist to Supabase so answers survive across devices/sessions
+    const supabase = createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) {
+      await supabase.from("profiles").upsert({
+        id: user.id,
+        state: profile.state || null,
+        industries: profile.industries,
+        business_size: profile.sizes[0] ?? null,
+        revenue_range: profile.revenue || null,
+        funding_purposes: profile.purposes,
+      }, { onConflict: "id" });
+    }
+
     router.push("/results");
   };
 
