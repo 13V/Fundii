@@ -1,24 +1,138 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Nav from "@/components/Nav";
 import { QUIZ_STEPS } from "@/lib/grants-data";
+import { createClient } from "@/lib/supabase";
 import type { UserProfile } from "@/lib/types";
 
 type QuizAnswers = {
   state?: string;
   industries?: string[];
   sizes?: string;
+  business_age?: string;
   revenue?: string;
   purposes?: string[];
   activities?: string[];
+};
+
+const INDUSTRY_MAP: Record<string, string> = {
+  "Agriculture & Farming": "Agriculture",
+  "Arts & Culture": "Arts",
+  "Construction & Trades": "Construction",
+  "Education & Training": "General",
+  "Finance & Accounting": "General",
+  "Food & Beverage": "Agriculture",
+  "Healthcare & Allied Health": "Healthcare",
+  "Hospitality & Tourism": "Tourism",
+  "IT & Technology": "Technology",
+  "Manufacturing": "Manufacturing",
+  "Mining & Resources": "Mining",
+  "Professional Services": "General",
+  "Property & Real Estate": "General",
+  "Retail & E-commerce": "Retail",
+  "Social Enterprise & Nonprofit": "General",
+  "Transport & Logistics": "General",
+  "Other": "General",
+};
+
+const SIZE_MAP: Record<string, string> = {
+  "Just me": "Sole Trader",
+  "2–5": "Small",
+  "6–19": "Small",
+  "20–49": "Medium",
+  "50–199": "Medium",
+  "200+": "Medium",
+};
+
+const REVENUE_MAP: Record<string, string> = {
+  "Pre-revenue": "pre_revenue",
+  "Under $100K": "under_500k",
+  "$100K – $500K": "under_500k",
+  "$500K – $2M": "500k_2m",
+  "$2M – $10M": "2m_10m",
+  "$10M – $20M": "over_10m",
+  "$20M+": "over_10m",
+};
+
+const FUNDING_MAP: Record<string, string> = {
+  "Research & Development": "innovate",
+  "Hiring & Training": "hire",
+  "Equipment & Machinery": "equipment",
+  "Export & Trade": "export",
+  "Sustainability & Environment": "energy",
+  "Digital Transformation": "digital",
+  "Facilities & Fit–out": "grow",
+  "Marketing & Branding": "grow",
+  "Community Impact": "grow",
+  "Innovation & Commercialisation": "innovate",
+};
+
+const DEMO_MAP: Record<string, string> = {
+  "Indigenous-owned (Aboriginal or Torres Strait Islander)": "indigenous",
+  "Women-owned or led": "women_led",
+  "Regional / Rural business": "regional",
 };
 
 export default function QuizPage() {
   const router = useRouter();
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<QuizAnswers>({});
+  const [prefilled, setPrefilled] = useState(false);
+
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getUser().then(async ({ data: { user } }) => {
+      if (!user) return;
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("state, industry, employees_range, revenue_range, years_operating, funding_interests, demographics")
+        .eq("id", user.id)
+        .single();
+      if (!profile) return;
+
+      const mapped: QuizAnswers = {};
+
+      if (profile.state) mapped.state = profile.state;
+
+      if (profile.industry) {
+        mapped.industries = [INDUSTRY_MAP[profile.industry as string] ?? "General"];
+      }
+
+      if (profile.employees_range) {
+        mapped.sizes = SIZE_MAP[profile.employees_range as string] ?? "Small";
+      }
+
+      if (profile.years_operating) {
+        const n = parseFloat(profile.years_operating as string);
+        if (!isNaN(n)) {
+          mapped.business_age = n < 2 ? "under_2" : n <= 5 ? "2_to_5" : "over_5";
+        }
+      }
+
+      if (profile.revenue_range) {
+        mapped.revenue = REVENUE_MAP[profile.revenue_range as string];
+      }
+
+      if (Array.isArray(profile.funding_interests) && profile.funding_interests.length) {
+        const purposes = [...new Set(
+          (profile.funding_interests as string[]).map((f) => FUNDING_MAP[f]).filter(Boolean)
+        )];
+        if (purposes.length) mapped.purposes = purposes;
+      }
+
+      if (Array.isArray(profile.demographics) && profile.demographics.length) {
+        const activities = (profile.demographics as string[]).map((d) => DEMO_MAP[d]).filter(Boolean);
+        if (activities.length) mapped.activities = activities;
+      }
+
+      if (Object.keys(mapped).length > 0) {
+        setAnswers(mapped);
+        setPrefilled(true);
+      }
+    });
+  }, []);
 
   const currentStep = QUIZ_STEPS[step];
   const progress = ((step + 1) / QUIZ_STEPS.length) * 100;
@@ -39,6 +153,7 @@ export default function QuizPage() {
 
   const canProceed = () => {
     if (currentStep.id === "activities") return true; // optional step
+    if (currentStep.id === "business_age") return !!answers.business_age;
     const answer = getAnswer();
     if (!answer) return false;
     if (Array.isArray(answer)) return answer.length > 0;
@@ -58,6 +173,7 @@ export default function QuizPage() {
       state: answers.state ?? "",
       industries: answers.industries ?? [],
       sizes: answers.sizes ? [answers.sizes] : [],
+      business_age: answers.business_age,
       revenue: answers.revenue ?? "",
       purposes: answers.purposes ?? [],
       activities: (answers.activities ?? []).filter((a) => a !== "none"),
@@ -77,6 +193,14 @@ export default function QuizPage() {
     <div className="min-h-screen bg-[#FAF8F4]">
       <Nav />
       <div className="max-w-2xl mx-auto px-6 py-12">
+        {/* Pre-fill notice */}
+        {prefilled && (
+          <div className="mb-6 flex items-center gap-3 px-4 py-3 bg-teal-50 border border-teal-200 rounded-xl text-sm text-teal-700">
+            <span>✓</span>
+            <span>Pre-filled from your profile — review each step and update if needed.</span>
+          </div>
+        )}
+
         {/* Progress */}
         <div className="mb-12">
           <div className="flex justify-between text-sm text-gray-500 mb-2.5">

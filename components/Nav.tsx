@@ -49,6 +49,9 @@ export default function Nav() {
           Grant<span style={{ color: "#0F7B6C" }}>Mate</span>
         </Link>
         <div className="flex gap-2 items-center">
+          <Link href="/blog" className="px-4 py-2 rounded-lg text-sm font-semibold text-gray-500 hover:text-[#1A1A2E] transition-colors no-underline hidden sm:block">
+            Blog
+          </Link>
           <Link href="/quiz" className="px-4 py-2 rounded-lg text-sm font-semibold text-[#1A1A2E] border border-gray-200 hover:bg-gray-50 transition-colors no-underline">
             Find Grants
           </Link>

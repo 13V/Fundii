@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase'
 import { useRouter, usePathname } from 'next/navigation'
-import Image from 'next/image'
 import Link from 'next/link'
 import './dashboard.css'
 
@@ -42,7 +41,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     const navItems = [
         {
             href: '/dashboard',
-            label: 'Grant Feed',
+            label: 'My Grants',
             icon: (
                 <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
                     <rect x="2" y="3" width="16" height="14" rx="2" />
@@ -92,8 +91,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <div className="dashboard">
             <aside className="sidebar">
                 <div className="sidebar__logo">
-                    <Link href="/">
-                        <Image src="/assets/fundii-logo.png" alt="Grant Base" width={100} height={36} style={{ height: 36, width: 'auto' }} />
+                    <Link href="/" style={{ textDecoration: 'none' }}>
+                        <span style={{ fontSize: 20, fontWeight: 800, color: '#1A1A2E', letterSpacing: '-0.5px' }}>
+                            Grant<span style={{ color: '#0F7B6C' }}>Base</span>
+                        </span>
                     </Link>
                 </div>
                 <nav className="sidebar__nav">
@@ -126,6 +127,28 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <main className="dashboard__main">
                 {children}
             </main>
+
+            {/* Mobile bottom tab bar */}
+            <nav className="mobile-nav">
+                {navItems.map(item => (
+                    <Link
+                        key={item.href}
+                        href={item.href}
+                        className={`mobile-nav__item ${pathname === item.href || pathname.startsWith(item.href + '/') ? 'mobile-nav__item--active' : ''}`}
+                    >
+                        <span className="mobile-nav__icon">{item.icon}</span>
+                        {item.label}
+                    </Link>
+                ))}
+                <button className="mobile-nav__item" onClick={handleLogout} title="Log out">
+                    <span className="mobile-nav__icon">
+                        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
+                            <path d="M7.5 17H4a1 1 0 01-1-1V4a1 1 0 011-1h3.5M13 13.5L17 10l-4-3.5M17 10H8" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                    </span>
+                    Log out
+                </button>
+            </nav>
         </div>
     )
 }

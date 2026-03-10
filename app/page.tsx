@@ -47,8 +47,34 @@ export default function LandingPage() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Grant Base",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "url": "https://grantbase.com.au",
+    "description": "Grant Base matches Australian small businesses with government grants they qualify for. Smart matching, weekly email alerts, and AI-drafted applications.",
+    "offers": [
+      { "@type": "Offer", "name": "Starter", "price": "99", "priceCurrency": "AUD", "billingPeriod": "P1M" },
+      { "@type": "Offer", "name": "Growth", "price": "229", "priceCurrency": "AUD", "billingPeriod": "P1M" },
+      { "@type": "Offer", "name": "Enterprise", "price": "499", "priceCurrency": "AUD", "billingPeriod": "P1M" },
+    ],
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "reviewCount": "124",
+    },
+    "areaServed": { "@type": "Country", "name": "Australia" },
+    "audience": { "@type": "BusinessAudience", "audienceType": "Small and Medium Businesses" },
+  }
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* NAV */}
       <nav className="nav" id="nav">
         <div className="nav__inner container">
@@ -224,28 +250,38 @@ export default function LandingPage() {
       {/* PRICING */}
       <section className="pricing" id="pricing">
         <div className="container">
-          <h2 className="section-title">Two plans. One goal:<br />get you funded.</h2>
+          <h2 className="section-title">Three plans. One goal:<br />get you funded.</h2>
           <div className="pricing__grid">
             <div className="pricing__card reveal">
-              <div className="pricing__card-header"><h3 className="pricing__card-name">Pro</h3><p className="pricing__card-desc">Grant alerts, delivered. You find the grants, you write the applications.</p></div>
-              <div className="pricing__card-price"><span className="pricing__card-currency">$</span><span className="pricing__card-amount">49</span><span className="pricing__card-period">/month</span></div>
+              <div className="pricing__card-header"><h3 className="pricing__card-name">Starter</h3><p className="pricing__card-desc">Grant matching and weekly alerts. You find the grants, you write the applications.</p></div>
+              <div className="pricing__card-price"><span className="pricing__card-currency">$</span><span className="pricing__card-amount">99</span><span className="pricing__card-period">/month</span></div>
               <ul className="pricing__card-features">
-                {['Smart grant matching', 'Instant email alerts', 'Unlimited grant matches', 'Email support'].map(f => (
+                {['Smart grant matching', 'Weekly email alerts', 'Unlimited grant matches', 'Email support'].map(f => (
                   <li key={f} className="pricing__card-feature pricing__card-feature--included"><CheckIcon />{f}</li>
                 ))}
               </ul>
-              <Link href="/signup?plan=starter" className="btn btn--outline btn--full">Start with Pro</Link>
+              <Link href="/signup?plan=starter" className="btn btn--outline btn--full">Get Started</Link>
             </div>
             <div className="pricing__card pricing__card--featured reveal">
-              <div className="pricing__card-popular">RECOMMENDED</div>
-              <div className="pricing__card-header"><h3 className="pricing__card-name">Enterprise</h3><p className="pricing__card-desc">Everything in Pro, plus AI writes your grant applications for you.</p></div>
-              <div className="pricing__card-price"><span className="pricing__card-currency">$</span><span className="pricing__card-amount">149</span><span className="pricing__card-period">/month</span></div>
+              <div className="pricing__card-popular">MOST POPULAR</div>
+              <div className="pricing__card-header"><h3 className="pricing__card-name">Growth</h3><p className="pricing__card-desc">Everything in Starter, plus AI drafts up to 10 grant applications per month.</p></div>
+              <div className="pricing__card-price"><span className="pricing__card-currency">$</span><span className="pricing__card-amount">229</span><span className="pricing__card-period">/month</span></div>
               <ul className="pricing__card-features">
-                {['Everything in Pro', 'AI-drafted grant applications', 'Priority support', 'Dedicated account manager'].map(f => (
+                {['Everything in Starter', 'AI-drafted applications (10/mo)', 'Application tracking', 'Priority email support'].map(f => (
                   <li key={f} className="pricing__card-feature pricing__card-feature--included"><CheckIcon />{f}</li>
                 ))}
               </ul>
-              <Link href="/signup?plan=enterprise" className="btn btn--primary btn--full">Start with Enterprise</Link>
+              <Link href="/signup?plan=growth" className="btn btn--primary btn--full">Start with Growth</Link>
+            </div>
+            <div className="pricing__card reveal">
+              <div className="pricing__card-header"><h3 className="pricing__card-name">Enterprise</h3><p className="pricing__card-desc">Unlimited AI drafting, dedicated support, and multi-user access for your team.</p></div>
+              <div className="pricing__card-price"><span className="pricing__card-currency">$</span><span className="pricing__card-amount">499</span><span className="pricing__card-period">/month</span></div>
+              <ul className="pricing__card-features">
+                {['Everything in Growth', 'Unlimited AI drafts', 'Dedicated account manager', 'Multi-user / team access'].map(f => (
+                  <li key={f} className="pricing__card-feature pricing__card-feature--included"><CheckIcon />{f}</li>
+                ))}
+              </ul>
+              <Link href="/signup?plan=enterprise" className="btn btn--outline btn--full">Contact Sales</Link>
             </div>
           </div>
           <p className="pricing__note">No lock-in contracts. No success fees. No commission on grants won. Cancel anytime.</p>

@@ -29,18 +29,21 @@ INDUSTRY_KEYWORDS: dict[str, list[str]] = {
         "agrifood", "agribusiness", "livestock", "pastoral",
         "fisheries", "fishing industry", "crop production",
         "viticulture", "broadacre", "agri-",
-        "food production", "food manufacturing", "beverage",
+        "food production", "food manufacturing", "beverage manufacturing",
         "wine industry", "brewery", "distillery", "winery",
     ],
     "Manufacturing": [
         "manufacturing", "manufacturer", "made in australia",
         "industrial production", "fabrication", "advanced manufacturing",
     ],
+    # "technology" alone is too broad — appears in "using technology to improve"
+    # on almost every modern grant. Use specific phrases only.
     "Technology": [
-        "technology", "software", "digital transformation", "cyber",
+        "software", "digital transformation", "cybersecurity", "cyber security",
         "artificial intelligence", " ai ", "ict ", "data science",
         "machine learning", "saas", "app development", "tech startup",
-        "deep tech",
+        "deep tech", "digital technology", "information technology",
+        "software development", "platform development",
     ],
     "Construction": [
         "construction", "building industry", "building work",
@@ -52,10 +55,14 @@ INDUSTRY_KEYWORDS: dict[str, list[str]] = {
         "motor vehicle repair", "smash repair", "automotive industry",
         "automotive trade", "vehicle repair",
     ],
+    # "health" alone false-matches "workplace health and safety", "department of health"
+    # on virtually every government grant. Use specific healthcare terms only.
     "Healthcare": [
-        "health", "medical", "healthcare", "biotech",
+        "healthcare", "medical ", "biotech", "biotechnology",
         "pharmaceutical", "aged care", "disability support",
-        "clinical", "hospital", "allied health", "mental health services",
+        "clinical trial", "hospital ", "allied health", "mental health services",
+        "health sector", "health industry", "health service",
+        "medical research", "health research",
     ],
     "Tourism": [
         "tourism", "hospitality", "visitor economy",
@@ -65,16 +72,23 @@ INDUSTRY_KEYWORDS: dict[str, list[str]] = {
         "retail", "e-commerce", "ecommerce", "consumer goods",
         "online store", "brick and mortar",
     ],
-    # "Energy" covers both energy efficiency AND environmental sustainability
-    # — matches quiz option "Energy & Environment" (value: "Energy")
+    # "Energy" covers energy efficiency AND genuine environmental programs.
+    # REMOVED: "environment", "sustainability", "climate change", "conservation",
+    # "biodiversity", "waste management", "recycling", "landcare" — these appear
+    # in the boilerplate of virtually every Australian government grant and cause
+    # false Energy tags on unrelated grants.
     "Energy": [
         "energy efficiency", "renewable energy", "solar panel",
-        "solar power", "clean energy", "hydrogen", "battery storage",
+        "solar power", "clean energy", "hydrogen energy", "battery storage",
         "wind power", "grid connection", "decarbonisation",
         "net zero", "emissions reduction", "electrification",
-        "environment", "sustainability", "climate change",
-        "waste management", "recycling", "biodiversity",
-        "conservation", "landcare", "land care",
+        "clean technology", "green energy", "energy audit",
+        "solar farm", "energy storage", "power generation",
+        # Genuine environmental programs (specific enough to avoid boilerplate)
+        "environmental remediation", "pollution reduction",
+        "circular economy", "biodiversity offset", "habitat restoration",
+        "environmental restoration", "land rehabilitation",
+        "waste reduction program", "recycling facility",
     ],
     "Mining": [
         "mining", "resources sector", "minerals processing",
@@ -89,14 +103,18 @@ INDUSTRY_KEYWORDS: dict[str, list[str]] = {
         "export market", "austrade", "emdg",
         "exporting", "overseas market",
     ],
-    # "Research" absorbs Space (space/aerospace are R&D industries)
+    # "research" alone false-matches "research your eligibility", "research shows"
+    # in grant description boilerplate. Use specific R&D phrases only.
+    # "science" alone false-matches "food science", "Department of Education and Science".
     "Research": [
-        "research", "r&d", "research and development",
-        "science", "csiro", "commercialisation", "university research",
+        "research and development", "r&d", "research grant",
+        "research program", "research project", "scientific research",
+        "csiro", "commercialisation", "university research",
         "space industry", "satellite", "aerospace",
+        "medical research", "applied research", "industry research",
     ],
     "Arts": [
-        "arts ", "creative industry", "cultural", "heritage",
+        " arts ", "arts,", "arts.", "creative industry", " cultural ",
         "screen australia", " film ", "music grant", "theatre",
         "performing arts", "visual arts",
     ],
@@ -167,15 +185,15 @@ def detect_sizes(text: str) -> List[str]:
         sizes.append("Small")
     if any(k in t for k in ["medium business", "medium enterprise", "mid-size"]):
         sizes.append("Medium")
-    if any(k in t for k in ["large business", "large enterprise", "large company"]):
-        sizes.append("Large")
     if any(k in t for k in [
         "non-profit", "not-for-profit", "charity", "charities",
         " nfp ", "community organisation", "community organization",
     ]):
         sizes.append("Non-profit")
-    if any(k in t for k in ["aboriginal", "indigenous", "first nations"]):
-        sizes.append("Indigenous")
+    # "Large" removed — no quiz option maps to it, and large-business-only
+    # government grants are extremely rare. Those grants default to "All".
+    # "Indigenous" removed from sizes — it is an activity flag in the quiz,
+    # not a size category. The keyword guard in matching.ts handles restriction.
     return sizes if sizes else ["All"]
 
 

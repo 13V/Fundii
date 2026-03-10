@@ -8,6 +8,13 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/',
   },
+  keywords: [
+    'Australian government grants', 'small business grants Australia',
+    'business grants NSW', 'business grants VIC', 'business grants QLD',
+    'business grants SA', 'business grants WA', 'grant finder Australia',
+    'government funding small business', 'startup grants Australia',
+    'SME grants', 'grant matching', 'AI grant application',
+  ],
   openGraph: {
     title: 'Grant Base — Find Government Grants for Your Australian Business',
     description: 'Smart grant matching for Australian small businesses. Get matched with government & private grants in 5 minutes. AI-drafted applications included.',
@@ -15,15 +22,18 @@ export const metadata: Metadata = {
     siteName: 'Grant Base',
     locale: 'en_AU',
     type: 'website',
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Grant Base — Find Government Grants for Australian Businesses' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Grant Base — Find Government Grants for Your Australian Business',
     description: 'Smart grant matching for Australian small businesses. Find funding in 5 minutes.',
+    images: ['/og-image.png'],
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: { index: true, follow: true, 'max-snippet': -1, 'max-image-preview': 'large' },
   },
 }
 

@@ -658,6 +658,11 @@
     line-height: 1.6;
 }
 
+/* ─── MOBILE BOTTOM NAV ─── */
+.mobile-nav {
+    display: none;
+}
+
 /* ─── RESPONSIVE ─── */
 @media (max-width: 768px) {
     .sidebar {
@@ -666,7 +671,7 @@
 
     .dashboard__main {
         margin-left: 0;
-        padding: 20px 16px;
+        padding: 20px 16px 88px; /* extra bottom padding for mobile nav */
     }
 
     .grant-card {
@@ -675,5 +680,82 @@
 
     .grant-card__amount {
         text-align: left;
+    }
+
+    /* Mobile bottom nav bar */
+    .mobile-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 200;
+        background: var(--white);
+        border-top: 1px solid var(--border);
+        padding: 8px 0 max(8px, env(safe-area-inset-bottom));
+    }
+
+    .mobile-nav__item {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        padding: 6px 4px;
+        text-decoration: none;
+        color: var(--text-muted);
+        font-size: 11px;
+        font-weight: 500;
+        transition: color 0.2s;
+        cursor: pointer;
+        background: none;
+        border: none;
+        font-family: var(--font-body);
+    }
+
+    .mobile-nav__icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+    }
+
+    .mobile-nav__icon svg {
+        width: 22px;
+        height: 22px;
+    }
+
+    .mobile-nav__item--active {
+        color: var(--primary);
+    }
+
+    .mobile-nav__item:hover {
+        color: var(--primary);
+    }
+
+    /* Stack filters vertically on mobile */
+    .filters {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filters select {
+        width: 100%;
+    }
+
+    /* Grant detail full width on mobile */
+    .grant-detail {
+        max-width: 100%;
+    }
+
+    .grant-detail__title {
+        font-size: 1.5rem;
+    }
+
+    /* Settings + billing full width */
+    .settings-section,
+    .billing-plan {
+        max-width: 100%;
     }
 }

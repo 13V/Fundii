@@ -12,8 +12,13 @@ function truncateDescription(desc: string): string {
 export async function POST(req: NextRequest) {
   const { profile }: { profile: UserProfile } = await req.json();
 
-  if (!profile?.state) {
-    return NextResponse.json({ error: "Missing profile" }, { status: 400 });
+  if (
+    !profile?.state ||
+    !Array.isArray(profile.industries) ||
+    !Array.isArray(profile.sizes) ||
+    !profile.revenue
+  ) {
+    return NextResponse.json({ error: "Incomplete profile" }, { status: 400 });
   }
 
   const supabase = createClient(
@@ -27,7 +32,7 @@ export async function POST(req: NextRequest) {
       "id, title, source, source_url, amount_min, amount_max, amount_text, states, industries, business_sizes, status, close_date, description, eligibility, grant_type, category, url"
     )
     .in("status", ["open", "ongoing"])
-    .overlaps("states", [profile.state, "National"])
+    .overlaps("states", [profile.state, "National", "All"])
     // Filter out nav garbage, phishing banners, and other scraper artefacts
     .not("description", "ilike", "%Skip navigation%")
     .not("description", "ilike", "%Toggle High Contrast%")
@@ -45,6 +50,8 @@ export async function POST(req: NextRequest) {
   const grants: Grant[] = (data ?? []).map((row: Record<string, unknown>) => ({
     ...(row as Omit<Grant, "sizes">),
     sizes: (row.business_sizes as string[]) ?? [],
+    // Fallback url → source_url so "View Details" links are never broken
+    url: (row.url as string) || (row.source_url as string) || "",
     // Truncate descriptions that are too long (signs of full-page scrapes)
     description: truncateDescription((row.description as string) ?? ""),
   }));

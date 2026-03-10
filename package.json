@@ -12,9 +12,13 @@
     "@anthropic-ai/sdk": "^0.39.0",
     "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.47.10",
+    "@tailwindcss/typography": "^0.5.19",
+    "gray-matter": "^4.0.3",
     "next": "14.2.29",
     "react": "^18",
     "react-dom": "^18",
+    "remark": "^15.0.1",
+    "remark-html": "^16.0.1",
     "stripe": "^20.4.0"
   },
   "devDependencies": {

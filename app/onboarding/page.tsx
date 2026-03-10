@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase'
 import { useRouter } from 'next/navigation'
-import Image from 'next/image'
 import Link from 'next/link'
 import './onboarding.css'
 
@@ -111,8 +110,10 @@ export default function OnboardingPage() {
 
     return (
         <div className="onboarding">
-            <Link href="/">
-                <Image src="/assets/fundii-logo.png" alt="Grant Base" width={120} height={44} className="onboarding__logo" />
+            <Link href="/" style={{ textDecoration: 'none' }} className="onboarding__logo">
+                <span style={{ fontSize: 22, fontWeight: 800, color: '#1A1A2E', letterSpacing: '-0.5px' }}>
+                    Grant<span style={{ color: '#0F7B6C' }}>Base</span>
+                </span>
             </Link>
 
             <div className="onboarding__progress">
