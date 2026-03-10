@@ -145,10 +145,9 @@ export function matchGrants(grants: Grant[], profile: UserProfile): MatchedGrant
       const grantInds = [...new Set(rawInds.map((i) => INDUSTRY_NORMALIZE[i] ?? i))];
       const hasGeneral = grantInds.some((i) => i === "General" || i === "All");
       const specificInds = grantInds.filter((i) => i !== "General" && i !== "All");
-      // If 9+ specific industries tagged → almost certainly a full-page scrape false positive.
-      // Threshold is 9 (not 6) because some legitimate federal programs cover 6-8 industries
-      // (e.g. R&D Tax Incentive: Technology, Manufacturing, Healthcare, Agriculture, Energy, Research).
-      const overTagged = specificInds.length >= 9;
+      // If 7+ specific industries tagged → almost certainly a full-page scrape false positive.
+      // Legitimate programs cover at most 6 industries (e.g. R&D Tax Incentive).
+      const overTagged = specificInds.length >= 7;
       const hasDirectMatch = specificInds.some((i) => profile.industries.includes(i));
 
       if (hasDirectMatch && !overTagged) {

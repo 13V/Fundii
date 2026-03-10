@@ -48,6 +48,18 @@ _JUNK_TITLE_RE = re.compile(
     r"|resources?$"
     r"|support$"
     r"|\bfaq(s)?\b"
+    r"|tools and insights\b"
+    r"|current grant opportunity view\b"
+    r"|funding approvals?\s*\d"
+    r"|in the archive\b"
+    r"|document library\b"
+    r"|partner countries?\b"
+    r"|sales agents? and distributors?\b"
+    r"|narrative content market\b"
+    r"|special initiatives?\s*$"
+    r"|international initiatives?\s*$"
+    r"|sales and distribution support\s*$"
+    r"|industry development funding deadlines?\s*$"
     r")",
     re.IGNORECASE,
 )
@@ -79,6 +91,9 @@ def is_valid_grant(g: dict) -> bool:
         return False
     # Require at least a minimal description (allows grants with short descs through)
     if len(desc) < MIN_DESC_LEN:
+        return False
+    # Reject records where description is clearly scraped navigation text
+    if desc.lower().startswith(("skip to content", "skip to main content", "search input", "navigation")):
         return False
     return True
 
