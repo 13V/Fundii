@@ -262,7 +262,7 @@ def scrape_detail_page(url: str, source: str, state: str, prefix: str) -> Option
         "industries": detect_industries(detection_text),
         "business_sizes": detect_sizes(detection_text),
         "status": detect_status(full_text),
-        "close_date": close_date or "See website",
+        "close_date": close_date or "",
         "description": description[:2000] or title,
         "eligibility": "",
         "grant_type": "grant",
@@ -369,7 +369,7 @@ def scrape_nsw() -> List[Dict]:
             "industries": detect_industries(combined),
             "business_sizes": detect_sizes(combined),
             "status": status,
-            "close_date": close_date or "See website",
+            "close_date": close_date or "",
             "description": description or title,
             "eligibility": audience[:1000],
             "grant_type": "grant",
@@ -484,7 +484,7 @@ def scrape_vic() -> List[Dict]:
             "industries": detect_industries(combined),
             "business_sizes": detect_sizes(combined),
             "status": status,
-            "close_date": close_date or "See website",
+            "close_date": close_date or "",
             "description": description or title,
             "eligibility": "",
             "grant_type": "grant",
@@ -557,7 +557,7 @@ def scrape_wa() -> List[Dict]:
                 "industries": detect_industries(combined),
                 "business_sizes": detect_sizes(combined),
                 "status": detect_status(context),
-                "close_date": "See website",
+                "close_date": "",
                 "description": context[:2000] if len(context) > len(text) else text,
                 "eligibility": "",
                 "grant_type": "grant",
@@ -769,7 +769,7 @@ def scrape_act() -> List[Dict]:
                 "industries": detect_industries(title_hint),
                 "business_sizes": ["All"],
                 "status": "open",
-                "close_date": "See website",
+                "close_date": "",
                 "description": title_hint,
                 "eligibility": "",
                 "grant_type": "grant",
@@ -887,7 +887,7 @@ async def scrape_arena_async() -> List[Dict]:
                     r"clos(?:es?|ing)\s+(?:date[:\s]+)?(\d{1,2}\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\w*\s+\d{4})",
                     body_text, re.IGNORECASE
                 )
-                close_date = dm.group(1) if dm else "See website"
+                close_date = dm.group(1) if dm else ""
 
                 desc = clean_text(body_text[:1000])
 

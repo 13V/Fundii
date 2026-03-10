@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { useParams, useSearchParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase";
 
 const sf = "'IBM Plex Sans',-apple-system,BlinkMacSystemFont,sans-serif";
 const se = "'Source Serif 4',Georgia,serif";
@@ -12,7 +13,6 @@ const border = "#E8E5DE";
 const muted = "#8C8C8C";
 const bg = "#FAFAF7";
 const amber = "#C8842E";
-const amberBg = "#FEF3E2";
 
 const QUESTIONS = [
   { key: "businessName", label: "Business name", placeholder: "e.g. Smith Electrical Pty Ltd", type: "text" },
@@ -46,18 +46,43 @@ function LoadingDots() {
 
 export default function ApplyPage() {
   const { grantId } = useParams<{ grantId: string }>();
-  const searchParams = useSearchParams();
-  const paid = searchParams.get("success") === "true";
+  const router = useRouter();
 
   const [grant, setGrant] = useState<Grant | null>(null);
   const [loadingGrant, setLoadingGrant] = useState(true);
-  const [phase, setPhase] = useState<"gate" | "intake" | "generating" | "result">(paid ? "intake" : "gate");
+  const [plan, setPlan] = useState<string | null>(null);
+  const [authToken, setAuthToken] = useState<string | null>(null);
+  const [phase, setPhase] = useState<"checking" | "gate" | "intake" | "generating" | "result">("checking");
   const [form, setForm] = useState<IntakeForm>({});
   const [application, setApplication] = useState("");
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const resultRef = useRef<HTMLDivElement>(null);
+
+  // Check auth + plan on mount
+  useEffect(() => {
+    const init = async () => {
+      const supabase = createClient();
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        router.push(`/login?redirect=/dashboard/apply/${grantId}`);
+        return;
+      }
+      setAuthToken(session.access_token);
+      const { data: profile } = await supabase
+        .from("profiles").select("plan").eq("id", session.user.id).single();
+      const userPlan = profile?.plan ?? null;
+      setPlan(userPlan);
+      // growth or enterprise → skip gate
+      if (userPlan === "growth" || userPlan === "enterprise") {
+        setPhase("intake");
+      } else {
+        setPhase("gate");
+      }
+    };
+    init();
+  }, [grantId]);
 
   useEffect(() => {
     if (!grantId) return;
@@ -70,21 +95,6 @@ export default function ApplyPage() {
   const allFilled = QUESTIONS.every(q => (form[q.key] || "").trim().length > 0);
   const completedCount = QUESTIONS.filter(q => (form[q.key] || "").trim().length > 0).length;
 
-  const startCheckout = async (tier: "apply" | "apply_pro") => {
-    const res = await fetch("/api/create-checkout", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        grantId,
-        tier,
-        grantTitle: grant?.title as string || "",
-      }),
-    });
-    const { url, error: err } = await res.json();
-    if (url) window.location.href = url;
-    else setError(err || "Could not start checkout");
-  };
-
   const generate = async () => {
     setPhase("generating");
     setError("");
@@ -93,7 +103,10 @@ export default function ApplyPage() {
     try {
       const res = await fetch("/api/generate-application", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          ...(authToken ? { "Authorization": `Bearer ${authToken}` } : {}),
+        },
         body: JSON.stringify({ grantId, intake: form }),
       });
       const data = await res.json();
@@ -191,64 +204,45 @@ export default function ApplyPage() {
           )}
         </div>
 
-        {/* GATE: Stripe payment */}
+        {/* GATE: Plan upgrade required */}
         {phase === "gate" && (
           <div style={{ marginTop: 28, textAlign: "center" }}>
+            <div style={{ width: 56, height: 56, borderRadius: 16, background: greenLight, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px", fontSize: 24 }}>🔒</div>
             <h3 style={{ fontFamily: se, fontSize: 22, fontWeight: 800, letterSpacing: "-.5px", marginBottom: 10 }}>
-              Generate your application
+              AI drafting is a paid feature
             </h3>
-            <p style={{ fontSize: 15, color: "#5C5C5C", marginBottom: 28, lineHeight: 1.6, maxWidth: 480, margin: "0 auto 28px" }}>
-              Answer 10 questions about your business and project. Our AI will write a complete, professional grant application addressing every assessment criterion.
+            <p style={{ fontSize: 15, color: "#5C5C5C", lineHeight: 1.6, maxWidth: 440, margin: "0 auto 28px" }}>
+              Upgrade to <strong>Growth</strong> or <strong>Enterprise</strong> to generate AI-written grant applications tailored to your business.
             </p>
 
-            {error && (
-              <div style={{ background: "#FEE2E2", border: "1px solid #FECACA", borderRadius: 8, padding: "10px 14px", marginBottom: 20, fontSize: 13, color: "#991B1B" }}>
-                {error}
-              </div>
-            )}
-
-            <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-              <div style={{ background: "#fff", border: `1px solid ${border}`, borderRadius: 10, padding: "24px 28px", maxWidth: 260, textAlign: "left" }}>
-                <div style={{ fontSize: 11, fontWeight: 600, color: muted, textTransform: "uppercase", letterSpacing: ".05em", marginBottom: 6 }}>Standard</div>
-                <div style={{ fontFamily: se, fontSize: 28, fontWeight: 900, letterSpacing: "-1px", marginBottom: 4, color: "#1A1A1A" }}>$199</div>
-                <div style={{ fontSize: 12, color: muted, marginBottom: 16 }}>One-time · AUD</div>
-                <ul style={{ listStyle: "none", padding: 0, marginBottom: 20 }}>
-                  {["Complete AI application draft","All criteria addressed","Copy & edit ready","Instant delivery"].map(f => (
-                    <li key={f} style={{ fontSize: 13, color: "#3D3D3D", display: "flex", gap: 6, alignItems: "flex-start", marginBottom: 6 }}>
-                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0, marginTop: 1 }}><circle cx="7" cy="7" r="6" stroke={green} strokeWidth="1.3" /><path d="M4 7L6.5 9L10 4.5" stroke={green} strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-                <button className="gb" onClick={() => startCheckout("apply")} style={{
-                  width: "100%", padding: "12px", borderRadius: 8, border: "none", cursor: "pointer",
-                  background: green, color: "#fff", fontSize: 14, fontWeight: 600, fontFamily: sf,
-                }}>
-                  Get started — $199
-                </button>
-              </div>
-
-              <div style={{ background: amberBg, border: "1px solid #F5DEB3", borderRadius: 10, padding: "24px 28px", maxWidth: 260, textAlign: "left" }}>
-                <div style={{ fontSize: 11, fontWeight: 600, color: amber, textTransform: "uppercase", letterSpacing: ".05em", marginBottom: 6 }}>Apply Pro</div>
-                <div style={{ fontFamily: se, fontSize: 28, fontWeight: 900, letterSpacing: "-1px", marginBottom: 4, color: "#1A1A1A" }}>$499</div>
-                <div style={{ fontSize: 12, color: muted, marginBottom: 16 }}>One-time · AUD</div>
-                <ul style={{ listStyle: "none", padding: 0, marginBottom: 20 }}>
-                  {["Everything in Standard","Multiple AI revision passes","Competitive positioning analysis","30-min review call with specialist"].map(f => (
-                    <li key={f} style={{ fontSize: 13, color: "#3D3D3D", display: "flex", gap: 6, alignItems: "flex-start", marginBottom: 6 }}>
-                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0, marginTop: 1 }}><circle cx="7" cy="7" r="6" stroke={amber} strokeWidth="1.3" /><path d="M4 7L6.5 9L10 4.5" stroke={amber} strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-                <button onClick={() => startCheckout("apply_pro")} style={{
-                  width: "100%", padding: "12px", borderRadius: 8, border: "none", cursor: "pointer",
-                  background: amber, color: "#fff", fontSize: 14, fontWeight: 600, fontFamily: sf,
-                }}>
-                  Upgrade — $499
-                </button>
-              </div>
+            <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap", marginBottom: 20 }}>
+              {[
+                { name: "Growth", price: "$229", desc: "10 AI drafts per month", plan: "growth", color: green },
+                { name: "Enterprise", price: "$499", desc: "Unlimited AI drafts + team access", plan: "enterprise", color: amber },
+              ].map(tier => (
+                <div key={tier.plan} style={{ background: "#fff", border: `1.5px solid ${border}`, borderRadius: 10, padding: "20px 24px", maxWidth: 220, textAlign: "left" }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: tier.color, textTransform: "uppercase", letterSpacing: ".06em", marginBottom: 6 }}>{tier.name}</div>
+                  <div style={{ fontFamily: se, fontSize: 26, fontWeight: 900, letterSpacing: "-1px", marginBottom: 2 }}>{tier.price}</div>
+                  <div style={{ fontSize: 12, color: muted, marginBottom: 16 }}>/month · AUD</div>
+                  <p style={{ fontSize: 13, color: "#3D3D3D", marginBottom: 18 }}>{tier.desc}</p>
+                  <a href={`/dashboard/billing`} style={{
+                    display: "block", textAlign: "center", padding: "11px", borderRadius: 8,
+                    background: tier.color, color: "#fff", fontSize: 13, fontWeight: 600,
+                    textDecoration: "none",
+                  }}>
+                    Upgrade to {tier.name}
+                  </a>
+                </div>
+              ))}
             </div>
-            <p style={{ fontSize: 12, color: "#C4C4BA", marginTop: 16 }}>Secure payment via Stripe · Instant access after payment</p>
+            <p style={{ fontSize: 12, color: "#C4C4BA" }}>No lock-in contracts · Cancel anytime</p>
+          </div>
+        )}
+
+        {/* CHECKING: auth loading */}
+        {phase === "checking" && (
+          <div style={{ marginTop: 60, textAlign: "center" }}>
+            <LoadingDots />
           </div>
         )}
 

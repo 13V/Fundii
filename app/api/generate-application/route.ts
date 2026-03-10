@@ -49,6 +49,30 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "AI service not configured" }, { status: 503 });
   }
 
+  // Auth + plan gate
+  const token = req.headers.get("authorization")?.replace("Bearer ", "");
+  if (!token) {
+    return NextResponse.json({ error: "Authentication required" }, { status: 401 });
+  }
+
+  const authClient = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+  );
+  const { data: { user } } = await authClient.auth.getUser(token);
+  if (!user) {
+    return NextResponse.json({ error: "Invalid session. Please log in again." }, { status: 401 });
+  }
+  const { data: profileRow } = await authClient
+    .from("profiles").select("plan").eq("id", user.id).single();
+  const userPlan = profileRow?.plan;
+  if (!userPlan || (userPlan !== "growth" && userPlan !== "enterprise")) {
+    return NextResponse.json(
+      { error: "AI drafting requires a Growth or Enterprise plan. Upgrade to continue." },
+      { status: 403 },
+    );
+  }
+
   const { grantId, intake, purchaseId } = await req.json();
 
   if (!grantId || !intake) {

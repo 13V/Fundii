@@ -126,7 +126,7 @@ def make_grant(
         "industries": industries or ["General"],
         "business_sizes": sizes or ["All"],
         "status": status,
-        "close_date": close_date or "See website",
+        "close_date": close_date or "",
         "description": description[:2000],
         "eligibility": eligibility[:1500],
         "grant_type": grant_type,

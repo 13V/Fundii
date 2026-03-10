@@ -287,6 +287,10 @@ async def scrape_grantconnect() -> List[Dict]:
                         agency = m.group(1).strip()[:100]
                         break
 
+                # Use only title+description for detection — not full_text which includes
+                # nav, footers, and links to all states, causing false positives.
+                detection_text = f"{title} {description}"
+
                 grant = {
                     "id": generate_id(url),
                     "title": title[:500],
@@ -295,25 +299,30 @@ async def scrape_grantconnect() -> List[Dict]:
                     "amount_min": amount_min,
                     "amount_max": amount_max,
                     "amount_text": amount_text or "",
-                    "states": detect_states(full_text),
-                    "industries": detect_industries(full_text),
-                    "business_sizes": detect_sizes(full_text),
+                    "states": detect_states(detection_text),
+                    "industries": detect_industries(detection_text),
+                    "business_sizes": detect_sizes(detection_text),
                     "status": status,
-                    "close_date": close_date or "See website",
-                    "description": description or full_text[:500],
+                    "close_date": close_date or "",
+                    "description": description or "",
                     "eligibility": "",
-                    "grant_type": detect_grant_type(full_text),
+                    "grant_type": detect_grant_type(detection_text),
                     "category": "federal",
                     "url": url,
                 }
 
-                # Eligibility section
+                # Eligibility section — search full_text for the section but only store clean text
                 elig_match = re.search(
                     r"(?:eligib[^\n]+\n)((?:.|\n){50,800}?)(?:\n\n|\Z)",
                     full_text, re.IGNORECASE
                 )
                 if elig_match:
-                    grant["eligibility"] = elig_match.group(1).strip()[:1000]
+                    elig_text = elig_match.group(1).strip()[:1000]
+                    grant["eligibility"] = elig_text
+                    # Add eligibility to detection text for better industry/state matching
+                    detection_text = f"{detection_text} {elig_text}"
+                    grant["states"] = detect_states(detection_text)
+                    grant["industries"] = detect_industries(detection_text)
 
                 grants.append(grant)
                 scraped += 1

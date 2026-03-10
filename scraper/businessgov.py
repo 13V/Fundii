@@ -219,7 +219,7 @@ def coveo_to_grant(result: dict) -> Optional[Dict]:
     what_you_get = strip_html(raw.get("whatz32xyouz32xget", ""))[:1000]
 
     close_ts = raw.get("closez32xdate")
-    close_date = ts_to_date(close_ts) if close_ts else "See website"
+    close_date = ts_to_date(close_ts) if close_ts else ""
 
     combined_text = f"{title} {description} {who_for} {what_you_get}"
 
