@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
   }
 
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-  const baseUrl = process.env.NEXT_PUBLIC_URL || "https://grantbase.com.au";
+  const baseUrl = process.env.NEXT_PUBLIC_URL || "https://fundii.vercel.app";
 
   try {
     const session = await stripe.billingPortal.sessions.create({
