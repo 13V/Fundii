@@ -1094,7 +1094,7 @@ def scrape_sa_additional() -> List[Dict]:
         },
         {
             "title": "SA Skilling South Australia",
-            "url": "https://www.skills.sa.gov.au/skillingSA",
+            "url": "https://skilledworkers.business.sa.gov.au/financial-support",
             "description": "South Australian government initiative to increase the number of apprentices and trainees in SA, with employer subsidies and support for training in priority industries.",
             "eligibility": "SA employers hiring apprentices or trainees in priority industries and occupations",
             "amount_text": "Up to $6,000 per apprentice",
