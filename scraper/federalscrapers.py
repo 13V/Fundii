@@ -137,7 +137,7 @@ def make_grant(
         "industries": industries or detect_industries(combined),
         "business_sizes": sizes or detect_sizes(combined),
         "status": status,
-        "close_date": close_date or "See website",
+        "close_date": close_date or "",
         "description": description[:2000],
         "eligibility": eligibility[:1500],
         "grant_type": grant_type,
@@ -208,7 +208,9 @@ def scrape_csiro() -> List[Dict]:
         # Look for program/grant headings and links
         for a in soup.find_all("a", href=True):
             href = a["href"]
-            title = clean(a.get_text())
+            # Use only the direct/inline text of the <a> tag, not nested block elements
+            raw_title = " ".join(t.strip() for t in a.strings if t.strip()).split("\n")[0]
+            title = clean(raw_title)
             if len(title) < 10:
                 continue
             if any(kw in (title + href).lower() for kw in ["program", "fund", "grant", "kick-start", "kickstart"]):

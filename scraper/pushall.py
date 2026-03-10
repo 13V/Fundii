@@ -2,7 +2,7 @@
 Push all scraped grant JSON files to Supabase.
 Reads existing *_data.json files and upserts them in batches.
 """
-import os, sys, json, requests, glob
+import os, sys, json, requests, glob, re
 
 if sys.platform == "win32":
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -26,6 +26,61 @@ BATCH = 50
 VALID_STATUSES = {"open", "closed", "ongoing", "upcoming", "unknown"}
 VALID_TYPES    = {"grant", "loan", "rebate", "tax_incentive", "voucher", "subsidy", "scholarship"}
 MAX_INT        = 2_000_000_000
+
+# ── Junk-record filter ──────────────────────────────────────────────────────────
+# Titles that are clearly nav items, HR pages, or policy docs — not grants
+_JUNK_TITLE_RE = re.compile(
+    r"^(skip to (main )?content"
+    r"|find out more about\b"
+    r"|programs?,?\s+services?\s+and\s+policies?"
+    r"|entry[ -]level programs?"
+    r"|graduate programs?"
+    r"|program policies\b"
+    r"|client service charter"
+    r"|gender equality"
+    r"|agency grants?:\s*(minchin|pratt)\s+motion"
+    r"|about (us|arc|austrade|the program)"
+    r"|careers?\s+at\s+"
+    r"|contact us"
+    r"|home$"
+    r"|news(room)?$"
+    r"|publications?$"
+    r"|resources?$"
+    r"|support$"
+    r"|\bfaq(s)?\b"
+    r")",
+    re.IGNORECASE,
+)
+
+# URL path patterns that indicate non-grant pages
+_JUNK_URL_RE = re.compile(
+    r"/(careers?|jobs|about|contact|news|media|publications?|policies?|governance|"
+    r"annual[-_]report|strategic[-_]plan|gender|privacy|sitemap|accessibility|disclaimer)(/|$)",
+    re.IGNORECASE,
+)
+
+MIN_TITLE_LEN = 12      # "Grant" alone isn't useful
+MAX_TITLE_LEN = 200     # titles longer than this are likely garbled (heading + body text)
+MIN_DESC_LEN  = 20      # description must say something meaningful
+
+
+def is_valid_grant(g: dict) -> bool:
+    title = (g.get("title") or "").strip()
+    desc  = (g.get("description") or "").strip()
+    url   = (g.get("url") or g.get("source_url") or "").strip()
+
+    if len(title) < MIN_TITLE_LEN:
+        return False
+    if len(title) > MAX_TITLE_LEN:
+        return False
+    if _JUNK_TITLE_RE.match(title):
+        return False
+    if url and _JUNK_URL_RE.search(url):
+        return False
+    # Require at least a minimal description (allows grants with short descs through)
+    if len(desc) < MIN_DESC_LEN:
+        return False
+    return True
 
 def coerce(g: dict) -> dict:
     """Ensure fields match the Supabase schema."""
@@ -77,8 +132,12 @@ def push_one(grant: dict) -> bool:
 def push_batch(grants):
     pushed = 0
     skipped = 0
+    filtered = 0
     for i in range(0, len(grants), BATCH):
-        batch = [coerce(g) for g in grants[i:i+BATCH]]
+        raw_batch = grants[i:i+BATCH]
+        valid = [g for g in raw_batch if is_valid_grant(g)]
+        filtered += len(raw_batch) - len(valid)
+        batch = [coerce(g) for g in valid]
         batch = [g for g in batch if g["id"] and g["title"]]
         if not batch:
             continue
@@ -93,6 +152,8 @@ def push_batch(grants):
                     pushed += 1
                 else:
                     skipped += 1
+    if filtered:
+        print(f"  Filtered {filtered} junk/empty records")
     if skipped:
         print(f"  Skipped {skipped} records with schema errors")
     return pushed
