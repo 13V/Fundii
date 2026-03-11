@@ -60,6 +60,15 @@ _JUNK_TITLE_RE = re.compile(
     r"|international initiatives?\s*$"
     r"|sales and distribution support\s*$"
     r"|industry development funding deadlines?\s*$"
+    r"|monitoring and evaluation\b"
+    r"|evaluation framework\b"
+    r"|chief entrepreneur\b"
+    r"|public perceptions\b"
+    r"|corporate innovation network\b"
+    r"|local decision making\b"
+    r"|strategic roadmap\b"
+    r"|\bour strategies\b"
+    r"|science programs?\s*$"
     r")",
     re.IGNORECASE,
 )
@@ -94,6 +103,9 @@ def is_valid_grant(g: dict) -> bool:
         return False
     # Reject records where description is clearly scraped navigation text
     if desc.lower().startswith(("skip to content", "skip to main content", "search input", "navigation")):
+        return False
+    # Reject records where description is just the title repeated (info pages, not grants)
+    if desc.lower().strip() == title.lower().strip():
         return False
     return True
 

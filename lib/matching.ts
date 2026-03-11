@@ -53,8 +53,9 @@ const INDUSTRY_NORMALIZE: Record<string, string> = {
 // Keywords that signal a grant is clearly for a specific industry the user may not be in
 const INDUSTRY_KEYWORD_GUARDS: Array<{ keywords: string[]; industries: string[]; requireActivity?: string }> = [
   {
+    // Fisheries/aquaculture grants are NOT relevant to general agriculture (cropping, livestock etc.)
     keywords: ["algal bloom", "fishery", "fisheries", "aquaculture", "seafood", "fishing industry", "marine harvest"],
-    industries: ["Agriculture"],
+    industries: ["__fisheries__"], // sentinel — no quiz industry maps to fisheries
   },
   {
     keywords: ["screen australia", "film production", "music grant", "arts board", "arts council", "creative arts fund"],
@@ -294,6 +295,14 @@ export function matchGrants(grants: Grant[], profile: UserProfile): MatchedGrant
         if (!hasKeyword) continue;
 
         // Handle sentinel flags for activities-based grants
+        if (industries.includes("__fisheries__")) {
+          // Fisheries grants only relevant if user is explicitly in aquaculture/fishing
+          const isFisher = profile.industries.some(i =>
+            ["Aquaculture", "Fisheries", "Fishing"].includes(i)
+          );
+          if (!isFisher) penalty += 25;
+          continue;
+        }
         if (industries.includes("__indigenous__")) {
           if (!userActivities.includes("indigenous")) penalty += 25;
           continue;
